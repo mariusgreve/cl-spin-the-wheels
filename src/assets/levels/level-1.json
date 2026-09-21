@@ -3,12 +3,13 @@
   "spinners": [
     { "id": "spinner1", "letter_list": ["b", "c", "h", "m", "p", "s"] },
     { "id": "spinner2", "letter_list": ["a", "e", "i", "o", "u"] },
-    { "id": "spinner3", "letter_list": ["d", "n", "p", "t"] }
+    { "id": "spinner3", "letter_list": ["d", "n", "p", "r", "t"] }
   ],
   "word_list": [
     { "word": "bun", "image_asset": "assets/images/sample-word.svg", "audio_asset": "assets/audio/sample-word.mp3" },
-    { "word": "cat", "image_asset": "assets/images/sample-word.svg", "audio_asset": "assets/audio/sample-word.mp3" },
-    { "word": "hat", "image_asset": "assets/images/sample-word.svg", "audio_asset": "assets/audio/sample-word.mp3" },
+    { "word": "car", "image_asset": "assets/images/car.png", "audio_asset": "assets/audio/sample-word.mp3" },
+    { "word": "cat", "image_asset": "assets/images/cat.png", "audio_asset": "assets/audio/sample-word.mp3" },
+    { "word": "hat", "image_asset": "assets/images/hat.png", "audio_asset": "assets/audio/sample-word.mp3" },
     { "word": "hit", "image_asset": "assets/images/sample-word.svg", "audio_asset": "assets/audio/sample-word.mp3" },
     { "word": "hop", "image_asset": "assets/images/sample-word.svg", "audio_asset": "assets/audio/sample-word.mp3" },
     { "word": "hot", "image_asset": "assets/images/sample-word.svg", "audio_asset": "assets/audio/sample-word.mp3" },

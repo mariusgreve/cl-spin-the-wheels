@@ -1,7 +1,7 @@
 # TESTSPEC — Spin The Wheels
 
 **Status:** Draft
-**Version:** 0.2.1
+**Version:** 0.5.0
 **Last Updated:** 2026-09-21
 **References:** DEVSPEC.md (module behavior), UISPEC.md (states/screens) — this document does not redefine behavior, only verifies it.
 
@@ -18,7 +18,7 @@
 
 ### 1.2 Media Fixtures
 
-- Minimal placeholder image/audio files (silent 1s audio clip, solid-color PNG) for each fixture word, committed alongside the fixtures, distinct from production art/audio.
+- Minimal placeholder image/audio files (silent 1s audio clip, square PNG or SVG) for each fixture word, committed alongside the fixtures, distinct from production art/audio.
 
 ## 2. Unit Tests (per DEVSPEC module)
 
@@ -46,6 +46,7 @@
 - `MP-1`: On "word matched", exactly one image is shown and exactly one audio playback starts, matching the matched word's assets.
 - `MP-2`: Triggering a second match while audio is still playing stops the first clip before starting the second (no overlapping audio).
 - `MP-3`: (Better) On "no word" event, the placeholder graphic and gibberish audio play, and the reward image from any prior match is no longer shown.
+- `MP-4`: Reward images and the waiting placeholder render in the same centered, rounded 1:1 frame without cropping or horizontal overflow at the target mobile viewport widths.
 
 ### Manual Letter Control (Better)
 
@@ -110,3 +111,6 @@
 2026-09-21 — GitHub Copilot (from source brief by Ben Burrage) — Initial TESTSPEC drafted with fixtures, unit/integration test cases, dry-run protocol, and validation criteria for MVP/Better/Great tiers.
 2026-09-21 — GitHub Copilot — Replaced iOS/Android simulator smoke-test steps with browser-based mobile-viewport testing (devtools emulation + physical mobile browser), matching the React (web) stack decision.
 2026-09-21 — GitHub Copilot — Updated milestone reference in the Build-and-Test Sequence to M1/M2/M3/M4 after DEVSPEC inserted a new M2 (MVP Hardening) milestone and renumbered Better/Great to M3/M4.
+2026-09-21 — GitHub Copilot — Added square and landscape reward image presentation coverage.
+2026-09-21 — GitHub Copilot — Updated media coverage for consistently rounded 1:1 reward images.
+2026-09-21 — GitHub Copilot — Extended the 1:1 Picture Area coverage to the waiting placeholder.

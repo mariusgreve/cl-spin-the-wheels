@@ -1,7 +1,7 @@
 # UISPEC — Spin The Wheels
 
 **Status:** Draft
-**Version:** 0.1.1
+**Version:** 0.4.0
 **Last Updated:** 2026-09-21
 **References:** DEVSPEC.md (all behavior definitions — this document defines presentation and states only, and does not duplicate DEVSPEC logic)
 
@@ -13,7 +13,7 @@ This is a React (web) app, not React Native. It is designed to eventually be emb
 
 Layout, top to bottom:
 
-- **Picture Area** — displays the reward image for the last matched word, or is empty/idle-state before any match. (Better tier: displays a placeholder "confused" graphic instead when letters don't spell a word.)
+- **Picture Area** — displays the reward image for the last matched word, or a question-mark placeholder before any match. Reward images and the waiting placeholder use the same centered, rounded 1:1 frame; reward images remain fully visible without cropping. (Better tier: displays a placeholder "confused" graphic instead when letters don't spell a word.)
 - **Spinner Row** — one Spinner Slot per entry in the level's `spinners` array, laid out left to right in array order.
 - **Trigger Control** — MVP: a single "Spin" button/lever that triggers the random-spin mechanism (Word Resolution Engine random path in DEVSPEC.md).
 - **Manual Step Controls** (Better tier) — up/down tap zones on each Spinner Slot for per-letter stepping.
@@ -116,3 +116,6 @@ Feature: N-letter words (Great)
 
 2026-09-21 — GitHub Copilot (from source brief by Ben Burrage) — Initial UISPEC drafted: screens, states, visibility rules, and Gherkin acceptance criteria for MVP/Better/Great tiers.
 2026-09-21 — GitHub Copilot — Clarified target is a React (web) app designed for a mobile viewport, not React Native, per updated project constraint.
+2026-09-21 — GitHub Copilot — Required square and landscape reward images to preserve their aspect ratio and remain fully visible.
+2026-09-21 — GitHub Copilot — Standardized reward images on a rounded 1:1 presentation.
+2026-09-21 — GitHub Copilot — Matched the waiting placeholder to the rounded 1:1 reward-image frame.

@@ -2,7 +2,13 @@ import { describe, expect, it } from 'vitest'
 import levelData from '../assets/levels/level-1.json'
 import { loadLevel } from './levelLoader'
 
-const assets = new Set(['assets/images/sample-word.svg', 'assets/audio/sample-word.mp3'])
+const assets = new Set([
+  'assets/images/sample-word.svg',
+  'assets/images/car.png',
+  'assets/images/cat.png',
+  'assets/images/hat.png',
+  'assets/audio/sample-word.mp3',
+])
 
 describe('loadLevel', () => {
   it('loads the bundled sample level', () => {
