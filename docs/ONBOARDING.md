@@ -1,6 +1,6 @@
 # Onboarding
 
-This project is currently at the specification stage. The implementation path below becomes executable when the React scaffold is added.
+The M0 React web scaffold is implemented. The app currently boots a bundled sample level and validates its schema and local asset references before showing the ready screen.
 
 ## Supported environment
 
@@ -17,13 +17,14 @@ Use the local repository in VS Code or a terminal on macOS, Linux, or Windows. T
 
 1. Open the repository root.
 2. Read [AGENTS.md](../AGENTS.md), [README.md](../README.md), and [specs/README.md](../specs/README.md).
-3. Once `package.json` exists, run `pnpm install`.
-4. Run the verified development command and open the app at a mobile viewport.
-5. Run lint, typecheck, unit tests, and browser tests when those scripts exist.
+3. Run `pnpm install`.
+4. Run `pnpm dev` and open the printed local URL at a mobile viewport.
+5. Run `pnpm lint`, `pnpm typecheck`, `pnpm test`, and `pnpm build`.
+6. Run browser tests when the browser-test script is added.
 
 ## First implementation milestone
 
-M0 is complete when the React app boots, loads a bundled level JSON file, validates it, and shows a clear blocking error for malformed content. See the PRD, DEVSPEC, and TESTSPEC for exact criteria.
+M0 is complete and verified: the React app boots, loads `src/assets/levels/level-1.json`, validates it with the level loader, and has focused tests for malformed content. M1 adds interactive spinning and media playback. See the PRD, DEVSPEC, and TESTSPEC for exact criteria.
 
 ## Where to read next
 
@@ -34,3 +35,4 @@ M0 is complete when the React app boots, loads a bundled level JSON file, valida
 ## Changelog
 
 2026-09-21 — GitHub Copilot — Initial onboarding guide adapted for the React web project.
+2026-09-21 — GitHub Copilot — Updated setup steps and milestone status after implementing the M0 scaffold.

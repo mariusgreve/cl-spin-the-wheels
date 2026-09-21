@@ -9,8 +9,10 @@ The project is a standalone React web app designed for mobile viewport sizes. It
 - `specs/` — product, behavior, UI, and verification specifications.
 - `docs/` — onboarding, operational workflow, architecture decisions, and AI collaboration guidance.
 - `AGENTS.md` — standing rules for coding agents.
+- `src/` — Vite React TypeScript app, level loader, and bundled sample content.
+- `tests/` — reserved for cross-module and browser acceptance tests; focused unit tests live beside their source modules for now.
 
-The implementation scaffold and tests are not present yet. When they are added, keep their paths and commands reflected in this map.
+The M0 implementation scaffold and loader tests are present. Keep future source paths and commands reflected in this map.
 
 ## Read next
 
@@ -42,4 +44,4 @@ Agents should read `AGENTS.md`, this README, the specs index, and only the opera
 
 ## Current status
 
-The repository currently contains the source brief and the four draft specifications. The next implementation milestone is the React web scaffold and JSON level loader described by M0 in the PRD.
+The M0 React web scaffold and JSON level loader are implemented. The app boots with the bundled sample level and blocks gameplay with visible validation errors when level data is invalid. M1 adds interactive spinning and media playback.

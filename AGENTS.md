@@ -28,7 +28,7 @@ Read [specs/README.md](specs/README.md) for the authoring rules. DEVSPEC is auth
 
 ## Commands worth knowing
 
-The project is currently specification-only. Once the React scaffold exists, record the verified commands here and in the README. Expected commands are:
+The M0 React scaffold exists. Verified commands are:
 
 ```bash
 pnpm install
@@ -36,8 +36,10 @@ pnpm dev
 pnpm lint
 pnpm typecheck
 pnpm test
-pnpm test:e2e
+pnpm build
 ```
+
+`pnpm test:e2e` remains a planned command for a later browser-test milestone.
 
 Do not claim a command passed unless it was run and its result is known.
 

@@ -12,7 +12,7 @@ Levels are bundled JSON files with local image and audio assets. Runtime gamepla
 
 ## Toolchain review: September 2026
 
-The project is specification-only, so these choices are documented before the React scaffold is created:
+The M0 React scaffold is now implemented. The table records the toolchain choices used by the application and the remaining browser-test recommendation:
 
 | Technology | Status in 2026 | Decision |
 |---|---|---|
@@ -26,7 +26,7 @@ The project is specification-only, so these choices are documented before the Re
 | CSS transitions / Web Animations / `requestAnimationFrame` | Stable platform APIs | Use the simplest browser-native animation mechanism that meets the spinner interaction needs. |
 | Bundled JSON and local media | Appropriate for this product | Keep the offline-first content model; a backend or CMS would add complexity without solving an in-scope need. |
 
-This review intentionally avoids exact package versions because the scaffold and lockfile do not exist yet; versions should be resolved from the current stable releases when implementation begins.
+Exact dependency versions are recorded in `package.json` and `pnpm-lock.yaml`; update them through the package manager rather than hand-editing the lockfile.
 
 ## Spinner state and resolution
 
@@ -47,3 +47,4 @@ Starting a new reward or placeholder clip stops the previous clip first. Audio f
 ## Change log
 
 2026-09-21 — GitHub Copilot — Initial architecture decisions adapted from the reference project for Spin The Wheels.
+2026-09-21 — GitHub Copilot — Updated toolchain status and dependency-version guidance after M0 scaffold implementation.

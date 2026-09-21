@@ -1,6 +1,6 @@
 # Setup Reference
 
-The repository currently contains specifications only, so there is no install or build command to run yet. This page records the intended manual path and prevents reference-project commands from being invented or copied into this project.
+The repository contains a Vite React TypeScript app with bundled level content. This page records the verified manual path and keeps setup commands aligned with `package.json`.
 
 ## Manual path after the scaffold exists
 
@@ -15,7 +15,7 @@ pnpm build
 pnpm dev
 ```
 
-Only retain commands in this document after they exist in `package.json` and have been verified locally. Browser-based acceptance checks should use a mobile viewport and cover the random spin, reward, vowel constraint, and any implemented Better/Great tier.
+`pnpm typecheck`, `pnpm lint`, `pnpm test`, and `pnpm build` are verified for the M0 scaffold. `pnpm dev` starts the local Vite server. Browser-based acceptance checks should use a mobile viewport and cover the random spin, reward, vowel constraint, and any implemented Better/Great tier.
 
 ## Troubleshooting principles
 
