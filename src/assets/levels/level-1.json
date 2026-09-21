@@ -6,17 +6,17 @@
     { "id": "spinner3", "letter_list": ["d", "n", "p", "r", "t"] }
   ],
   "word_list": [
-    { "word": "bun", "image_asset": "assets/images/sample-word.svg", "audio_asset": "assets/audio/sample-word.mp3" },
+    { "word": "bun", "image_asset": "assets/images/bun.png", "audio_asset": "assets/audio/sample-word.mp3" },
     { "word": "car", "image_asset": "assets/images/car.png", "audio_asset": "assets/audio/sample-word.mp3" },
     { "word": "cat", "image_asset": "assets/images/cat.png", "audio_asset": "assets/audio/sample-word.mp3" },
     { "word": "hat", "image_asset": "assets/images/hat.png", "audio_asset": "assets/audio/sample-word.mp3" },
     { "word": "hit", "image_asset": "assets/images/sample-word.svg", "audio_asset": "assets/audio/sample-word.mp3" },
     { "word": "hop", "image_asset": "assets/images/sample-word.svg", "audio_asset": "assets/audio/sample-word.mp3" },
     { "word": "hot", "image_asset": "assets/images/sample-word.svg", "audio_asset": "assets/audio/sample-word.mp3" },
-    { "word": "hut", "image_asset": "assets/images/sample-word.svg", "audio_asset": "assets/audio/sample-word.mp3" },
-    { "word": "map", "image_asset": "assets/images/sample-word.svg", "audio_asset": "assets/audio/sample-word.mp3" },
+    { "word": "hut", "image_asset": "assets/images/hut.png", "audio_asset": "assets/audio/sample-word.mp3" },
+    { "word": "map", "image_asset": "assets/images/map.png", "audio_asset": "assets/audio/sample-word.mp3" },
     { "word": "mop", "image_asset": "assets/images/sample-word.svg", "audio_asset": "assets/audio/sample-word.mp3" },
-    { "word": "pen", "image_asset": "assets/images/sample-word.svg", "audio_asset": "assets/audio/sample-word.mp3" },
+    { "word": "pen", "image_asset": "assets/images/pen.png", "audio_asset": "assets/audio/sample-word.mp3" },
     { "word": "pet", "image_asset": "assets/images/sample-word.svg", "audio_asset": "assets/audio/sample-word.mp3" },
     { "word": "pin", "image_asset": "assets/images/sample-word.svg", "audio_asset": "assets/audio/sample-word.mp3" },
     { "word": "pit", "image_asset": "assets/images/sample-word.svg", "audio_asset": "assets/audio/sample-word.mp3" },
@@ -24,6 +24,6 @@
     { "word": "put", "image_asset": "assets/images/sample-word.svg", "audio_asset": "assets/audio/sample-word.mp3" },
     { "word": "set", "image_asset": "assets/images/sample-word.svg", "audio_asset": "assets/audio/sample-word.mp3" },
     { "word": "sit", "image_asset": "assets/images/sample-word.svg", "audio_asset": "assets/audio/sample-word.mp3" },
-    { "word": "sun", "image_asset": "assets/images/sample-word.svg", "audio_asset": "assets/audio/sample-word.mp3" }
+    { "word": "sun", "image_asset": "assets/images/sun.png", "audio_asset": "assets/audio/sample-word.mp3" }
   ]
 }
