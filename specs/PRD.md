@@ -1,7 +1,7 @@
 # PRD — Spin The Wheels
 
 **Status:** Draft
-**Version:** 0.2.0
+**Version:** 0.3.0
 **Last Updated:** 2026-09-21
 **Owner:** Curious Learning — Open Source Workshop ("Creating Literacy Games with React Native", implemented in this project as a React web app)
 **Source brief:** Curious Learning, "Spin The Wheels" Interaction Specification Brief, v.1, Apr. 17 2017, Ben Burrage (bburrage@curiouslearning.org)
@@ -67,8 +67,9 @@ Each tier is independently playable and independently demoable; Better and Great
 
 1. **M0 — Project scaffold:** React web app boots in a mobile-sized viewport, can load and parse a provided JSON level file.
 2. **M1 — MVP:** Three static+spinning slots, random word selection and spin animation, image/audio reward on correct spelling.
-3. **M2 — Better:** Manual per-letter adjustment, gibberish/placeholder feedback path, word-list progression at 50% completion.
-4. **M3 — Great:** Flick-to-spin gesture control, N-spinner/N-letter word support.
+3. **M2 — MVP Hardening:** The M1 spin becomes a real animated spin/settle sequence with a disabled trigger while spinning, letter display moves into its own reusable Spinner component with a defense-in-depth vowel check, and the MVP reward loop (spin → settle → image/audio) gets automated UI-level test coverage.
+4. **M3 — Better:** Manual per-letter adjustment, gibberish/placeholder feedback path, word-list progression at 50% completion.
+5. **M4 — Great:** Flick-to-spin gesture control, N-spinner/N-letter word support.
 
 ## 10. Risks
 
@@ -88,3 +89,4 @@ Each tier is independently playable and independently demoable; Better and Great
 
 2026-09-21 — GitHub Copilot (from source brief by Ben Burrage) — Initial PRD drafted from the Curious Learning "Spin The Wheels" specification brief (spec.pdf).
 2026-09-21 — GitHub Copilot — Changed project target from React Native to a React (web) app designed for mobile viewports, since it will be embedded in a CMS shown inside an Android app's webview; added CMS/host integrator persona and related non-goals/constraints.
+2026-09-21 — GitHub Copilot — Inserted new milestone M2 (MVP Hardening: spin/settle animation, Spinning UI state, dedicated Spinner component, and UI-level test coverage for the MVP reward loop) after M1; renumbered Better to M3 and Great to M4.

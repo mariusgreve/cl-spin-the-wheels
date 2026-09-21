@@ -1,7 +1,7 @@
 # TESTSPEC — Spin The Wheels
 
 **Status:** Draft
-**Version:** 0.2.0
+**Version:** 0.2.1
 **Last Updated:** 2026-09-21
 **References:** DEVSPEC.md (module behavior), UISPEC.md (states/screens) — this document does not redefine behavior, only verifies it.
 
@@ -84,7 +84,7 @@
 3. `pnpm test` — runs all Unit Tests (Section 2) against fixtures in Section 1; all must pass.
 4. `pnpm test:e2e` (browser-based E2E runner, preferably Playwright, with a mobile-width viewport preset) — runs Integration/E2E tests (Section 3); all must pass.
 5. Manual smoke test in a desktop browser with a mobile-width device toolbar/emulation preset, and on at least one physical mobile device browser: boot app, perform one Spin, confirm image+audio reward fires, confirm middle spinner is always a vowel.
-6. Only after steps 1–5 pass is a milestone (M1/M2/M3) considered complete per DEVSPEC "Deliverables per Milestone".
+6. Only after steps 1–5 pass is a milestone (M1/M2/M3/M4) considered complete per DEVSPEC "Deliverables per Milestone".
 
 ## 5. Validation Criteria
 
@@ -109,3 +109,4 @@
 
 2026-09-21 — GitHub Copilot (from source brief by Ben Burrage) — Initial TESTSPEC drafted with fixtures, unit/integration test cases, dry-run protocol, and validation criteria for MVP/Better/Great tiers.
 2026-09-21 — GitHub Copilot — Replaced iOS/Android simulator smoke-test steps with browser-based mobile-viewport testing (devtools emulation + physical mobile browser), matching the React (web) stack decision.
+2026-09-21 — GitHub Copilot — Updated milestone reference in the Build-and-Test Sequence to M1/M2/M3/M4 after DEVSPEC inserted a new M2 (MVP Hardening) milestone and renumbered Better/Great to M3/M4.

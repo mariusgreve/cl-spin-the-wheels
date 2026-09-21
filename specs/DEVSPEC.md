@@ -1,7 +1,7 @@
 # DEVSPEC — Spin The Wheels
 
 **Status:** Draft
-**Version:** 0.2.0
+**Version:** 0.3.0
 **Last Updated:** 2026-09-21
 **References:** PRD.md (goals, tiers, personas — this document does not restate them)
 
@@ -204,8 +204,9 @@ Rules:
 
 - **M0:** React web app boots in a mobile-sized viewport; Level Loader parses and validates a sample level JSON; validation errors visible in a dev console/log.
 - **M1 (MVP):** Spinner Component, Word Resolution Engine (random spin path), Media Player reward path all working end-to-end for a 3-spinner level.
-- **M2 (Better):** Manual Letter Control, gibberish placeholder path, Word List Progression module working end-to-end.
-- **M3 (Great):** Flick-To-Spin Gesture Control and N-Letter Word Support working end-to-end on a 5-spinner test level.
+- **M2 (MVP Hardening):** Spinner Component extracted as its own reusable unit exposing the full imperative API (jump / animate-and-settle / step) from Part I, with a visible rolling/blurred-letter animation driving a real `Spinning` UI state (Trigger Control disabled until settle, per UISPEC); Spinner Component enforces the middle-spinner vowel constraint as a defense-in-depth check in addition to Level Loader validation; automated component/E2E test coverage added for the MVP reward loop (equivalent to TESTSPEC `E2E-1`, `SP-1`..`SP-3`).
+- **M3 (Better):** Manual Letter Control, gibberish placeholder path, Word List Progression module working end-to-end.
+- **M4 (Great):** Flick-To-Spin Gesture Control and N-Letter Word Support working end-to-end on a 5-spinner test level.
 
 ## Part IV — Appendices
 
@@ -236,6 +237,7 @@ Rules:
 
 2026-09-21 — GitHub Copilot (from source brief by Ben Burrage) — Initial DEVSPEC drafted covering MVP/Better/Great modules, data schema, and implementation guide.
 2026-09-21 — GitHub Copilot — Replaced React Native/Expo/native-simulator stack with a React (web) toolchain (Vite/CRA, browser Pointer Events, CSS animation), added host-agnostic and mobile-viewport design principles, and recorded the React-vs-React-Native decision in Resolved Decisions.
+2026-09-21 — GitHub Copilot — Inserted new milestone M2 (MVP Hardening) into Deliverables per Milestone to close gaps found between the M1 implementation and the MVP requirements (no spin/settle animation, no `Spinning` UI state, no extracted Spinner component or component-level vowel check, no UI-level test coverage); renumbered Better to M3 and Great to M4.
 
 ### Lessons Log
 
