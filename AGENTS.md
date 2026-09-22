@@ -56,5 +56,6 @@ Do not claim a command passed unless it was run and its result is known.
 - Inspect current code before trusting a document; specs are living documents and may lag implementation.
 - Separate verified repository facts, open questions, and recommendations.
 - Keep changes within the requested scope and update downstream specs when product behavior changes.
+- A task is not complete until its status is updated in the relevant milestone tracker and the verification evidence for that task is recorded.
 - Pause for human confirmation before credentials, destructive actions, external writes, publishing, or a material change in product intent.
 - Validate focused behavior first, then broaden to typecheck, tests, build, and browser checks as the project supports them.
