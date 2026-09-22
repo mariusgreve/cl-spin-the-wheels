@@ -50,6 +50,10 @@ export class ProgressionTracker {
     return this.reachedThreshold || this.distinctMatches.size >= this.threshold
   }
 
+  getProgress(): { distinctMatches: number; threshold: number } {
+    return { distinctMatches: this.distinctMatches.size, threshold: this.threshold }
+  }
+
   private buildDecision(distinctMatches: number): ProgressionDecision {
     return {
       shouldTransition: false,

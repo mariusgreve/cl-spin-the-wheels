@@ -40,6 +40,7 @@ export function App() {
   const [gameState, setGameState] = useState<'Idle' | 'Spinning' | 'SettledMatch' | 'SettledNoMatch'>('Idle')
   const [pendingLevelTransition, setPendingLevelTransition] = useState<string | null>(null)
   const [showConfetti, setShowConfetti] = useState(false)
+  const [levelProgress, setLevelProgress] = useState<{ distinctMatches: number; threshold: number } | null>(null)
   const spinnerRefs = useRef<Array<SpinnerHandle | null>>([])
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const spinInProgressRef = useRef(false)
@@ -58,6 +59,7 @@ export function App() {
     spinnerRefs.current = []
     setPendingLevelTransition(null)
     setShowConfetti(false)
+    setLevelProgress(result.level.next_level_id ? progressionTrackerRef.current.getProgress() : null)
     if (confettiTimeoutRef.current !== null) {
       window.clearTimeout(confettiTimeoutRef.current)
       confettiTimeoutRef.current = null
@@ -128,6 +130,10 @@ export function App() {
 
       setMatchedWord(match)
       setGameState('SettledMatch')
+
+      if (result.level?.next_level_id) {
+        setLevelProgress({ distinctMatches: decision.distinctMatches, threshold: decision.threshold })
+      }
 
       if (decision.shouldTransition && result.level?.next_level_id) {
         const nextLevelId = result.level.next_level_id
@@ -230,6 +236,29 @@ export function App() {
         </div>
         <h1>Make a word</h1>
       </header>
+      <div
+        className={levelProgress ? 'level-progress' : 'level-progress is-hidden'}
+        role="progressbar"
+        aria-hidden={levelProgress ? undefined : true}
+        aria-label="Progress to next level"
+        aria-valuemin={0}
+        aria-valuemax={levelProgress?.threshold ?? 0}
+        aria-valuenow={levelProgress ? Math.min(levelProgress.distinctMatches, levelProgress.threshold) : 0}
+      >
+        <div className="level-progress-track">
+          {Array.from({ length: levelProgress?.threshold ?? 1 }, (_, index) => (
+            <span
+              key={index}
+              className={levelProgress && index < levelProgress.distinctMatches ? 'level-progress-pip is-filled' : 'level-progress-pip'}
+            />
+          ))}
+        </div>
+        <p className="level-progress-label">
+          {levelProgress
+            ? `${Math.max(0, levelProgress.threshold - levelProgress.distinctMatches)} word${levelProgress.threshold - levelProgress.distinctMatches === 1 ? '' : 's'} to next level`
+            : '\u00A0'}
+        </p>
+      </div>
       <section className="picture-area" aria-label="Picture area">
         {rewardImage ? (
           <img src={rewardImage} alt={rewardAlt} />
