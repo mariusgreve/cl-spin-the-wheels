@@ -3,7 +3,6 @@ import type { SpinnerDefinition } from '../engine/levelLoader'
 import { validateSpinnerLetter } from './spinnerValidation'
 
 const reelCopies = 16
-const reelCellSize = 48
 
 export type SpinnerHandle = {
   getCurrentIndex: () => number
@@ -141,8 +140,8 @@ export const Spinner = forwardRef<SpinnerHandle, SpinnerProps>(function Spinner(
         <div
           className="spinner-reel"
           style={{
-            height: `${definition.letter_list.length * reelCopies * reelCellSize}%`,
-            transform: `translateY(-${((reelPosition * reelCellSize - (100 - reelCellSize) / 2) / (definition.letter_list.length * reelCopies * reelCellSize)) * 100}%)`,
+            height: `${definition.letter_list.length * reelCopies * 100}%`,
+            transform: `translateY(-${((reelPosition + 0.5) / (definition.letter_list.length * reelCopies)) * 100}%)`,
             '--reel-count': definition.letter_list.length * reelCopies,
           } as CSSProperties}
           aria-live="polite"

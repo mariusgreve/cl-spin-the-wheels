@@ -1,5 +1,6 @@
 {
   "level_id": "level-2",
+  "next_level_id": "level-3",
   "spinners": [
     { "id": "spinner1", "letter_list": ["b", "c", "h", "m", "p", "s"] },
     { "id": "spinner2", "letter_list": ["a", "e", "i", "o", "u"] },

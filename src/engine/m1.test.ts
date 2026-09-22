@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import levelData from '../assets/levels/level-1.json'
+import greatLevelData from './fixtures/fixture_5spinner_great.json'
 import { loadLevel } from './levelLoader'
 import { createSpinnerState, getCurrentLetter, resolveWordMatch, settleSpinnerToLetter, spinForWord } from './spinner'
 
@@ -57,5 +58,19 @@ describe('M1 gameplay', () => {
     const randomSpin = spinForWord(level, 'cat')
 
     expect(randomSpin.word).toBe('cat')
+  })
+
+  it('resolves a five-letter candidate from every spinner in order', () => {
+    const result = loadLevel(greatLevelData, { assetExists: () => true })
+    expect(result.level).not.toBeNull()
+
+    const spinners = result.level!.spinners.map(createSpinnerState)
+    for (const [index, letter] of [...'strip'].entries()) {
+      settleSpinnerToLetter(spinners[index], letter)
+    }
+
+    expect(resolveWordMatch(result.level!, spinners)).toEqual(
+      expect.objectContaining({ word: 'strip' }),
+    )
   })
 })

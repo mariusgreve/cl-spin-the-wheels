@@ -1,0 +1,17 @@
+{
+  "level_id": "level-3",
+  "spinners": [
+    { "id": "spinner1", "letter_list": ["c", "s", "p", "f"] },
+    { "id": "spinner2", "letter_list": ["r", "t", "l"] },
+    { "id": "spinner3", "letter_list": ["a", "o", "r"] },
+    { "id": "spinner4", "letter_list": ["n", "i"] },
+    { "id": "spinner5", "letter_list": ["e", "t", "p", "r"] }
+  ],
+  "word_list": [
+    { "word": "crane", "image_asset": "assets/images/cat.png", "audio_asset": "assets/audio/cat.wav" },
+    { "word": "stone", "image_asset": "assets/images/hat.png", "audio_asset": "assets/audio/hat.wav" },
+    { "word": "plane", "image_asset": "assets/images/map.png", "audio_asset": "assets/audio/map.wav" },
+    { "word": "flair", "image_asset": "assets/images/pin.png", "audio_asset": "assets/audio/pin.wav" },
+    { "word": "strip", "image_asset": "assets/images/pot.png", "audio_asset": "assets/audio/pot.wav" }
+  ]
+}

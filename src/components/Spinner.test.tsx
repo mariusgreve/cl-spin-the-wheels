@@ -129,4 +129,43 @@ describe('Spinner imperative API', () => {
     expect(screen.getByRole('button', { name: 'Previous letter for spinner1' })).toBeDisabled()
     expect(screen.getByRole('button', { name: 'Next letter for spinner1' })).toBeDisabled()
   })
+
+  it('renders and settles a five-spinner row without applying the three-spinner vowel rule', async () => {
+    vi.useFakeTimers()
+    const definitions = [
+      { id: 'spinner1', letter_list: ['s', 'c'] },
+      { id: 'spinner2', letter_list: ['t', 'r'] },
+      { id: 'spinner3', letter_list: ['r', 'i'] },
+      { id: 'spinner4', letter_list: ['i', 'p'] },
+      { id: 'spinner5', letter_list: ['p', 'e'] },
+    ]
+    const refs = definitions.map(() => createRef<SpinnerHandle>())
+
+    render(
+      <div>
+        {definitions.map((spinner, index) => (
+          <Spinner
+            key={spinner.id}
+            ref={refs[index]}
+            definition={spinner}
+            position={index}
+            totalSpinners={definitions.length}
+          />
+        ))}
+      </div>,
+    )
+
+    let animations: Promise<void>[]
+    act(() => {
+      animations = definitions.map((spinner, index) => getHandle(refs[index]).animateAndSettle(spinner.letter_list[1], 10))
+    })
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(500)
+      await Promise.all(animations)
+    })
+
+    for (const spinner of definitions) {
+      expect(screen.getByLabelText(`${spinner.id} letter wheel showing ${spinner.letter_list[1]}`)).toBeInTheDocument()
+    }
+  })
 })
