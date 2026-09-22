@@ -7,6 +7,7 @@ The project is a standalone React web app designed for mobile viewport sizes. It
 ## Repository map
 
 - `specs/` — product, behavior, UI, and verification specifications.
+- `docs/tasks/` — implementation milestones and task status.
 - `docs/` — onboarding, operational workflow, architecture decisions, and AI collaboration guidance.
 - `AGENTS.md` — standing rules for coding agents.
 - `src/` — Vite React TypeScript app, level loader, and bundled sample content.
