@@ -1,8 +1,8 @@
 # TESTSPEC — Spin The Wheels
 
-**Status:** Draft
-**Version:** 0.5.0
-**Last Updated:** 2026-09-21
+**Status:** MVP/M2 verification in progress; Better/Great pending
+**Version:** 0.6.0
+**Last Updated:** 2026-09-22
 **References:** DEVSPEC.md (module behavior), UISPEC.md (states/screens) — this document does not redefine behavior, only verifies it.
 
 ## 1. Fixtures
@@ -92,6 +92,18 @@
 - A milestone is "done" only when: all its module's unit tests pass, its corresponding E2E test(s) pass, and the manual smoke test shows no crash and no incorrect vowel/word-match behavior.
 - Zero tolerance items (must never fail, block release if they do): middle-spinner vowel constraint (`SP-1`, `MC-2`, `NL-2`), no audio overlap (`MP-2`), no false "word matched" event (`WR-2`).
 
+## 5.1 Current MVP/M2 Verification Snapshot
+
+The current implementation passes the automated repository checks as of 2026-09-22:
+
+- `pnpm test` — 14 tests passed across loader, engine, Spinner, and App coverage.
+- `pnpm lint` — passed.
+- `pnpm typecheck` — passed.
+- `pnpm build` — passed.
+- `git diff --check` — passed.
+
+MVP/M2 implementation coverage is present for the random-spin reward loop, Spinner imperative API, animation state, invalid-letter rejection, wrap-around behavior, and bundled media validation. Formal milestone sign-off remains open until `E2E-1` is run in a real browser and the manual mobile smoke check in Section 4 is completed. `MP-2` audio-overlap behavior is implemented in `App`, but still needs an explicit regression test before that zero-tolerance item is fully verified.
+
 ## 6. Test-to-Fixture Traceability
 
 | Test ID | Fixture(s) used |
@@ -114,3 +126,4 @@
 2026-09-21 — GitHub Copilot — Added square and landscape reward image presentation coverage.
 2026-09-21 — GitHub Copilot — Updated media coverage for consistently rounded 1:1 reward images.
 2026-09-21 — GitHub Copilot — Extended the 1:1 Picture Area coverage to the waiting placeholder.
+2026-09-22 — GitHub Copilot — Recorded the MVP/M2 automated verification snapshot and clarified the remaining browser, manual smoke, and audio-overlap regression gates.

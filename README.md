@@ -44,4 +44,6 @@ Agents should read `AGENTS.md`, this README, the specs index, and only the opera
 
 ## Current status
 
-The M0 React web scaffold and JSON level loader are implemented. The app boots with the bundled sample level and blocks gameplay with visible validation errors when level data is invalid. M1 adds interactive spinning and media playback.
+The MVP implementation, including the M2 hardening work, is complete. The app boots with the bundled sample level, blocks gameplay with visible validation errors when level data is invalid, animates the extracted Spinner component, and completes the random-spin image/audio reward loop. Automated checks currently pass (`pnpm test`, `pnpm lint`, `pnpm typecheck`, and `pnpm build`).
+
+Formal release sign-off still requires the browser-based E2E and mobile smoke checks listed in [TESTSPEC.md](specs/TESTSPEC.md). Better and Great tier work remains planned.

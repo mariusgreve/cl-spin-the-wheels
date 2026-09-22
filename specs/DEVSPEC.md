@@ -1,8 +1,8 @@
 # DEVSPEC — Spin The Wheels
 
-**Status:** Draft
-**Version:** 0.3.0
-**Last Updated:** 2026-09-21
+**Status:** MVP implementation complete; Better/Great planned
+**Version:** 0.4.0
+**Last Updated:** 2026-09-22
 **References:** PRD.md (goals, tiers, personas — this document does not restate them)
 
 ## Part I — Functional Requirements
@@ -203,8 +203,8 @@ Rules:
 ### Deliverables per Milestone
 
 - **M0:** React web app boots in a mobile-sized viewport; Level Loader parses and validates a sample level JSON; validation errors visible in a dev console/log.
-- **M1 (MVP):** Spinner Component, Word Resolution Engine (random spin path), Media Player reward path all working end-to-end for a 3-spinner level.
-- **M2 (MVP Hardening):** Spinner Component extracted as its own reusable unit exposing the full imperative API (jump / animate-and-settle / step) from Part I, with a visible rolling/blurred-letter animation driving a real `Spinning` UI state (Trigger Control disabled until settle, per UISPEC); Spinner Component enforces the middle-spinner vowel constraint as a defense-in-depth check in addition to Level Loader validation; automated component/E2E test coverage added for the MVP reward loop (equivalent to TESTSPEC `E2E-1`, `SP-1`..`SP-3`).
+- **M1 (MVP):** Complete in the current implementation. Spinner Component, Word Resolution Engine (random spin path), and Media Player reward path work end-to-end for the bundled 3-spinner level.
+- **M2 (MVP Hardening):** Implementation and automated component/integration coverage are complete. The Spinner Component exposes the full imperative API (jump / animate-and-settle / step), renders the rolling animation, drives the `Spinning` UI state with the trigger disabled until settle, and enforces the middle-spinner vowel constraint in addition to Level Loader validation. Browser E2E and manual mobile smoke checks remain release-signoff gates.
 - **M3 (Better):** Manual Letter Control, gibberish placeholder path, Word List Progression module working end-to-end.
 - **M4 (Great):** Flick-To-Spin Gesture Control and N-Letter Word Support working end-to-end on a 5-spinner test level.
 
@@ -241,4 +241,4 @@ Rules:
 
 ### Lessons Log
 
-_(empty — no implementation cycles completed yet)_
+2026-09-22 — GitHub Copilot — MVP/M2 implementation and automated verification completed; browser E2E and manual mobile smoke validation remain before formal release sign-off.
