@@ -10,13 +10,5 @@ mkdir -p "$output_dir"
 
 while IFS= read -r word; do
   echo "Generating audio for: $word"
-  
-  temp_aiff="$(mktemp -t speech.XXXXXX.aiff)"
-  trap 'rm -f "$temp_aiff"' EXIT
-  
-  say "$word" -o "$temp_aiff"
-  afconvert -f WAVE -d LEI16@44100 "$temp_aiff" "$output_dir/$word.wav"
-
-  rm -f "$temp_aiff"
-  trap - EXIT
+  say "$word" -o "$output_dir/$word.wav" --file-format=WAVE --data-format=LEI16@44100
 done < <(jq -r '.word_list[].word' "$json_file")
