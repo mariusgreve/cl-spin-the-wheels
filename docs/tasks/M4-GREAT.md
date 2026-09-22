@@ -1,6 +1,6 @@
 # M4 — Great Tier
 
-**Status:** M4-01 and M4-02 complete; remaining M4 tasks not started
+**Status:** M4-01, M4-02, and M4-03 complete; remaining M4 tasks not started
 **Last updated:** 2026-09-22
 
 M4 adds direct flick-to-spin interaction and support for levels with more than three spinners. It builds on the completed M3 shared settle-and-resolve path, progression behavior, and no-match feedback.
@@ -26,7 +26,7 @@ M4 adds direct flick-to-spin interaction and support for levels with more than t
 |---|---|---|---|---|
 | M4-01 | Add Great-tier fixture and content validation coverage | None | Done | `fixture_5spinner_great.json` loads and invalid N-spinner content is rejected |
 | M4-02 | Generalize spinner rendering and validation for N spinners | M4-01 | Done | Five-spinner component and engine coverage pass; mobile grid supports five wheels and the three-spinner vowel rule remains conditional |
-| M4-03 | Implement deterministic flick velocity mapping and settle planning | None | Not started | `FL-1`, `FL-2`, and focused engine tests |
+| M4-03 | Implement deterministic flick velocity mapping and settle planning | None | Done | `FL-1`, `FL-2`, and focused engine tests |
 | M4-04 | Wire Pointer Events into spinner flick interaction | M4-02, M4-03 | Not started | `E2E-4`; flicks animate one spinner and reuse the shared settle path |
 | M4-05 | Complete five-spinner match and reward integration | M4-02, M4-04 | Not started | `NL-1`, `NL-2`, and `E2E-5` |
 | M4-06 | Complete M4 regression, accessibility, and mobile checks | M4-05 | Not started | Full automated suite, Great-tier acceptance checks, and mobile smoke check |
