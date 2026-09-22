@@ -194,4 +194,58 @@ describe('MVP spin flow', () => {
     expect(play.mock.calls.length).toBeGreaterThan(0)
   })
 
+  it('offers exactly one next-level transition after seven distinct matches', async () => {
+    vi.useFakeTimers()
+    const randomValues = [0, 0, 0.11, 0.21, 0.35, 0.35, 0.5]
+    vi.spyOn(Math, 'random').mockImplementation(() => randomValues.shift() ?? 0)
+    vi.spyOn(HTMLMediaElement.prototype, 'play').mockResolvedValue(undefined)
+    vi.spyOn(HTMLMediaElement.prototype, 'pause').mockImplementation(() => {})
+
+    render(<App />)
+
+    for (let spin = 0; spin < 7; spin += 1) {
+      fireEvent.click(screen.getByRole('button', { name: 'Spin' }))
+      await act(async () => {
+        vi.advanceTimersByTime(20_000)
+      })
+    }
+
+    expect(screen.getByRole('button', { name: 'Go to next level' })).toBeEnabled()
+    expect(screen.getByText('level-1')).toBeInTheDocument()
+
+    fireEvent.click(screen.getByRole('button', { name: 'Go to next level' }))
+
+    expect(screen.getByText('level-2')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Spin' })).toBeEnabled()
+    expect(screen.queryByRole('button', { name: 'Go to next level' })).not.toBeInTheDocument()
+  })
+
+  it('stops the previous reward audio before playing the next match', async () => {
+    vi.useFakeTimers()
+    vi.spyOn(Math, 'random').mockReturnValueOnce(0).mockReturnValueOnce(0)
+    const events: string[] = []
+    vi.spyOn(HTMLMediaElement.prototype, 'play').mockImplementation(() => {
+      events.push('play')
+      return Promise.resolve()
+    })
+    vi.spyOn(HTMLMediaElement.prototype, 'pause').mockImplementation(() => {
+      events.push('pause')
+    })
+
+    render(<App />)
+
+    fireEvent.click(screen.getByRole('button', { name: 'Spin' }))
+    await act(async () => {
+      vi.advanceTimersByTime(20_000)
+    })
+    events.length = 0
+
+    fireEvent.click(screen.getByRole('button', { name: 'Spin' }))
+    await act(async () => {
+      vi.advanceTimersByTime(20_000)
+    })
+
+    expect(events).toEqual(['pause', 'pause', 'play'])
+  })
+
 })

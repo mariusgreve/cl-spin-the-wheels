@@ -33,7 +33,7 @@ M3 adds manual letter adjustment, no-match feedback, and automatic progression t
 | M3-04 | Route random spins and manual steps through one settle-and-resolve path | M3-02, M3-03 | Done | `MC-1`, plus MVP random-spin regression coverage |
 | M3-05 | Implement `SettledNoMatch` and gibberish placeholder feedback | M3-04 | Done | `WR-2`, `MP-3`, and no audio overlap |
 | M3-06 | Wire threshold-triggered level transitions and reset session state | M3-02, M3-04 | Done | `PR-2`, `PR-4`, and `E2E-3` |
-| M3-07 | Complete M3 integration, regression, and mobile checks | M3-05, M3-06 | Not started | `E2E-2`, `E2E-3`, full automated suite, and mobile smoke check |
+| M3-07 | Complete M3 integration, regression, and mobile checks | M3-05, M3-06 | Done | `E2E-2`, `E2E-3`, full automated suite, and mobile smoke check |
 | M3-08 | Reconcile specifications and record milestone evidence | M3-07 | Not started | Affected specs updated with status and changelog entries |
 
 ## Task details
@@ -129,6 +129,8 @@ M3 adds manual letter adjustment, no-match feedback, and automatic progression t
 - Record skipped checks explicitly; skipped checks are not passing checks.
 
 **Done when:** M3 automated tests and available browser/mobile checks are recorded with their actual results.
+
+**Verification:** `pnpm test` passed with 28/28 tests across 6 files; `pnpm lint`, `pnpm typecheck`, `pnpm build`, and `git diff --check` passed. App integration coverage includes the no-match media path, seven-distinct-word level progression, and audio stop-before-replay ordering. Browser checks passed at a 390x844 viewport: `E2E-2` showed the confused image and bundled gibberish audio, and `E2E-3` advanced from `level-1` to `level-2` after seven distinct matches and returned to `Idle`. The mobile screenshot showed no layout overlap and preserved the vowel-only middle wheel. Physical-device smoke testing was skipped because no physical mobile device/browser was available; it remains a release-signoff gate.
 
 ### M3-08 — Documentation reconciliation
 
