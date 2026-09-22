@@ -50,4 +50,12 @@ describe('M1 gameplay', () => {
       expect(result.level!.word_list.some((entry) => entry.word === randomSpin.word)).toBe(true)
     }
   })
+
+  it('falls back to the excluded word when it is the only word in the level', () => {
+    const level = { spinners: [], word_list: [{ word: 'cat', audio_asset: 'a', image_asset: 'b' }] } as never
+
+    const randomSpin = spinForWord(level, 'cat')
+
+    expect(randomSpin.word).toBe('cat')
+  })
 })

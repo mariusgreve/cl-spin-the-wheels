@@ -35,13 +35,12 @@ export function spinForWord(level: Level, excludedWord?: string): { word: string
     throw new Error('Level contains no words to spin.')
   }
 
-  const candidateWords = excludedWord
+  const filteredWords = excludedWord
     ? level.word_list.filter((word) => word.word !== excludedWord)
     : level.word_list
 
-  if (candidateWords.length === 0) {
-    throw new Error('Level contains no alternative words to spin.')
-  }
+  // Fall back to the full list when excluding the current match leaves no alternatives (e.g. one-word levels).
+  const candidateWords = filteredWords.length > 0 ? filteredWords : level.word_list
 
   const chosenWord = candidateWords[Math.floor(Math.random() * candidateWords.length)]
   return {
