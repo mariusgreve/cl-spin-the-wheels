@@ -16,10 +16,11 @@ type SpinnerProps = {
   position: number
   totalSpinners: number
   onSettled?: () => void
+  controlsDisabled?: boolean
 }
 
 export const Spinner = forwardRef<SpinnerHandle, SpinnerProps>(function Spinner(
-  { definition, position, totalSpinners, onSettled },
+  { definition, position, totalSpinners, onSettled, controlsDisabled = false },
   ref,
 ) {
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -94,33 +95,63 @@ export const Spinner = forwardRef<SpinnerHandle, SpinnerProps>(function Spinner(
     if (isSpinning) {
       return
     }
-    const nextIndex = (currentIndex + direction + definition.letter_list.length) % definition.letter_list.length
-    reelPositionRef.current = definition.letter_list.length + nextIndex
+    const letterCount = definition.letter_list.length
+    const nextIndex = (currentIndex + direction + letterCount) % letterCount
+
+    setIsSpinning(true)
+    reelPositionRef.current += direction
     setReelPosition(reelPositionRef.current)
     setCurrentIndex(nextIndex)
-    onSettled?.()
+
+    timeoutRef.current = window.setTimeout(() => {
+      reelPositionRef.current = letterCount + nextIndex
+      setReelPosition(reelPositionRef.current)
+      setIsSpinning(false)
+      onSettled?.()
+      timeoutRef.current = null
+    }, 120)
   }
 
   useImperativeHandle(ref, () => ({ animateAndSettle, jumpToLetter, step }), [currentIndex, isSpinning])
 
   return (
-    <div
-      className={`spinner-slot${isSpinning ? ' is-spinning' : ''}`}
-      aria-label={`${definition.id} letter wheel showing ${definition.letter_list[currentIndex]}`}
-    >
-      <div
-        className="spinner-reel"
-        style={{
-          height: `${definition.letter_list.length * reelCopies * reelCellSize}%`,
-          transform: `translateY(-${((reelPosition * reelCellSize - (100 - reelCellSize) / 2) / (definition.letter_list.length * reelCopies * reelCellSize)) * 100}%)`,
-          '--reel-count': definition.letter_list.length * reelCopies,
-        } as CSSProperties}
-        aria-live="polite"
+    <div className="spinner-control-group">
+      <button
+        className="spinner-control"
+        type="button"
+        onClick={() => step(-1)}
+        disabled={controlsDisabled || isSpinning}
+        aria-label={`Previous letter for ${definition.id}`}
       >
-        {Array.from({ length: reelCopies }, (_, cycle) => definition.letter_list.map((letter, index) => (
-          <span className="reel-letter" key={`${cycle}-${index}`}>{letter}</span>
-        )))}
+        ↑
+      </button>
+      <div
+        className={`spinner-slot${isSpinning ? ' is-spinning' : ''}`}
+        aria-label={`${definition.id} letter wheel showing ${definition.letter_list[currentIndex]}`}
+      >
+        <div
+          className="spinner-reel"
+          style={{
+            height: `${definition.letter_list.length * reelCopies * reelCellSize}%`,
+            transform: `translateY(-${((reelPosition * reelCellSize - (100 - reelCellSize) / 2) / (definition.letter_list.length * reelCopies * reelCellSize)) * 100}%)`,
+            '--reel-count': definition.letter_list.length * reelCopies,
+          } as CSSProperties}
+          aria-live="polite"
+        >
+          {Array.from({ length: reelCopies }, (_, cycle) => definition.letter_list.map((letter, index) => (
+            <span className="reel-letter" key={`${cycle}-${index}`}>{letter}</span>
+          )))}
+        </div>
       </div>
+      <button
+        className="spinner-control"
+        type="button"
+        onClick={() => step(1)}
+        disabled={controlsDisabled || isSpinning}
+        aria-label={`Next letter for ${definition.id}`}
+      >
+        ↓
+      </button>
     </div>
   )
 })

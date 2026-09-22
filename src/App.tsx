@@ -137,6 +137,7 @@ export function App() {
             definition={spinner}
             position={index}
             totalSpinners={result.level!.spinners.length}
+            controlsDisabled={gameState === 'Spinning'}
           />
         ))}
       </section>

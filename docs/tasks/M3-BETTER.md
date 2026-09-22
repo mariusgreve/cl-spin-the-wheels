@@ -29,7 +29,7 @@ M3 adds manual letter adjustment, no-match feedback, and automatic progression t
 |---|---|---|---|---|
 | M3-01 | Add M3 fixtures, bundled feedback assets, and ordered level configuration | None | Done | Loader tests accept all valid fixtures and reject malformed content |
 | M3-02 | Implement and test `ProgressionTracker` | M3-01 | Done | `PR-1` through `PR-4` |
-| M3-03 | Add manual next/previous controls to each spinner | None | Not started | Manual controls step, wrap, respect vowel validation, and meet touch-target requirements |
+| M3-03 | Add manual next/previous controls to each spinner | None | Done | Manual controls step, wrap, respect vowel validation, and meet touch-target requirements |
 | M3-04 | Route random spins and manual steps through one settle-and-resolve path | M3-02, M3-03 | Not started | `MC-1`, plus MVP random-spin regression coverage |
 | M3-05 | Implement `SettledNoMatch` and gibberish placeholder feedback | M3-04 | Not started | `WR-2`, `MP-3`, and no audio overlap |
 | M3-06 | Wire threshold-triggered level transitions and reset session state | M3-02, M3-04 | Not started | `PR-2`, `PR-4`, and `E2E-3` |
@@ -75,6 +75,8 @@ M3 adds manual letter adjustment, no-match feedback, and automatic progression t
 - Preserve component-level three-spinner vowel validation.
 
 **Done when:** Every manual step changes exactly one wheel state, wraps correctly, and cannot produce an invalid middle letter.
+
+**Verification:** `pnpm test -- src/App.test.tsx src/components/Spinner.test.tsx` passed with 21/21 tests green. Controls use the existing `SpinnerHandle.step` API, wrap in both directions, enforce the component's declared letter list, expose keyboard-accessible labels, meet the 44px minimum touch target, and disable during wheel or app-level random-spin animation.
 
 ### M3-04 — Shared settle-and-resolve path
 
