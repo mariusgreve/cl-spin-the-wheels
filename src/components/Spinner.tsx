@@ -104,7 +104,10 @@ export const Spinner = forwardRef<SpinnerHandle, SpinnerProps>(function Spinner(
   useImperativeHandle(ref, () => ({ animateAndSettle, jumpToLetter, step }), [currentIndex, isSpinning])
 
   return (
-    <div className={`spinner-slot${isSpinning ? ' is-spinning' : ''}`} aria-label={`${definition.id} letter wheel`}>
+    <div
+      className={`spinner-slot${isSpinning ? ' is-spinning' : ''}`}
+      aria-label={`${definition.id} letter wheel showing ${definition.letter_list[currentIndex]}`}
+    >
       <div
         className="spinner-reel"
         style={{
