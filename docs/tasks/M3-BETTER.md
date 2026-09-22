@@ -1,8 +1,6 @@
 # M3 — Better Tier
 
-**Status:** Done; physical-device smoke test remains a release-signoff gate
-**Owner:**  
-**Started:**  
+**Status:** Done; physical-device smoke test remains a release-signoff gate  
 **Last updated:** 2026-09-22
 
 M3 adds manual letter adjustment, no-match feedback, and automatic progression to the next bundled level. It builds on the completed M2 random-spin and reward flow and does not include M4 flick gestures or N-spinner support.
