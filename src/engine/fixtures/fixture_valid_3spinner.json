@@ -1,0 +1,16 @@
+{
+  "level_id": "fixture-valid-3spinner",
+  "spinners": [
+    { "id": "spinner1", "letter_list": ["c", "h", "p"] },
+    { "id": "spinner2", "letter_list": ["a", "i", "o"] },
+    { "id": "spinner3", "letter_list": ["t", "n", "p"] }
+  ],
+  "word_list": [
+    { "word": "cat", "image_asset": "fixture/images/cat.png", "audio_asset": "fixture/audio/cat.wav" },
+    { "word": "hat", "image_asset": "fixture/images/hat.png", "audio_asset": "fixture/audio/hat.wav" },
+    { "word": "hit", "image_asset": "fixture/images/hit.png", "audio_asset": "fixture/audio/hit.wav" },
+    { "word": "hop", "image_asset": "fixture/images/hop.png", "audio_asset": "fixture/audio/hop.wav" },
+    { "word": "pin", "image_asset": "fixture/images/pin.png", "audio_asset": "fixture/audio/pin.wav" },
+    { "word": "pip", "image_asset": "fixture/images/pip.png", "audio_asset": "fixture/audio/pip.wav" }
+  ]
+}

@@ -1,21 +1,28 @@
 import { describe, expect, it } from 'vitest'
-import levelData from '../assets/levels/level-1.json'
+import levelData from './fixtures/fixture_valid_3spinner.json'
 import { loadLevel } from './levelLoader'
 
 const assets = new Set([
-  'assets/images/sample-word.svg',
-  'assets/images/car.png',
-  'assets/images/cat.png',
-  'assets/images/hat.png',
-  'assets/audio/sample-word.mp3',
+  'fixture/images/cat.png',
+  'fixture/images/hat.png',
+  'fixture/images/hit.png',
+  'fixture/images/hop.png',
+  'fixture/images/pin.png',
+  'fixture/images/pip.png',
+  'fixture/audio/cat.wav',
+  'fixture/audio/hat.wav',
+  'fixture/audio/hit.wav',
+  'fixture/audio/hop.wav',
+  'fixture/audio/pin.wav',
+  'fixture/audio/pip.wav',
 ])
 
 describe('loadLevel', () => {
-  it('loads the bundled sample level', () => {
+  it('loads the valid 3-spinner fixture', () => {
     const result = loadLevel(levelData, { assetExists: (path) => assets.has(path) })
 
     expect(result.errors).toEqual([])
-    expect(result.level?.level_id).toBe('level-1')
+    expect(result.level?.level_id).toBe('fixture-valid-3spinner')
   })
 
   it('rejects a consonant in the middle spinner of a 3-spinner level', () => {
