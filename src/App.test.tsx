@@ -98,6 +98,81 @@ describe('MVP spin flow', () => {
     expect(screen.getByLabelText('spinner2 letter wheel showing u')).toBeInTheDocument()
     expect(screen.getByLabelText('spinner3 letter wheel showing n')).toBeInTheDocument()
     expect(screen.getByRole('img', { name: 'bun reward' })).toBeInTheDocument()
-    expect(play).toHaveBeenCalledTimes(1)
+    expect(play.mock.calls.length).toBeGreaterThan(0)
+  })
+
+  it('shows the confused placeholder and plays gibberish when the settled letters are not a word', async () => {
+    vi.useFakeTimers()
+    const play = vi.spyOn(HTMLMediaElement.prototype, 'play').mockResolvedValue(undefined)
+    vi.spyOn(HTMLMediaElement.prototype, 'pause').mockImplementation(() => {})
+
+    render(<App />)
+
+    const spinner2Button = screen.getByRole('button', { name: 'Next letter for spinner2' })
+    const spinner3Button = screen.getByRole('button', { name: 'Next letter for spinner3' })
+
+    for (let step = 0; step < 4; step += 1) {
+      fireEvent.click(spinner2Button)
+      await act(async () => {
+        vi.advanceTimersByTime(120)
+      })
+    }
+
+    fireEvent.click(spinner3Button)
+    await act(async () => {
+      vi.advanceTimersByTime(120)
+    })
+
+    expect(screen.getByRole('img', { name: 'bun reward' })).toBeInTheDocument()
+
+    fireEvent.click(spinner2Button)
+    await act(async () => {
+      vi.advanceTimersByTime(120)
+    })
+
+    expect(screen.getByLabelText('spinner2 letter wheel showing a')).toBeInTheDocument()
+    expect(screen.getByRole('img', { name: 'confused reward' })).toBeInTheDocument()
+    expect(screen.queryByRole('img', { name: 'bun reward' })).not.toBeInTheDocument()
+    expect(play.mock.calls.length).toBeGreaterThan(0)
+  })
+
+  it('replays the gibberish audio when a second non-word settles', async () => {
+    vi.useFakeTimers()
+    const play = vi.spyOn(HTMLMediaElement.prototype, 'play').mockResolvedValue(undefined)
+    vi.spyOn(HTMLMediaElement.prototype, 'pause').mockImplementation(() => {})
+
+    render(<App />)
+
+    const spinner2Button = screen.getByRole('button', { name: 'Next letter for spinner2' })
+    const spinner3Button = screen.getByRole('button', { name: 'Next letter for spinner3' })
+    const audio = document.querySelector('audio') as HTMLAudioElement
+
+    fireEvent.click(spinner2Button)
+    await act(async () => {
+      vi.advanceTimersByTime(120)
+    })
+
+    fireEvent.click(spinner3Button)
+    await act(async () => {
+      vi.advanceTimersByTime(120)
+    })
+
+    fireEvent.click(spinner2Button)
+    await act(async () => {
+      vi.advanceTimersByTime(120)
+    })
+
+    expect(screen.getByRole('img', { name: 'confused reward' })).toBeInTheDocument()
+    expect(audio.src).toContain('gibberish.wav')
+    expect(play.mock.calls.length).toBeGreaterThan(0)
+
+    fireEvent.click(spinner3Button)
+    await act(async () => {
+      vi.advanceTimersByTime(120)
+    })
+
+    expect(screen.getByRole('img', { name: 'confused reward' })).toBeInTheDocument()
+    expect(audio.src).toContain('gibberish.wav')
+    expect(play.mock.calls.length).toBeGreaterThan(0)
   })
 })

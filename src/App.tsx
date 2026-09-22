@@ -7,6 +7,14 @@ import './styles.css'
 
 const bundledAssets = import.meta.glob('./assets/**/*', { eager: true, query: '?url', import: 'default' }) as Record<string, string>
 
+function createNoMatchWord(): WordDefinition {
+  return {
+    word: 'confused',
+    image_asset: 'assets/images/gibberish.png',
+    audio_asset: 'assets/audio/gibberish.wav',
+  }
+}
+
 function assetUrl(assetPath: string): string | null {
   const relativePath = `./${assetPath.replace(/^\//, '')}`
   return bundledAssets[relativePath] ?? null
@@ -18,7 +26,7 @@ export function App() {
     result.level ? result.level.spinners.map(createSpinnerState) : [],
   )
   const [matchedWord, setMatchedWord] = useState<WordDefinition | null>(null)
-  const [gameState, setGameState] = useState<'Idle' | 'Spinning' | 'SettledMatch'>('Idle')
+  const [gameState, setGameState] = useState<'Idle' | 'Spinning' | 'SettledMatch' | 'SettledNoMatch'>('Idle')
   const spinnerRefs = useRef<Array<SpinnerHandle | null>>([])
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const spinInProgressRef = useRef(false)
@@ -80,8 +88,8 @@ export function App() {
       return
     }
 
-    setMatchedWord(null)
-    setGameState('Idle')
+    setMatchedWord(createNoMatchWord())
+    setGameState('SettledNoMatch')
   }
 
   const handleSettled = () => {
@@ -136,6 +144,7 @@ export function App() {
   }
 
   const rewardImage = matchedWord ? assetUrl(matchedWord.image_asset) : null
+  const rewardAlt = matchedWord && gameState === 'SettledMatch' ? `${matchedWord.word} reward` : 'confused reward'
 
   return (
     <main className="shell">
@@ -148,7 +157,7 @@ export function App() {
       </header>
       <section className="picture-area" aria-label="Picture area">
         {rewardImage ? (
-          <img src={rewardImage} alt={matchedWord ? `${matchedWord.word} reward` : 'Reward'} />
+          <img src={rewardImage} alt={rewardAlt} />
         ) : (
           <div className="picture-placeholder" aria-label="No reward yet">?</div>
         )}
