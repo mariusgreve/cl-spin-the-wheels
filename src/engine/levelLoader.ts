@@ -11,6 +11,7 @@ export type WordDefinition = {
 
 export type Level = {
   level_id: string
+  next_level_id?: string
   spinners: SpinnerDefinition[]
   word_list: WordDefinition[]
 }
@@ -35,6 +36,11 @@ export function loadLevel(input: unknown, options: LevelLoaderOptions = {}): Lev
 
   if (typeof input.level_id !== 'string' || input.level_id.trim() === '') {
     errors.push('Level must include a non-empty level_id.')
+  }
+
+  const nextLevelId = input.next_level_id
+  if (nextLevelId !== undefined && (typeof nextLevelId !== 'string' || nextLevelId.trim() === '')) {
+    errors.push('If next_level_id is provided, it must be a non-empty string.')
   }
 
   const spinners = input.spinners
@@ -91,6 +97,7 @@ export function loadLevel(input: unknown, options: LevelLoaderOptions = {}): Lev
   return {
     level: {
       level_id: input.level_id as string,
+      ...(typeof nextLevelId === 'string' && nextLevelId.trim() !== '' ? { next_level_id: nextLevelId } : {}),
       spinners: parsedSpinners,
       word_list: parsedWords,
     },

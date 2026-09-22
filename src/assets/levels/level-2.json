@@ -1,6 +1,5 @@
 {
-  "level_id": "level-1",
-  "next_level_id": "level-2",
+  "level_id": "level-2",
   "spinners": [
     { "id": "spinner1", "letter_list": ["b", "c", "h", "m", "p", "s"] },
     { "id": "spinner2", "letter_list": ["a", "e", "i", "o", "u"] },
@@ -8,16 +7,12 @@
   ],
   "word_list": [
     { "word": "bun", "image_asset": "assets/images/bun.png", "audio_asset": "assets/audio/bun.wav" },
-    { "word": "car", "image_asset": "assets/images/car.png", "audio_asset": "assets/audio/car.wav" },
     { "word": "cat", "image_asset": "assets/images/cat.png", "audio_asset": "assets/audio/cat.wav" },
     { "word": "hat", "image_asset": "assets/images/hat.png", "audio_asset": "assets/audio/hat.wav" },
     { "word": "hut", "image_asset": "assets/images/hut.png", "audio_asset": "assets/audio/hut.wav" },
-    { "word": "map", "image_asset": "assets/images/map.png", "audio_asset": "assets/audio/map.wav" },
-    { "word": "mop", "image_asset": "assets/images/mop.png", "audio_asset": "assets/audio/mop.wav" },
     { "word": "pen", "image_asset": "assets/images/pen.png", "audio_asset": "assets/audio/pen.wav" },
     { "word": "pet", "image_asset": "assets/images/pet.png", "audio_asset": "assets/audio/pet.wav" },
     { "word": "pin", "image_asset": "assets/images/pin.png", "audio_asset": "assets/audio/pin.wav" },
-    { "word": "pit", "image_asset": "assets/images/pit.png", "audio_asset": "assets/audio/pit.wav" },
     { "word": "pot", "image_asset": "assets/images/pot.png", "audio_asset": "assets/audio/pot.wav" },
     { "word": "sun", "image_asset": "assets/images/sun.png", "audio_asset": "assets/audio/sun.wav" }
   ]

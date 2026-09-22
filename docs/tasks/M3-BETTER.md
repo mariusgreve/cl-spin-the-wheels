@@ -1,6 +1,6 @@
 # M3 — Better Tier
 
-**Status:** Not started  
+**Status:** In progress  
 **Owner:**  
 **Started:**  
 **Last updated:** 2026-09-22
@@ -27,7 +27,7 @@ M3 adds manual letter adjustment, no-match feedback, and automatic progression t
 
 | ID | Task | Depends on | Status | Focused verification |
 |---|---|---|---|---|
-| M3-01 | Add M3 fixtures, bundled feedback assets, and ordered level configuration | None | Not started | Loader tests accept all valid fixtures and reject malformed content |
+| M3-01 | Add M3 fixtures, bundled feedback assets, and ordered level configuration | None | Done | Loader tests accept all valid fixtures and reject malformed content |
 | M3-02 | Implement and test `ProgressionTracker` | M3-01 | Not started | `PR-1` through `PR-4` |
 | M3-03 | Add manual next/previous controls to each spinner | None | Not started | Manual controls step, wrap, respect vowel validation, and meet touch-target requirements |
 | M3-04 | Route random spins and manual steps through one settle-and-resolve path | M3-02, M3-03 | Not started | `MC-1`, plus MVP random-spin regression coverage |

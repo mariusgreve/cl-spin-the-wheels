@@ -25,6 +25,16 @@ describe('loadLevel', () => {
     expect(result.level?.level_id).toBe('fixture-valid-3spinner')
   })
 
+  it('preserves configured next-level metadata for ordered progression', () => {
+    const levelWithNext = structuredClone(levelData) as typeof levelData & { next_level_id?: string }
+    levelWithNext.next_level_id = 'fixture-valid-3spinner-next'
+
+    const result = loadLevel(levelWithNext, { assetExists: (path) => assets.has(path) })
+
+    expect(result.errors).toEqual([])
+    expect(result.level?.next_level_id).toBe('fixture-valid-3spinner-next')
+  })
+
   it('rejects a consonant in the middle spinner of a 3-spinner level', () => {
     const invalidLevel = structuredClone(levelData)
     invalidLevel.spinners[1].letter_list = ['a', 'x']
