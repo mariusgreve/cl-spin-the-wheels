@@ -18,7 +18,6 @@ export function App() {
     result.level ? result.level.spinners.map(createSpinnerState) : [],
   )
   const [matchedWord, setMatchedWord] = useState<WordDefinition | null>(null)
-  const [status, setStatus] = useState('Level loaded and ready for the first game milestone.')
   const [gameState, setGameState] = useState<'Idle' | 'Spinning' | 'SettledMatch'>('Idle')
   const spinnerRefs = useRef<Array<SpinnerHandle | null>>([])
   const audioRef = useRef<HTMLAudioElement | null>(null)
@@ -32,7 +31,6 @@ export function App() {
     setMatchedWord(null)
     setGameState('Idle')
     spinnerRefs.current = []
-    setStatus('Level loaded and ready for the first game milestone.')
   }, [result.level])
 
   useEffect(() => {
@@ -80,7 +78,6 @@ export function App() {
     const pickedWord = spinForWord(result.level, currentWord?.word)
     setGameState('Spinning')
     setMatchedWord(null)
-    setStatus('Spinning...')
 
     const wheelPaths = result.level.spinners.map((spinner, index) => {
       const currentIndex = spinnerStates[index].currentIndex
@@ -108,12 +105,10 @@ export function App() {
     if (match) {
       setMatchedWord(match)
       setGameState('SettledMatch')
-      setStatus(`You matched "${match.word}"!`)
       return
     }
 
     setGameState('Idle')
-    setStatus('Not a word yet. Try another spin.')
   }
 
   const rewardImage = matchedWord ? assetUrl(matchedWord.image_asset) : null
@@ -121,9 +116,11 @@ export function App() {
   return (
     <main className="shell">
       <header className="masthead">
-        <p className="eyebrow">Spin The Wheels</p>
+        <div className="masthead-top">
+          <p className="eyebrow">Spin The Wheels</p>
+          <span className="level-tag">{result.level.level_id}</span>
+        </div>
         <h1>Make a word</h1>
-        <span className="level-tag">{result.level.level_id}</span>
       </header>
       <section className="picture-area" aria-label="Picture area">
         {rewardImage ? (
@@ -146,7 +143,6 @@ export function App() {
       <button className="spin-button" type="button" onClick={() => void handleSpin()} disabled={gameState === 'Spinning'}>
         {gameState === 'Spinning' ? 'Spinning...' : 'Spin'}
       </button>
-      <p className="status" role="status" data-state={gameState}>{status}</p>
       <audio ref={audioRef} preload="auto" />
     </main>
   )
