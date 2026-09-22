@@ -32,7 +32,7 @@ M3 adds manual letter adjustment, no-match feedback, and automatic progression t
 | M3-03 | Add manual next/previous controls to each spinner | None | Done | Manual controls step, wrap, respect vowel validation, and meet touch-target requirements |
 | M3-04 | Route random spins and manual steps through one settle-and-resolve path | M3-02, M3-03 | Done | `MC-1`, plus MVP random-spin regression coverage |
 | M3-05 | Implement `SettledNoMatch` and gibberish placeholder feedback | M3-04 | Done | `WR-2`, `MP-3`, and no audio overlap |
-| M3-06 | Wire threshold-triggered level transitions and reset session state | M3-02, M3-04 | Not started | `PR-2`, `PR-4`, and `E2E-3` |
+| M3-06 | Wire threshold-triggered level transitions and reset session state | M3-02, M3-04 | Done | `PR-2`, `PR-4`, and `E2E-3` |
 | M3-07 | Complete M3 integration, regression, and mobile checks | M3-05, M3-06 | Not started | `E2E-2`, `E2E-3`, full automated suite, and mobile smoke check |
 | M3-08 | Reconcile specifications and record milestone evidence | M3-07 | Not started | Affected specs updated with status and changelog entries |
 

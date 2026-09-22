@@ -23,6 +23,24 @@ describe('MVP spin flow', () => {
     vi.useRealTimers()
   })
 
+  it('records matched words through the progression tracker when the app resolves a word', async () => {
+    vi.useFakeTimers()
+    vi.spyOn(Math, 'random').mockReturnValue(0)
+    const { ProgressionTracker } = await import('./engine/progressionTracker')
+    const recordMatch = vi.spyOn(ProgressionTracker.prototype, 'recordMatch')
+    vi.spyOn(HTMLMediaElement.prototype, 'play').mockResolvedValue(undefined)
+    vi.spyOn(HTMLMediaElement.prototype, 'pause').mockImplementation(() => {})
+
+    render(<App />)
+
+    fireEvent.click(screen.getByRole('button', { name: 'Spin' }))
+    await act(async () => {
+      vi.advanceTimersByTime(20_000)
+    })
+
+    expect(recordMatch).toHaveBeenCalledWith('bun')
+  })
+
   it('transitions from idle to spinning to a settled match with reward media', async () => {
     vi.useFakeTimers()
     vi.spyOn(Math, 'random').mockReturnValue(0)
@@ -175,4 +193,5 @@ describe('MVP spin flow', () => {
     expect(audio.src).toContain('gibberish.wav')
     expect(play.mock.calls.length).toBeGreaterThan(0)
   })
+
 })
