@@ -6,6 +6,7 @@ const reelCopies = 16
 const reelCellSize = 48
 
 export type SpinnerHandle = {
+  getCurrentIndex: () => number
   jumpToLetter: (letter: string) => void
   animateAndSettle: (letter: string, stepDuration?: number, extraSteps?: number) => Promise<void>
   step: (direction?: 1 | -1) => void
@@ -27,6 +28,7 @@ export const Spinner = forwardRef<SpinnerHandle, SpinnerProps>(function Spinner(
   const [isSpinning, setIsSpinning] = useState(false)
   const [reelPosition, setReelPosition] = useState(definition.letter_list.length)
   const reelPositionRef = useRef(definition.letter_list.length)
+  const currentIndexRef = useRef(0)
   const timeoutRef = useRef<number | null>(null)
   const intervalRef = useRef<number | null>(null)
 
@@ -43,12 +45,16 @@ export const Spinner = forwardRef<SpinnerHandle, SpinnerProps>(function Spinner(
     validateSpinnerLetter(definition, letter, position, totalSpinners)
   }
 
+  const getCurrentIndex = () => currentIndexRef.current
+
   const jumpToLetter = (letter: string) => {
     validateLetter(letter)
     const nextIndex = definition.letter_list.indexOf(letter)
     reelPositionRef.current = definition.letter_list.length + nextIndex
+    currentIndexRef.current = nextIndex
     setReelPosition(reelPositionRef.current)
     setCurrentIndex(nextIndex)
+    onSettled?.()
   }
 
   const animateAndSettle = (letter: string, stepDuration = 100, extraSteps = 0) => {
@@ -71,6 +77,7 @@ export const Spinner = forwardRef<SpinnerHandle, SpinnerProps>(function Spinner(
 
         timeoutRef.current = window.setTimeout(() => {
           reelPositionRef.current = letterCount + targetIndex
+          currentIndexRef.current = targetIndex
           setReelPosition(reelPositionRef.current)
           setCurrentIndex(targetIndex)
           setIsSpinning(false)
@@ -100,11 +107,13 @@ export const Spinner = forwardRef<SpinnerHandle, SpinnerProps>(function Spinner(
 
     setIsSpinning(true)
     reelPositionRef.current += direction
+    currentIndexRef.current = nextIndex
     setReelPosition(reelPositionRef.current)
     setCurrentIndex(nextIndex)
 
     timeoutRef.current = window.setTimeout(() => {
       reelPositionRef.current = letterCount + nextIndex
+      currentIndexRef.current = nextIndex
       setReelPosition(reelPositionRef.current)
       setIsSpinning(false)
       onSettled?.()
@@ -112,7 +121,7 @@ export const Spinner = forwardRef<SpinnerHandle, SpinnerProps>(function Spinner(
     }, 120)
   }
 
-  useImperativeHandle(ref, () => ({ animateAndSettle, jumpToLetter, step }), [currentIndex, isSpinning])
+  useImperativeHandle(ref, () => ({ getCurrentIndex, animateAndSettle, jumpToLetter, step }), [currentIndex, isSpinning])
 
   return (
     <div className="spinner-control-group">

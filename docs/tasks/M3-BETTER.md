@@ -30,7 +30,7 @@ M3 adds manual letter adjustment, no-match feedback, and automatic progression t
 | M3-01 | Add M3 fixtures, bundled feedback assets, and ordered level configuration | None | Done | Loader tests accept all valid fixtures and reject malformed content |
 | M3-02 | Implement and test `ProgressionTracker` | M3-01 | Done | `PR-1` through `PR-4` |
 | M3-03 | Add manual next/previous controls to each spinner | None | Done | Manual controls step, wrap, respect vowel validation, and meet touch-target requirements |
-| M3-04 | Route random spins and manual steps through one settle-and-resolve path | M3-02, M3-03 | Not started | `MC-1`, plus MVP random-spin regression coverage |
+| M3-04 | Route random spins and manual steps through one settle-and-resolve path | M3-02, M3-03 | Done | `MC-1`, plus MVP random-spin regression coverage |
 | M3-05 | Implement `SettledNoMatch` and gibberish placeholder feedback | M3-04 | Not started | `WR-2`, `MP-3`, and no audio overlap |
 | M3-06 | Wire threshold-triggered level transitions and reset session state | M3-02, M3-04 | Not started | `PR-2`, `PR-4`, and `E2E-3` |
 | M3-07 | Complete M3 integration, regression, and mobile checks | M3-05, M3-06 | Not started | `E2E-2`, `E2E-3`, full automated suite, and mobile smoke check |
@@ -89,6 +89,8 @@ M3 adds manual letter adjustment, no-match feedback, and automatic progression t
 - Keep controls disabled until animated random spins settle.
 
 **Done when:** Manual and random paths share the same state transition and the existing MVP test remains green.
+
+**Verification:** `pnpm test -- src/App.test.tsx && pnpm lint && pnpm typecheck && pnpm build` passed with 22/22 tests green and a successful production build.
 
 ### M3-05 — No-match feedback
 

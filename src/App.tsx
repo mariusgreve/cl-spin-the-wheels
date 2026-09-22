@@ -21,6 +21,7 @@ export function App() {
   const [gameState, setGameState] = useState<'Idle' | 'Spinning' | 'SettledMatch'>('Idle')
   const spinnerRefs = useRef<Array<SpinnerHandle | null>>([])
   const audioRef = useRef<HTMLAudioElement | null>(null)
+  const spinInProgressRef = useRef(false)
 
   useEffect(() => {
     if (!result.level) {
@@ -69,6 +70,36 @@ export function App() {
     )
   }
 
+  const resolveSettledSpinners = (nextSpinners: SpinnerState[]) => {
+    setSpinnerStates(nextSpinners)
+
+    const match = resolveWordMatch(result.level, nextSpinners)
+    if (match) {
+      setMatchedWord(match)
+      setGameState('SettledMatch')
+      return
+    }
+
+    setMatchedWord(null)
+    setGameState('Idle')
+  }
+
+  const handleSettled = () => {
+    if (!result.level || spinInProgressRef.current) {
+      return
+    }
+
+    const nextSpinners = result.level.spinners.map((spinner, index) => {
+      const currentIndex = spinnerRefs.current[index]?.getCurrentIndex() ?? spinnerStates[index]?.currentIndex ?? 0
+      return {
+        ...spinner,
+        currentIndex,
+      }
+    })
+
+    resolveSettledSpinners(nextSpinners)
+  }
+
   const handleSpin = async () => {
     if (gameState === 'Spinning') {
       return
@@ -76,6 +107,7 @@ export function App() {
 
     const currentWord = resolveWordMatch(result.level, spinnerStates)
     const pickedWord = spinForWord(result.level, currentWord?.word)
+    spinInProgressRef.current = true
     setGameState('Spinning')
     setMatchedWord(null)
 
@@ -94,21 +126,13 @@ export function App() {
     })
 
     await Promise.all(wheelAnimations)
+    spinInProgressRef.current = false
     const nextSpinners = result.level.spinners.map((spinner, index) => {
       const nextSpinner = createSpinnerState(spinner)
       nextSpinner.currentIndex = spinner.letter_list.indexOf(pickedWord.letters[index])
       return nextSpinner
     })
-    setSpinnerStates(nextSpinners)
-
-    const match = resolveWordMatch(result.level, nextSpinners)
-    if (match) {
-      setMatchedWord(match)
-      setGameState('SettledMatch')
-      return
-    }
-
-    setGameState('Idle')
+    resolveSettledSpinners(nextSpinners)
   }
 
   const rewardImage = matchedWord ? assetUrl(matchedWord.image_asset) : null
@@ -138,6 +162,7 @@ export function App() {
             position={index}
             totalSpinners={result.level!.spinners.length}
             controlsDisabled={gameState === 'Spinning'}
+            onSettled={gameState === 'Spinning' ? undefined : handleSettled}
           />
         ))}
       </section>
