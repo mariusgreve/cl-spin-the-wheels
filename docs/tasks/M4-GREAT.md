@@ -1,8 +1,6 @@
 # M4 — Great Tier
 
-**Status:** Not started
-**Owner:**
-**Started:**
+**Status:** M4-01 complete; remaining M4 tasks not started  
 **Last updated:** 2026-09-22
 
 M4 adds direct flick-to-spin interaction and support for levels with more than three spinners. It builds on the completed M3 shared settle-and-resolve path, progression behavior, and no-match feedback.
@@ -26,7 +24,7 @@ M4 adds direct flick-to-spin interaction and support for levels with more than t
 
 | ID | Task | Depends on | Status | Focused verification |
 |---|---|---|---|---|
-| M4-01 | Add Great-tier fixture and content validation coverage | None | Not started | `fixture_5spinner_great.json` loads and invalid N-spinner content is rejected |
+| M4-01 | Add Great-tier fixture and content validation coverage | None | Done | `fixture_5spinner_great.json` loads and invalid N-spinner content is rejected |
 | M4-02 | Generalize spinner rendering and validation for N spinners | M4-01 | Not started | Five-spinner levels render, settle, and preserve the three-spinner vowel rule only when applicable |
 | M4-03 | Implement deterministic flick velocity mapping and settle planning | None | Not started | `FL-1`, `FL-2`, and focused engine tests |
 | M4-04 | Wire Pointer Events into spinner flick interaction | M4-02, M4-03 | Not started | `E2E-4`; flicks animate one spinner and reuse the shared settle path |
@@ -47,6 +45,8 @@ M4 adds direct flick-to-spin interaction and support for levels with more than t
 - Do not change the three-spinner vowel rule for existing levels.
 
 **Done when:** The five-spinner fixture loads through the normal loader and malformed content fails with useful validation errors.
+
+**Verification:** `pnpm test -- src/engine/levelLoader.test.ts` passed with 31 tests, including valid fixture loading, malformed spinner rejection, and unspellable five-letter word rejection.
 
 ### M4-02 — N-spinner rendering and validation
 

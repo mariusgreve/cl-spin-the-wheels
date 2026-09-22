@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import levelData from './fixtures/fixture_valid_3spinner.json'
+import greatLevelData from './fixtures/fixture_5spinner_great.json'
 import { loadLevel } from './levelLoader'
 
 const assets = new Set([
@@ -23,6 +24,15 @@ describe('loadLevel', () => {
 
     expect(result.errors).toEqual([])
     expect(result.level?.level_id).toBe('fixture-valid-3spinner')
+  })
+
+  it('loads the valid 5-spinner Great-tier fixture', () => {
+    const result = loadLevel(greatLevelData, { assetExists: (path) => path.startsWith('assets/') })
+
+    expect(result.errors).toEqual([])
+    expect(result.level?.level_id).toBe('fixture-5spinner-great')
+    expect(result.level?.spinners).toHaveLength(5)
+    expect(result.level?.word_list.map(({ word }) => word)).toContain('strip')
   })
 
   it('preserves configured next-level metadata for ordered progression', () => {
@@ -55,5 +65,25 @@ describe('loadLevel', () => {
     expect(result.level).toBeNull()
     expect(result.errors).toContain('Word "dog" cannot be spelled by the declared spinners.')
     expect(result.errors).toContain('Missing image asset: assets/images/missing.svg')
+  })
+
+  it('rejects malformed spinner data in a 5-spinner level', () => {
+    const invalidLevel = structuredClone(greatLevelData)
+    invalidLevel.spinners[3].letter_list = ['ni']
+
+    const result = loadLevel(invalidLevel, { assetExists: () => true })
+
+    expect(result.level).toBeNull()
+    expect(result.errors).toContain('Spinner spinner4 must contain one-character letters.')
+  })
+
+  it('rejects an unspellable word in a 5-spinner level', () => {
+    const invalidLevel = structuredClone(greatLevelData)
+    invalidLevel.word_list[0].word = 'crown'
+
+    const result = loadLevel(invalidLevel, { assetExists: () => true })
+
+    expect(result.level).toBeNull()
+    expect(result.errors).toContain('Word "crown" cannot be spelled by the declared spinners.')
   })
 })
