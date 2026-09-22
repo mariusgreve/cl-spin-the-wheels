@@ -45,6 +45,6 @@ Agents should read `AGENTS.md`, this README, the specs index, and only the opera
 
 ## Current status
 
-The MVP implementation, including the M2 hardening work, is complete. The app boots with the bundled sample level, blocks gameplay with visible validation errors when level data is invalid, animates the extracted Spinner component, and completes the random-spin image/audio reward loop. Automated checks currently pass (`pnpm test`, `pnpm lint`, `pnpm typecheck`, and `pnpm build`).
+The M3 Better implementation is complete. The app boots with bundled levels, blocks gameplay with visible validation errors when level data is invalid, supports animated random spins and manual letter stepping, shows no-match feedback, progresses after 50% distinct-word completion, and preserves the random-spin image/audio reward loop. Automated checks pass (`pnpm test`, `pnpm lint`, `pnpm typecheck`, and `pnpm build`); browser checks pass at a 390x844 viewport. Physical-device smoke testing remains a release-signoff gate because no physical mobile device/browser was available.
 
-Formal release sign-off still requires the browser-based E2E and mobile smoke checks listed in [TESTSPEC.md](specs/TESTSPEC.md). Better and Great tier work remains planned.
+Formal release sign-off still requires the physical-device smoke check listed in [TESTSPEC.md](specs/TESTSPEC.md). Great tier work remains planned.

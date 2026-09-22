@@ -1,8 +1,8 @@
 # UISPEC — Spin The Wheels
 
-**Status:** Draft
+**Status:** M3 Better implementation complete; Great planned
 **Version:** 0.4.0
-**Last Updated:** 2026-09-21
+**Last Updated:** 2026-09-22
 **References:** DEVSPEC.md (all behavior definitions — this document defines presentation and states only, and does not duplicate DEVSPEC logic)
 
 This is a React (web) app, not React Native. It is designed to eventually be embedded in a CMS page displayed inside an Android app's webview, so all layouts below are designed for a mobile device viewport width (~360–430px) as the primary target, even when previewed in a desktop browser during development.
@@ -119,3 +119,4 @@ Feature: N-letter words (Great)
 2026-09-21 — GitHub Copilot — Required square and landscape reward images to preserve their aspect ratio and remain fully visible.
 2026-09-21 — GitHub Copilot — Standardized reward images on a rounded 1:1 presentation.
 2026-09-21 — GitHub Copilot — Matched the waiting placeholder to the rounded 1:1 reward-image frame.
+2026-09-22 — GitHub Copilot — Recorded the implemented M3 Better states and interactions, including no-match feedback and level progression; physical-device smoke testing remains a release-signoff gate.

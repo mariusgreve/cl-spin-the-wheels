@@ -1,6 +1,6 @@
 # DEVSPEC — Spin The Wheels
 
-**Status:** MVP implementation complete; Better/Great planned
+**Status:** M3 Better implementation complete; Great planned
 **Version:** 0.4.0
 **Last Updated:** 2026-09-22
 **References:** PRD.md (goals, tiers, personas — this document does not restate them)
@@ -206,6 +206,7 @@ Rules:
 - **M1 (MVP):** Complete in the current implementation. Spinner Component, Word Resolution Engine (random spin path), and Media Player reward path work end-to-end for the bundled 3-spinner level.
 - **M2 (MVP Hardening):** Implementation and automated component/integration coverage are complete. The Spinner Component exposes the full imperative API (jump / animate-and-settle / step), renders the rolling animation, drives the `Spinning` UI state with the trigger disabled until settle, and enforces the middle-spinner vowel constraint in addition to Level Loader validation. Browser E2E and manual mobile smoke checks remain release-signoff gates.
 - **M3 (Better):** Manual Letter Control, gibberish placeholder path, Word List Progression module working end-to-end.
+- **M3 verification:** Automated tests, lint, typecheck, build, and 390x844 browser checks pass. Physical-device smoke testing remains a release-signoff gate because no physical mobile device/browser was available.
 - **M4 (Great):** Flick-To-Spin Gesture Control and N-Letter Word Support working end-to-end on a 5-spinner test level.
 
 ## Part IV — Appendices
@@ -238,6 +239,7 @@ Rules:
 2026-09-21 — GitHub Copilot (from source brief by Ben Burrage) — Initial DEVSPEC drafted covering MVP/Better/Great modules, data schema, and implementation guide.
 2026-09-21 — GitHub Copilot — Replaced React Native/Expo/native-simulator stack with a React (web) toolchain (Vite/CRA, browser Pointer Events, CSS animation), added host-agnostic and mobile-viewport design principles, and recorded the React-vs-React-Native decision in Resolved Decisions.
 2026-09-21 — GitHub Copilot — Inserted new milestone M2 (MVP Hardening) into Deliverables per Milestone to close gaps found between the M1 implementation and the MVP requirements (no spin/settle animation, no `Spinning` UI state, no extracted Spinner component or component-level vowel check, no UI-level test coverage); renumbered Better to M3 and Great to M4.
+2026-09-22 — GitHub Copilot — Recorded M3 Better implementation and verification evidence, including no-match feedback, distinct-word progression, and the remaining physical-device release-signoff gate.
 
 ### Lessons Log
 

@@ -15,7 +15,7 @@ This directory tracks implementation work that is derived from the living specif
 
 | Milestone | Document | Scope | Status |
 |---|---|---|---|
-| M3 | [M3-BETTER.md](M3-BETTER.md) | Manual controls, no-match feedback, and distinct-word progression | In progress |
+| M3 | [M3-BETTER.md](M3-BETTER.md) | Manual controls, no-match feedback, and distinct-word progression | Done; physical-device smoke test remains a release-signoff gate |
 
 ## Status convention
 

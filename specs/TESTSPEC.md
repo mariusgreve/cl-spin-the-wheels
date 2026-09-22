@@ -1,6 +1,6 @@
 # TESTSPEC — Spin The Wheels
 
-**Status:** MVP/M2 verification in progress; Better/Great pending
+**Status:** M3 Better verification complete; Great pending; physical-device smoke test remains a release-signoff gate
 **Version:** 0.6.0
 **Last Updated:** 2026-09-22
 **References:** DEVSPEC.md (module behavior), UISPEC.md (states/screens) — this document does not redefine behavior, only verifies it.
@@ -92,17 +92,19 @@
 - A milestone is "done" only when: all its module's unit tests pass, its corresponding E2E test(s) pass, and the manual smoke test shows no crash and no incorrect vowel/word-match behavior.
 - Zero tolerance items (must never fail, block release if they do): middle-spinner vowel constraint (`SP-1`, `MC-2`, `NL-2`), no audio overlap (`MP-2`), no false "word matched" event (`WR-2`).
 
-## 5.1 Current MVP/M2 Verification Snapshot
+## 5.1 Current M3 Verification Snapshot
 
-The current implementation passes the automated repository checks as of 2026-09-22:
+The current implementation passes the automated and available browser checks as of 2026-09-22:
 
-- `pnpm test` — 14 tests passed across loader, engine, Spinner, and App coverage.
+- `pnpm test` — 28 tests passed across 6 files, including progression, no-match feedback, manual controls, and App integration coverage.
 - `pnpm lint` — passed.
 - `pnpm typecheck` — passed.
 - `pnpm build` — passed.
 - `git diff --check` — passed.
+- Browser checks passed at a 390x844 viewport: `E2E-2` showed the confused image and bundled gibberish audio, and `E2E-3` advanced from `level-1` to `level-2` after seven distinct matches and returned to `Idle`.
+- Physical-device smoke testing was skipped because no physical mobile device/browser was available; it remains a release-signoff gate.
 
-MVP/M2 implementation coverage is present for the random-spin reward loop, Spinner imperative API, animation state, invalid-letter rejection, wrap-around behavior, and bundled media validation. Formal milestone sign-off remains open until `E2E-1` is run in a real browser and the manual mobile smoke check in Section 4 is completed. `MP-2` audio-overlap behavior is implemented in `App`, but still needs an explicit regression test before that zero-tolerance item is fully verified.
+M3 implementation coverage is present for the random-spin reward loop, Spinner imperative API, animation state, invalid-letter rejection, wrap-around behavior, bundled media validation, no-match media replacement, audio stop-before-replay ordering, distinct-word progression, and level reset behavior. Great-tier checks remain pending. M3 is implementation-complete with the physical-device smoke test explicitly recorded as a release-signoff exception.
 
 ## 6. Test-to-Fixture Traceability
 
@@ -127,3 +129,4 @@ MVP/M2 implementation coverage is present for the random-spin reward loop, Spinn
 2026-09-21 — GitHub Copilot — Updated media coverage for consistently rounded 1:1 reward images.
 2026-09-21 — GitHub Copilot — Extended the 1:1 Picture Area coverage to the waiting placeholder.
 2026-09-22 — GitHub Copilot — Recorded the MVP/M2 automated verification snapshot and clarified the remaining browser, manual smoke, and audio-overlap regression gates.
+2026-09-22 — GitHub Copilot — Recorded M3 Better automated and 390x844 browser verification, updated the affected test coverage snapshot, and documented the skipped physical-device smoke test as a release-signoff gate.

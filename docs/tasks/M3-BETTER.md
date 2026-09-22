@@ -1,6 +1,6 @@
 # M3 — Better Tier
 
-**Status:** In progress  
+**Status:** Done; physical-device smoke test remains a release-signoff gate
 **Owner:**  
 **Started:**  
 **Last updated:** 2026-09-22
@@ -34,7 +34,7 @@ M3 adds manual letter adjustment, no-match feedback, and automatic progression t
 | M3-05 | Implement `SettledNoMatch` and gibberish placeholder feedback | M3-04 | Done | `WR-2`, `MP-3`, and no audio overlap |
 | M3-06 | Wire threshold-triggered level transitions and reset session state | M3-02, M3-04 | Done | `PR-2`, `PR-4`, and `E2E-3` |
 | M3-07 | Complete M3 integration, regression, and mobile checks | M3-05, M3-06 | Done | `E2E-2`, `E2E-3`, full automated suite, and mobile smoke check |
-| M3-08 | Reconcile specifications and record milestone evidence | M3-07 | Not started | Affected specs updated with status and changelog entries |
+| M3-08 | Reconcile specifications and record milestone evidence | M3-07 | Done | Affected specs updated with status and changelog entries |
 
 ## Task details
 
@@ -144,6 +144,8 @@ M3 adds manual letter adjustment, no-match feedback, and automatic progression t
 
 **Done when:** A new contributor can determine both what M3 implemented and which verification gates remain.
 
+**Verification:** Updated PRD, DEVSPEC, UISPEC, TESTSPEC, README, and task navigation with M3 status, dated changelog entries, automated verification results, browser/mobile evidence, and the skipped physical-device smoke-test release gate.
+
 ## Dependency order
 
 ```text
@@ -157,10 +159,10 @@ M3-03 can be implemented independently because the spinner imperative API alread
 
 ## Milestone completion checklist
 
-- [ ] M3-01 through M3-08 are `Done` or have an explicitly recorded release-signoff exception.
-- [ ] Manual stepping works forward and backward on every spinner.
-- [ ] Non-words show the confused placeholder and play gibberish audio without overlapping audio.
-- [ ] `ceil(N / 2)` distinct matched words loads exactly one successor level.
-- [ ] No-successor levels remain playable.
-- [ ] Existing M2 random-spin, reward, and vowel-constraint tests still pass.
-- [ ] `TESTSPEC.md` M3 unit and integration requirements have evidence.
+- [x] M3-01 through M3-08 are `Done`; physical-device smoke testing is recorded as a release-signoff exception.
+- [x] Manual stepping works forward and backward on every spinner.
+- [x] Non-words show the confused placeholder and play gibberish audio without overlapping audio.
+- [x] `ceil(N / 2)` distinct matched words loads exactly one successor level.
+- [x] No-successor levels remain playable.
+- [x] Existing M2 random-spin, reward, and vowel-constraint tests still pass.
+- [x] `TESTSPEC.md` M3 unit and integration requirements have evidence.
