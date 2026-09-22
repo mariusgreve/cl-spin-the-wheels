@@ -5,6 +5,7 @@ This directory tracks implementation work that is derived from the living specif
 ## How to use these documents
 
 - Read [M3 Better](M3-BETTER.md) for the current milestone task order and status.
+- Read [M4 Great](M4-GREAT.md) for the Great-tier task order and status.
 - Keep product behavior in `specs/DEVSPEC.md`, presentation behavior in `specs/UISPEC.md`, and verification requirements in `specs/TESTSPEC.md`.
 - Update task status as work progresses: `Not started`, `In progress`, `Blocked`, or `Done`.
 - A task is not considered complete until its status is updated to `Done` and the relevant verification evidence is recorded in the milestone file.
@@ -16,6 +17,7 @@ This directory tracks implementation work that is derived from the living specif
 | Milestone | Document | Scope | Status |
 |---|---|---|---|
 | M3 | [M3-BETTER.md](M3-BETTER.md) | Manual controls, no-match feedback, and distinct-word progression | Done; physical-device smoke test remains a release-signoff gate |
+| M4 | [M4-GREAT.md](M4-GREAT.md) | Flick-to-spin gesture control and N-spinner/N-letter support | Not started |
 
 ## Status convention
 
