@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import levelData from './fixtures/fixture_valid_3spinner.json'
 import greatLevelData from './fixtures/fixture_5spinner_great.json'
-import { loadLevel } from './levelLoader'
+import { loadLevel, loadLevelCollection } from './levelLoader'
 
 const assets = new Set([
   'fixture/images/cat.png',
@@ -85,5 +85,61 @@ describe('loadLevel', () => {
 
     expect(result.level).toBeNull()
     expect(result.errors).toContain('Word "crown" cannot be spelled by the declared spinners.')
+  })
+})
+
+describe('loadLevelCollection', () => {
+  it('loads every level only when the complete collection is valid', () => {
+    const firstLevel = structuredClone(levelData) as typeof levelData & { next_level_id?: string }
+    firstLevel.level_id = 'level-1'
+    firstLevel.next_level_id = 'level-2'
+    const secondLevel = structuredClone(levelData)
+    secondLevel.level_id = 'level-2'
+
+    const result = loadLevelCollection({ 'level-1': firstLevel, 'level-2': secondLevel }, {
+      assetExists: (path) => assets.has(path),
+    })
+
+    expect(result.errors).toEqual([])
+    expect(result.levels && Object.keys(result.levels)).toEqual(['level-1', 'level-2'])
+  })
+
+  it('rejects the collection when a later level is invalid', () => {
+    const firstLevel = structuredClone(levelData)
+    firstLevel.level_id = 'level-1'
+    const invalidSecondLevel = structuredClone(levelData)
+    invalidSecondLevel.level_id = 'level-2'
+    invalidSecondLevel.word_list[0].word = 'dog'
+
+    const result = loadLevelCollection({ 'level-1': firstLevel, 'level-2': invalidSecondLevel }, {
+      assetExists: (path) => assets.has(path),
+    })
+
+    expect(result.levels).toBeNull()
+    expect(result.errors).toContain('Level "level-2": Word "dog" cannot be spelled by the declared spinners.')
+  })
+
+  it('rejects a level ID that does not match its file ID', () => {
+    const mismatchedLevel = structuredClone(levelData)
+
+    const result = loadLevelCollection({ 'level-1': mismatchedLevel }, {
+      assetExists: (path) => assets.has(path),
+    })
+
+    expect(result.levels).toBeNull()
+    expect(result.errors).toContain('Level file "level-1" declares level_id "fixture-valid-3spinner".')
+  })
+
+  it('rejects a next-level link that cannot be resolved', () => {
+    const levelWithMissingSuccessor = structuredClone(levelData) as typeof levelData & { next_level_id?: string }
+    levelWithMissingSuccessor.level_id = 'level-1'
+    levelWithMissingSuccessor.next_level_id = 'missing-level'
+
+    const result = loadLevelCollection({ 'level-1': levelWithMissingSuccessor }, {
+      assetExists: (path) => assets.has(path),
+    })
+
+    expect(result.levels).toBeNull()
+    expect(result.errors).toContain('Level "level-1" references missing next level "missing-level".')
   })
 })

@@ -20,9 +20,13 @@ export type LevelLoadResult =
   | { level: Level; errors: [] }
   | { level: null; errors: string[] }
 
-type LevelLoaderOptions = {
+export type LevelLoaderOptions = {
   assetExists?: (assetPath: string) => boolean
 }
+
+export type LevelCollectionLoadResult =
+  | { levels: Record<string, Level>; errors: [] }
+  | { levels: null; errors: string[] }
 
 const vowels = new Set(['a', 'e', 'i', 'o', 'u'])
 
@@ -103,6 +107,37 @@ export function loadLevel(input: unknown, options: LevelLoaderOptions = {}): Lev
     },
     errors: [],
   }
+}
+
+export function loadLevelCollection(
+  inputs: Record<string, unknown>,
+  options: LevelLoaderOptions = {},
+): LevelCollectionLoadResult {
+  const errors: string[] = []
+  const levels: Record<string, Level> = {}
+
+  Object.entries(inputs).forEach(([fileId, input]) => {
+    const result = loadLevel(input, options)
+    if (!result.level) {
+      errors.push(...result.errors.map((error) => `Level "${fileId}": ${error}`))
+      return
+    }
+
+    if (result.level.level_id !== fileId) {
+      errors.push(`Level file "${fileId}" declares level_id "${result.level.level_id}".`)
+      return
+    }
+
+    levels[fileId] = result.level
+  })
+
+  Object.entries(levels).forEach(([levelId, level]) => {
+    if (level.next_level_id && !(level.next_level_id in inputs)) {
+      errors.push(`Level "${levelId}" references missing next level "${level.next_level_id}".`)
+    }
+  })
+
+  return errors.length > 0 ? { levels: null, errors } : { levels, errors: [] }
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {

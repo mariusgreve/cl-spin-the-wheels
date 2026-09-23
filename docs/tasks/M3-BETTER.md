@@ -48,6 +48,8 @@ M3 adds manual letter adjustment, no-match feedback, and automatic progression t
 
 **Done when:** M3 fixtures load without validation errors, missing assets fail validation, and the app can identify the configured next level without network access.
 
+**Verification:** App startup now validates every bundled level, matching file/level identifiers, media references, and progression links as one collection. Focused loader and App suites cover invalid later levels and unresolved successors.
+
 ### M3-02 — Progression tracker
 
 **Goal:** Isolate the 50% distinct-word rule from React rendering.

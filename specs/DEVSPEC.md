@@ -1,8 +1,8 @@
 # DEVSPEC — Spin The Wheels
 
 **Status:** M3 Better implementation complete; Great planned
-**Version:** 0.4.0
-**Last Updated:** 2026-09-22
+**Version:** 0.4.1
+**Last Updated:** 2026-09-23
 **References:** PRD.md (goals, tiers, personas — this document does not restate them)
 
 ## Part I — Functional Requirements
@@ -43,15 +43,16 @@ Rules:
 
 ### Module: Level Loader
 
-- **Goal:** Parse and validate a level JSON file before gameplay starts.
+- **Goal:** Parse and validate every bundled level JSON file before gameplay starts.
 - **Tasks:**
   - Read the JSON file (bundled asset or provided path) and parse into a typed `Level` object.
   - Validate schema shape (all required fields present, correct types).
   - Validate the middle-spinner-vowel-only constraint when there are exactly 3 spinners.
   - Validate every word in `word_list` is spellable from the declared spinners' letter sets.
   - Validate every referenced media asset exists.
+  - Validate all bundled levels as one collection before rendering gameplay, including matching file/level identifiers and resolvable `next_level_id` references.
   - Surface a single, human-readable error (not a stack trace) if any validation fails, and refuse to start gameplay.
-- **Exit Criterion:** Given any of the fixture JSON files in `testspec` fixtures, the loader returns a valid `Level` object with zero validation errors for well-formed fixtures, and a non-empty error list (blocking game start) for each malformed fixture.
+- **Exit Criterion:** The loader returns the complete bundled level collection only when every level and progression link is valid; any malformed level returns a non-empty error list and blocks game start.
 
 ### Module: Spinner Component
 
@@ -240,6 +241,7 @@ Rules:
 2026-09-21 — GitHub Copilot — Replaced React Native/Expo/native-simulator stack with a React (web) toolchain (Vite/CRA, browser Pointer Events, CSS animation), added host-agnostic and mobile-viewport design principles, and recorded the React-vs-React-Native decision in Resolved Decisions.
 2026-09-21 — GitHub Copilot — Inserted new milestone M2 (MVP Hardening) into Deliverables per Milestone to close gaps found between the M1 implementation and the MVP requirements (no spin/settle animation, no `Spinning` UI state, no extracted Spinner component or component-level vowel check, no UI-level test coverage); renumbered Better to M3 and Great to M4.
 2026-09-22 — GitHub Copilot — Recorded M3 Better implementation and verification evidence, including no-match feedback, distinct-word progression, and the remaining physical-device release-signoff gate.
+2026-09-23 — GitHub Copilot — Clarified that startup validates the complete bundled level collection and progression links before gameplay begins.
 
 ### Lessons Log
 

@@ -1,8 +1,8 @@
 # TESTSPEC — Spin The Wheels
 
 **Status:** M3 Better verification complete; Great pending; physical-device smoke test remains a release-signoff gate
-**Version:** 0.6.0
-**Last Updated:** 2026-09-22
+**Version:** 0.6.1
+**Last Updated:** 2026-09-23
 **References:** DEVSPEC.md (module behavior), UISPEC.md (states/screens) — this document does not redefine behavior, only verifies it.
 
 ## 1. Fixtures
@@ -28,6 +28,8 @@
 - `LL-2`: Loading `fixture_invalid_middle_vowel.json` returns at least one validation error and does not return a playable `Level`.
 - `LL-3`: Loading `fixture_invalid_unspellable_word.json` returns at least one validation error referencing the offending word.
 - `LL-4`: Loading `fixture_missing_media.json` returns at least one validation error referencing the missing asset path.
+- `LL-5`: Loading a collection with a valid starting level and an invalid later level rejects the complete collection and blocks gameplay.
+- `LL-6`: Loading a collection with a mismatched file/level identifier or an unresolved `next_level_id` rejects the complete collection.
 
 ### Spinner Component
 
@@ -130,3 +132,4 @@ M3 implementation coverage is present for the random-spin reward loop, Spinner i
 2026-09-21 — GitHub Copilot — Extended the 1:1 Picture Area coverage to the waiting placeholder.
 2026-09-22 — GitHub Copilot — Recorded the MVP/M2 automated verification snapshot and clarified the remaining browser, manual smoke, and audio-overlap regression gates.
 2026-09-22 — GitHub Copilot — Recorded M3 Better automated and 390x844 browser verification, updated the affected test coverage snapshot, and documented the skipped physical-device smoke test as a release-signoff gate.
+2026-09-23 — GitHub Copilot — Added collection-level startup coverage for invalid later levels, mismatched identifiers, and unresolved progression links.

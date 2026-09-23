@@ -1,8 +1,7 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
-import levelData from './assets/levels/level-1.json'
+import { useEffect, useRef, useState } from 'react'
 import { Confetti } from './components/Confetti'
 import { Spinner, type SpinnerHandle } from './components/Spinner'
-import { loadLevel, type WordDefinition } from './engine/levelLoader'
+import { loadLevelCollection, type WordDefinition } from './engine/levelLoader'
 import { ProgressionTracker } from './engine/progressionTracker'
 import { createSpinnerState, resolveWordMatch, spinForWord, type SpinnerState } from './engine/spinner'
 import './styles.css'
@@ -33,12 +32,18 @@ function formatLevelId(levelId: string): string {
   return levelId.replace(/[\p{Dash_Punctuation}]/gu, ' ')
 }
 
+const bundledLevelResult = loadLevelCollection(bundledLevels, {
+  assetExists: (assetPath) => assetUrl(assetPath) !== null,
+})
+
 export function App() {
   const [currentLevelId, setCurrentLevelId] = useState('level-1')
-  const levelDefinition = bundledLevels[currentLevelId] ?? levelData
-  const result = useMemo(() => loadLevel(levelDefinition, { assetExists: (assetPath) => assetUrl(assetPath) !== null }), [levelDefinition])
+  const currentLevel = bundledLevelResult.levels?.[currentLevelId] ?? null
+  const validationErrors = bundledLevelResult.levels
+    ? [`Starting level "${currentLevelId}" is not bundled.`]
+    : bundledLevelResult.errors
   const [spinnerStates, setSpinnerStates] = useState<SpinnerState[]>(() =>
-    result.level ? result.level.spinners.map(createSpinnerState) : [],
+    currentLevel ? currentLevel.spinners.map(createSpinnerState) : [],
   )
   const [matchedWord, setMatchedWord] = useState<WordDefinition | null>(null)
   const [gameState, setGameState] = useState<'Idle' | 'Spinning' | 'SettledMatch' | 'SettledNoMatch'>('Idle')
@@ -52,18 +57,18 @@ export function App() {
   const confettiTimeoutRef = useRef<number | null>(null)
 
   useEffect(() => {
-    if (!result.level) {
+    if (!currentLevel) {
       return
     }
 
-    progressionTrackerRef.current = new ProgressionTracker(result.level)
-    setSpinnerStates(result.level.spinners.map(createSpinnerState))
+    progressionTrackerRef.current = new ProgressionTracker(currentLevel)
+    setSpinnerStates(currentLevel.spinners.map(createSpinnerState))
     setMatchedWord(null)
     setGameState('Idle')
     spinnerRefs.current = []
     setPendingLevelTransition(null)
     setShowConfetti(false)
-    setLevelProgress(result.level.next_level_id ? progressionTrackerRef.current.getProgress() : null)
+    setLevelProgress(currentLevel.next_level_id ? progressionTrackerRef.current.getProgress() : null)
     if (confettiTimeoutRef.current !== null) {
       window.clearTimeout(confettiTimeoutRef.current)
       confettiTimeoutRef.current = null
@@ -74,7 +79,7 @@ export function App() {
       audioRef.current.currentTime = 0
       audioRef.current.src = ''
     }
-  }, [result.level])
+  }, [currentLevel])
 
   useEffect(() => {
     if (!matchedWord) {
@@ -107,14 +112,14 @@ export function App() {
     }
   }, [])
 
-  if (!result.level) {
+  if (!currentLevel) {
     return (
       <main className="shell error-state">
         <p className="eyebrow">Spin The Wheels</p>
-        <h1>Level unavailable</h1>
-        <p>The bundled level could not be loaded, so play cannot start.</p>
+        <h1>Levels unavailable</h1>
+        <p>The bundled levels could not be validated, so play cannot start.</p>
         <ul aria-label="Level validation errors">
-          {result.errors.map((error) => <li key={error}>{error}</li>)}
+          {validationErrors.map((error) => <li key={error}>{error}</li>)}
         </ul>
       </main>
     )
@@ -123,7 +128,7 @@ export function App() {
   const resolveSettledSpinners = (nextSpinners: SpinnerState[]) => {
     setSpinnerStates(nextSpinners)
 
-    const match = resolveWordMatch(result.level, nextSpinners)
+    const match = resolveWordMatch(currentLevel, nextSpinners)
     if (match) {
       const decision = progressionTrackerRef.current?.recordMatch(match.word) ?? {
         shouldTransition: false,
@@ -135,24 +140,13 @@ export function App() {
       setMatchedWord(match)
       setGameState('SettledMatch')
 
-      if (result.level?.next_level_id) {
+      if (currentLevel.next_level_id) {
         setLevelProgress({ distinctMatches: decision.distinctMatches, threshold: decision.threshold })
       }
 
-      if (decision.shouldTransition && result.level?.next_level_id) {
-        const nextLevelId = result.level.next_level_id
-        const nextLevelDefinition = bundledLevels[nextLevelId]
-        if (!nextLevelDefinition) {
-          return
-        }
-
-        const nextResult = loadLevel(nextLevelDefinition, { assetExists: (assetPath) => assetUrl(assetPath) !== null })
-        if (!nextResult.level) {
-          return
-        }
-
+      if (decision.shouldTransition && currentLevel.next_level_id) {
         // Defer the switch so the just-matched word stays on screen until the next spin.
-        setPendingLevelTransition(nextLevelId)
+        setPendingLevelTransition(currentLevel.next_level_id)
         setShowConfetti(true)
         if (confettiTimeoutRef.current !== null) {
           window.clearTimeout(confettiTimeoutRef.current)
@@ -170,11 +164,11 @@ export function App() {
   }
 
   const handleSettled = () => {
-    if (!result.level || spinInProgressRef.current) {
+    if (spinInProgressRef.current) {
       return
     }
 
-    const nextSpinners = result.level.spinners.map((spinner, index) => {
+    const nextSpinners = currentLevel.spinners.map((spinner, index) => {
       const currentIndex = spinnerRefs.current[index]?.getCurrentIndex() ?? spinnerStates[index]?.currentIndex ?? 0
       return {
         ...spinner,
@@ -196,13 +190,13 @@ export function App() {
       return
     }
 
-    const currentWord = resolveWordMatch(result.level, spinnerStates)
-    const pickedWord = spinForWord(result.level, currentWord?.word)
+    const currentWord = resolveWordMatch(currentLevel, spinnerStates)
+    const pickedWord = spinForWord(currentLevel, currentWord?.word)
     spinInProgressRef.current = true
     setGameState('Spinning')
     setMatchedWord(null)
 
-    const wheelPaths = result.level.spinners.map((spinner, index) => {
+    const wheelPaths = currentLevel.spinners.map((spinner, index) => {
       const currentIndex = spinnerStates[index].currentIndex
       const targetIndex = spinner.letter_list.indexOf(pickedWord.letters[index])
       const forwardDistance = (targetIndex - currentIndex + spinner.letter_list.length) % spinner.letter_list.length
@@ -211,7 +205,7 @@ export function App() {
     let previousPath = 0
     const wheelAnimations = pickedWord.letters.map((letter, index) => {
       const path = wheelPaths[index] ?? previousPath
-      const letterCount = result.level!.spinners[index].letter_list.length
+      const letterCount = currentLevel.spinners[index].letter_list.length
       // Round up to a whole number of loops so the padding never shifts which letter the
       // timed animation lands on (a partial-loop pad would need a reverse correction at settle).
       const rawExtraSteps = index === 0 ? 0 : Math.max(0, previousPath + 5 - path)
@@ -222,7 +216,7 @@ export function App() {
 
     await Promise.all(wheelAnimations)
     spinInProgressRef.current = false
-    const nextSpinners = result.level.spinners.map((spinner, index) => {
+    const nextSpinners = currentLevel.spinners.map((spinner, index) => {
       const nextSpinner = createSpinnerState(spinner)
       nextSpinner.currentIndex = spinner.letter_list.indexOf(pickedWord.letters[index])
       return nextSpinner
@@ -240,7 +234,7 @@ export function App() {
       <header className="masthead">
         <div className="masthead-top">
           <p className="eyebrow">Spin The Wheels</p>
-          <span className="level-tag">{formatLevelId(result.level.level_id)}</span>
+          <span className="level-tag">{formatLevelId(currentLevel.level_id)}</span>
         </div>
         <h1>Make a word</h1>
       </header>
@@ -275,13 +269,13 @@ export function App() {
         )}
       </section>
       <section className="spinner-row" aria-label="Letter wheels">
-        {result.level.spinners.map((spinner, index) => (
+        {currentLevel.spinners.map((spinner, index) => (
           <Spinner
             key={spinner.id}
             ref={(instance) => { spinnerRefs.current[index] = instance }}
             definition={spinner}
             position={index}
-            totalSpinners={result.level!.spinners.length}
+            totalSpinners={currentLevel.spinners.length}
             controlsDisabled={gameState === 'Spinning' || Boolean(pendingLevelTransition)}
             onSettled={gameState === 'Spinning' ? undefined : handleSettled}
           />
