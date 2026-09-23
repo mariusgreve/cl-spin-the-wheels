@@ -45,6 +45,6 @@ Agents should read `AGENTS.md`, this README, the specs index, and only the opera
 
 ## Current status
 
-The M3 Better implementation is complete. The app boots with bundled levels, blocks gameplay with visible validation errors when level data is invalid, supports animated random spins and manual letter stepping, shows no-match feedback, progresses after 50% distinct-word completion, and preserves the random-spin image/audio reward loop. Automated checks pass (`pnpm test`, `pnpm lint`, `pnpm typecheck`, and `pnpm build`); browser checks pass at a 390x844 viewport. Physical-device smoke testing remains a release-signoff gate because no physical mobile device/browser was available.
+The M3 Better implementation is complete, and the Great-tier five-spinner reward flow is now verified. The app boots with bundled levels, blocks gameplay with visible validation errors when level data is invalid, supports animated random spins, manual letter stepping, and flick-to-spin interaction, shows no-match feedback, progresses after 50% distinct-word completion, and preserves the image/audio reward loop at both three-spinner and five-spinner levels. Automated checks pass (`pnpm test`, `pnpm lint`, `pnpm typecheck`, and `pnpm build`); browser checks pass at a 390x844 viewport. Physical-device smoke testing remains a release-signoff gate because no physical mobile device/browser was available.
 
-Formal release sign-off still requires the physical-device smoke check listed in [TESTSPEC.md](specs/TESTSPEC.md). Great tier work remains planned.
+Formal release sign-off still requires the physical-device smoke check listed in [TESTSPEC.md](specs/TESTSPEC.md). The remaining M4 sign-off items are tracker and release documentation follow-through rather than new gameplay work.

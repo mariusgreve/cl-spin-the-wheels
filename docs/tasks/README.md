@@ -17,7 +17,7 @@ This directory tracks implementation work that is derived from the living specif
 | Milestone | Document | Scope | Status |
 |---|---|---|---|
 | M3 | [M3-BETTER.md](M3-BETTER.md) | Manual controls, no-match feedback, and distinct-word progression | Done; physical-device smoke test remains a release-signoff gate |
-| M4 | [M4-GREAT.md](M4-GREAT.md) | Flick-to-spin gesture control and N-spinner/N-letter support | Not started |
+| M4 | [M4-GREAT.md](M4-GREAT.md) | Flick-to-spin gesture control and N-spinner/N-letter support | M4-05 complete; remaining sign-off tasks are pending |
 
 ## Status convention
 
