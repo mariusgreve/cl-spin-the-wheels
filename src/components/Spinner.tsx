@@ -1,5 +1,6 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState, type CSSProperties } from 'react'
 import type { SpinnerDefinition } from '../engine/levelLoader'
+import { planFlickSpin } from '../engine/spinner'
 import { validateSpinnerLetter } from './spinnerValidation'
 
 const reelCopies = 16
@@ -9,6 +10,7 @@ export type SpinnerHandle = {
   jumpToLetter: (letter: string) => void
   animateAndSettle: (letter: string, stepDuration?: number, extraSteps?: number) => Promise<void>
   step: (direction?: 1 | -1) => void
+  flick: (velocity: number) => void
 }
 
 type SpinnerProps = {
@@ -30,6 +32,7 @@ export const Spinner = forwardRef<SpinnerHandle, SpinnerProps>(function Spinner(
   const currentIndexRef = useRef(0)
   const timeoutRef = useRef<number | null>(null)
   const intervalRef = useRef<number | null>(null)
+  const pointerStartRef = useRef<{ y: number; time: number } | null>(null)
 
   useEffect(() => () => {
     if (timeoutRef.current !== null) {
@@ -39,6 +42,20 @@ export const Spinner = forwardRef<SpinnerHandle, SpinnerProps>(function Spinner(
       window.clearInterval(intervalRef.current)
     }
   }, [])
+
+  const flick = (velocity: number) => {
+    if (controlsDisabled || isSpinning) {
+      return
+    }
+
+    const flickPlan = planFlickSpin({ ...definition, currentIndex: currentIndexRef.current }, velocity)
+    const letterCount = definition.letter_list.length
+    const forwardDistance = (flickPlan.targetIndex - currentIndexRef.current + letterCount) % letterCount
+    const totalSteps = Math.max(0, flickPlan.totalSteps - (letterCount * 2 + forwardDistance))
+
+    setIsSpinning(true)
+    void animateAndSettle(flickPlan.letter, flickPlan.stepDurationMs, totalSteps)
+  }
 
   const validateLetter = (letter: string) => {
     validateSpinnerLetter(definition, letter, position, totalSpinners)
@@ -58,6 +75,16 @@ export const Spinner = forwardRef<SpinnerHandle, SpinnerProps>(function Spinner(
 
   const animateAndSettle = (letter: string, stepDuration = 100, extraSteps = 0) => {
     validateLetter(letter)
+
+    if (intervalRef.current !== null) {
+      window.clearInterval(intervalRef.current)
+      intervalRef.current = null
+    }
+    if (timeoutRef.current !== null) {
+      window.clearTimeout(timeoutRef.current)
+      timeoutRef.current = null
+    }
+
     const targetIndex = definition.letter_list.indexOf(letter)
     const letterCount = definition.letter_list.length
     const currentLetterIndex = reelPositionRef.current % letterCount
@@ -82,6 +109,7 @@ export const Spinner = forwardRef<SpinnerHandle, SpinnerProps>(function Spinner(
           setIsSpinning(false)
           onSettled?.()
           resolve()
+          timeoutRef.current = null
         }, 120)
       }
 
@@ -120,7 +148,37 @@ export const Spinner = forwardRef<SpinnerHandle, SpinnerProps>(function Spinner(
     }, 120)
   }
 
-  useImperativeHandle(ref, () => ({ getCurrentIndex, animateAndSettle, jumpToLetter, step }), [currentIndex, isSpinning])
+  const handlePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (controlsDisabled || isSpinning) {
+      return
+    }
+
+    event.preventDefault()
+    pointerStartRef.current = { y: event.clientY, time: event.timeStamp }
+    if (typeof event.currentTarget.setPointerCapture === 'function') {
+      event.currentTarget.setPointerCapture(event.pointerId)
+    }
+  }
+
+  const handlePointerUp = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (controlsDisabled || isSpinning || pointerStartRef.current === null) {
+      pointerStartRef.current = null
+      return
+    }
+
+    const start = pointerStartRef.current
+    pointerStartRef.current = null
+    const deltaY = event.clientY - start.y
+    const deltaTime = event.timeStamp - start.time
+
+    if (Math.abs(deltaY) < 18 || deltaTime <= 0) {
+      return
+    }
+
+    flick((Math.abs(deltaY) / deltaTime) * 1000)
+  }
+
+  useImperativeHandle(ref, () => ({ getCurrentIndex, animateAndSettle, jumpToLetter, step, flick }), [currentIndex, isSpinning, controlsDisabled])
 
   return (
     <div className="spinner-control-group">
@@ -136,6 +194,10 @@ export const Spinner = forwardRef<SpinnerHandle, SpinnerProps>(function Spinner(
       <div
         className={`spinner-slot${isSpinning ? ' is-spinning' : ''}`}
         aria-label={`${definition.id} letter wheel showing ${definition.letter_list[currentIndex]}`}
+        onPointerDown={handlePointerDown}
+        onPointerUp={handlePointerUp}
+        onPointerCancel={handlePointerUp}
+        style={{ touchAction: 'none' }}
       >
         <div
           className="spinner-reel"

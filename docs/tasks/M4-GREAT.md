@@ -27,7 +27,7 @@ M4 adds direct flick-to-spin interaction and support for levels with more than t
 | M4-01 | Add Great-tier fixture and content validation coverage | None | Done | `fixture_5spinner_great.json` loads and invalid N-spinner content is rejected |
 | M4-02 | Generalize spinner rendering and validation for N spinners | M4-01 | Done | Five-spinner component and engine coverage pass; mobile grid supports five wheels and the three-spinner vowel rule remains conditional |
 | M4-03 | Implement deterministic flick velocity mapping and settle planning | None | Done | `FL-1`, `FL-2`, and focused engine tests |
-| M4-04 | Wire Pointer Events into spinner flick interaction | M4-02, M4-03 | Not started | `E2E-4`; flicks animate one spinner and reuse the shared settle path |
+| M4-04 | Wire Pointer Events into spinner flick interaction | M4-02, M4-03 | Done | `E2E-4`; flicks animate one spinner and reuse the shared settle path |
 | M4-05 | Complete five-spinner match and reward integration | M4-02, M4-04 | Not started | `NL-1`, `NL-2`, and `E2E-5` |
 | M4-06 | Complete M4 regression, accessibility, and mobile checks | M4-05 | Not started | Full automated suite, Great-tier acceptance checks, and mobile smoke check |
 | M4-07 | Reconcile specifications and record milestone evidence | M4-06 | Not started | Affected specs, README, and this tracker contain current status and verification evidence |
@@ -84,6 +84,8 @@ M4 adds direct flick-to-spin interaction and support for levels with more than t
 - Preserve keyboard and manual controls and avoid introducing host or native API assumptions.
 
 **Done when:** A valid flick enters `Spinning`, settles on one valid letter, and follows the same resolution path as random and manual interactions.
+
+**Verification:** Pointer down/up events on a spinner produce a targeted animation that settles on a valid letter and triggers the shared `onSettled` callback path; the component regression suite includes the flick interaction check.
 
 ### M4-05 — Five-spinner match and reward integration
 

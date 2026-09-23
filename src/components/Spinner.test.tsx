@@ -107,6 +107,49 @@ describe('Spinner imperative API', () => {
     expect(onSettled).toHaveBeenCalledTimes(2)
   })
 
+  it('starts a flick from the shared API and settles through the shared callback path', async () => {
+    vi.useFakeTimers()
+    const onSettled = vi.fn()
+    const spinnerRef = createRef<SpinnerHandle>()
+
+    render(<Spinner ref={spinnerRef} definition={definition} position={0} totalSpinners={3} onSettled={onSettled} />)
+
+    act(() => {
+      getHandle(spinnerRef).flick(750)
+    })
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(2000)
+    })
+
+    expect(onSettled).toHaveBeenCalledTimes(1)
+    expect(screen.getByLabelText(/spinner1 letter wheel showing [bch]/)).toBeInTheDocument()
+  })
+
+  it('interrupts an in-flight settle when a new spin target starts', async () => {
+    vi.useFakeTimers()
+    const onSettled = vi.fn()
+    const spinnerRef = createRef<SpinnerHandle>()
+
+    render(<Spinner ref={spinnerRef} definition={definition} position={0} totalSpinners={3} onSettled={onSettled} />)
+
+    act(() => {
+      void getHandle(spinnerRef).animateAndSettle('h', 10)
+    })
+
+    act(() => {
+      void getHandle(spinnerRef).animateAndSettle('c', 10)
+    })
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(500)
+    })
+
+    expect(onSettled).toHaveBeenCalledTimes(1)
+    expect(screen.getByLabelText('spinner1 letter wheel showing c')).toBeInTheDocument()
+    expect(screen.getByLabelText('spinner1 letter wheel showing c')).not.toHaveClass('is-spinning')
+  })
+
   it('disables controls while the wheel is animating or the parent is busy', async () => {
     vi.useFakeTimers()
     const spinnerRef = createRef<SpinnerHandle>()
