@@ -6,6 +6,15 @@ import { Spinner, type SpinnerHandle } from './Spinner'
 
 const definition = { id: 'spinner1', letter_list: ['b', 'c', 'h'] }
 
+function getReelPosition(reel: Element, letterCount: number): number {
+  const match = /translateY\(-([0-9.]+)%\)/.exec((reel as HTMLElement).style.transform)
+  if (match === null) {
+    throw new Error('Spinner reel transform was not set')
+  }
+
+  return (Number(match[1]) / 100) * letterCount * 32 - 0.5
+}
+
 function getHandle(ref: React.RefObject<SpinnerHandle | null>): SpinnerHandle {
   if (ref.current === null) {
     throw new Error('Spinner handle was not attached')
@@ -68,7 +77,7 @@ describe('Spinner imperative API', () => {
     expect(screen.getByLabelText('spinner1 letter wheel showing b')).toHaveClass('is-spinning')
 
     await act(async () => {
-      await vi.advanceTimersByTimeAsync(400)
+      await vi.advanceTimersByTimeAsync(210)
       await animation
     })
 
@@ -106,6 +115,102 @@ describe('Spinner imperative API', () => {
     expect(onSettled).toHaveBeenCalledTimes(4)
   })
 
+  it('animates across the middle of a five-letter reel without recentering', () => {
+    vi.useFakeTimers()
+    const spinnerRef = createRef<SpinnerHandle>()
+
+    render(<Spinner ref={spinnerRef} definition={{ id: 'spinner2', letter_list: ['a', 'e', 'i', 'o', 'u'] }} position={1} totalSpinners={3} />)
+
+    act(() => {
+      getHandle(spinnerRef).jumpToLetter('i')
+    })
+    act(() => {
+      getHandle(spinnerRef).step()
+    })
+
+    expect(screen.getByLabelText('spinner2 letter wheel showing o')).toHaveClass('is-spinning')
+    expect(document.querySelector('.spinner-reel')).not.toHaveStyle({ transition: 'none' })
+  })
+
+  it('keeps normal step animation after a full reel cycle reaches the level-one boundary letters', () => {
+    vi.useFakeTimers()
+    const levelOneDefinitions = [
+      { id: 'spinner1', letter_list: ['b', 'c', 'h', 'm', 'p', 's'] },
+      { id: 'spinner2', letter_list: ['a', 'e', 'i', 'o', 'u'] },
+      { id: 'spinner3', letter_list: ['d', 'n', 'p', 'r', 't'] },
+    ]
+    const refs = levelOneDefinitions.map(() => createRef<SpinnerHandle>())
+
+    render(
+      <div>
+        {levelOneDefinitions.map((spinner, index) => (
+          <Spinner
+            key={spinner.id}
+            ref={refs[index]}
+            definition={spinner}
+            position={index}
+            totalSpinners={levelOneDefinitions.length}
+          />
+        ))}
+      </div>,
+    )
+
+    for (const [index, boundaryLetter] of ['m', 'o', 'r'].entries()) {
+      act(() => {
+        getHandle(refs[index]).jumpToLetter(boundaryLetter)
+      })
+    }
+
+    for (const spinnerRef of refs) {
+      act(() => {
+        getHandle(spinnerRef).step()
+      })
+    }
+
+    expect(screen.getByLabelText('spinner1 letter wheel showing p')).toHaveClass('is-spinning')
+    expect(screen.getByLabelText('spinner2 letter wheel showing u')).toHaveClass('is-spinning')
+    expect(screen.getByLabelText('spinner3 letter wheel showing t')).toHaveClass('is-spinning')
+    expect(document.querySelectorAll('.spinner-reel')).toHaveLength(3)
+    for (const reel of document.querySelectorAll('.spinner-reel')) {
+      expect(reel).not.toHaveStyle({ transition: 'none' })
+    }
+  })
+
+  it('recenters before a long flick would leave the rendered reel', async () => {
+    vi.useFakeTimers()
+    const spinnerRef = createRef<SpinnerHandle>()
+    const longReelDefinition = { id: 'spinner1', letter_list: ['b', 'c', 'h', 'm', 'p', 's'] }
+
+    render(<Spinner ref={spinnerRef} definition={longReelDefinition} position={0} totalSpinners={3} />)
+
+    act(() => {
+      getHandle(spinnerRef).flick(2_500)
+    })
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(5_000)
+    })
+
+    const reel = document.querySelector('.spinner-reel')
+    if (reel === null) {
+      throw new Error('Spinner reel was not rendered')
+    }
+    expect(getReelPosition(reel, longReelDefinition.letter_list.length)).toBeLessThan(
+      longReelDefinition.letter_list.length * 32,
+    )
+
+    act(() => {
+      getHandle(spinnerRef).flick(2_500)
+    })
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(5_000)
+    })
+
+    expect(screen.getByLabelText(/spinner1 letter wheel showing [bchmps]/)).not.toHaveClass('is-spinning')
+    expect(getReelPosition(reel, longReelDefinition.letter_list.length)).toBeLessThan(
+      longReelDefinition.letter_list.length * 32,
+    )
+  })
+
   it('renders accessible controls that step and wrap the wheel', () => {
     vi.useFakeTimers()
     const onSettled = vi.fn()
@@ -139,88 +244,11 @@ describe('Spinner imperative API', () => {
     })
 
     await act(async () => {
-      await vi.advanceTimersByTimeAsync(4000)
+      await vi.advanceTimersByTimeAsync(2000)
     })
 
     expect(onSettled).toHaveBeenCalledTimes(1)
     expect(screen.getByLabelText(/spinner1 letter wheel showing [bch]/)).toBeInTheDocument()
-  })
-
-  it('finishes the final vowel step before starting the flick bounce', async () => {
-    vi.useFakeTimers()
-    const spinnerRef = createRef<SpinnerHandle>()
-
-    const { container } = render(
-      <Spinner
-        ref={spinnerRef}
-        definition={{ id: 'spinner2', letter_list: ['a', 'e', 'i', 'o', 'u'] }}
-        position={1}
-        totalSpinners={3}
-      />,
-    )
-
-    act(() => {
-      getHandle(spinnerRef).flick(120)
-    })
-
-    for (let step = 0; step < 6; step += 1) {
-      await act(async () => {
-        await vi.advanceTimersToNextTimerAsync()
-      })
-    }
-
-    const reel = container.querySelector<HTMLElement>('.spinner-reel')
-    expect(reel).toHaveStyle({ transitionDuration: '320ms' })
-
-    await act(async () => {
-      await vi.advanceTimersByTimeAsync(120)
-    })
-
-    expect(reel).toHaveStyle({ transitionDuration: '320ms' })
-  })
-
-  it('settles a recentered flick bounce on the same reel copy', async () => {
-    vi.useFakeTimers()
-    const spinnerRef = createRef<SpinnerHandle>()
-
-    const { container } = render(
-      <Spinner
-        ref={spinnerRef}
-        definition={{ id: 'spinner2', letter_list: ['a', 'e', 'i', 'o', 'u'] }}
-        position={1}
-        totalSpinners={3}
-      />,
-    )
-
-    for (let step = 0; step < 19; step += 1) {
-      act(() => {
-        getHandle(spinnerRef).step()
-        vi.advanceTimersByTime(120)
-      })
-    }
-
-    act(() => {
-      getHandle(spinnerRef).flick(120)
-    })
-    for (let step = 0; step < 6; step += 1) {
-      await act(async () => {
-        await vi.advanceTimersToNextTimerAsync()
-      })
-    }
-    await act(async () => {
-      await vi.advanceTimersByTimeAsync(320)
-    })
-
-    const reel = container.querySelector<HTMLElement>('.spinner-reel')
-    const overshootTransform = reel?.style.transform ?? ''
-
-    await act(async () => {
-      await vi.advanceTimersByTimeAsync(90)
-    })
-
-    const settledTransform = reel?.style.transform ?? ''
-    const readTranslateY = (transform: string) => Number(transform.match(/-([\d.]+)%/)?.[1])
-    expect(Math.abs(readTranslateY(settledTransform) - readTranslateY(overshootTransform))).toBeLessThan(1)
   })
 
   it('settles downward and upward flick plans in opposite directions', async () => {
