@@ -1,7 +1,7 @@
 # M3 — Better Tier
 
 **Status:** Done; physical-device smoke test remains a release-signoff gate  
-**Last updated:** 2026-09-22
+**Last updated:** 2026-09-23
 
 M3 adds manual letter adjustment, no-match feedback, and automatic progression to the next bundled level. It builds on the completed M2 random-spin and reward flow and does not include M4 flick gestures or N-spinner support.
 
@@ -114,6 +114,8 @@ M3 adds manual letter adjustment, no-match feedback, and automatic progression t
 - Leave the current level playable when there is no next level.
 
 **Done when:** The progression pair reaches the next level at exactly the threshold and never loops.
+
+**Verification:** Corrected the bundled Level 2 wheel letters so every declared word passes preflight validation. The App progression test now reaches 7/7, offers the next-level action, and loads Level 2.
 
 ### M3-07 — Verification and sign-off checks
 

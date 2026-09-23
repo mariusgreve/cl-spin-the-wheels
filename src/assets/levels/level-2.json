@@ -4,8 +4,8 @@
   "spinners": [
     { "id": "spinner1", "letter_list": ["b", "c", "l", "m", "p", "s"] },
     { "id": "spinner2", "letter_list": ["a", "e", "i", "o", "u"] },
-    { "id": "spinner3", "letter_list": ["k", "l", "m", "n", "r", "t"] },
-    { "id": "spinner4", "letter_list": ["d", "e", "l", "p", "t"] }
+    { "id": "spinner3", "letter_list": ["k", "l", "m", "n", "o", "r", "t"] },
+    { "id": "spinner4", "letter_list": ["d", "e", "k", "l", "n", "p", "t"] }
   ],
   "word_list": [
     { "word": "ball", "image_asset": "assets/images/ball.png", "audio_asset": "assets/audio/ball.wav" },
