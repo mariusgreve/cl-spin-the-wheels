@@ -1,17 +1,18 @@
 {
   "level_id": "level-3",
   "spinners": [
-    { "id": "spinner1", "letter_list": ["c", "s", "p", "f"] },
-    { "id": "spinner2", "letter_list": ["r", "t", "l"] },
-    { "id": "spinner3", "letter_list": ["a", "o", "r"] },
-    { "id": "spinner4", "letter_list": ["n", "i"] },
+    { "id": "spinner1", "letter_list": ["c", "p", "s", "m"] },
+    { "id": "spinner2", "letter_list": ["r", "l", "t", "m"] },
+    { "id": "spinner3", "letter_list": ["a", "i", "o"] },
+    { "id": "spinner4", "letter_list": ["n", "d", "l"] },
     { "id": "spinner5", "letter_list": ["e", "t", "p", "r"] }
   ],
   "word_list": [
-    { "word": "crane", "image_asset": "assets/images/cat.png", "audio_asset": "assets/audio/cat.wav" },
-    { "word": "stone", "image_asset": "assets/images/hat.png", "audio_asset": "assets/audio/hat.wav" },
-    { "word": "plane", "image_asset": "assets/images/map.png", "audio_asset": "assets/audio/map.wav" },
-    { "word": "flair", "image_asset": "assets/images/pin.png", "audio_asset": "assets/audio/pin.wav" },
-    { "word": "strip", "image_asset": "assets/images/pot.png", "audio_asset": "assets/audio/pot.wav" }
+    { "word": "crane", "image_asset": "assets/images/crane.png", "audio_asset": "assets/audio/crane.wav" },
+    { "word": "plane", "image_asset": "assets/images/plane.png", "audio_asset": "assets/audio/plane.wav" },
+    { "word": "stone", "image_asset": "assets/images/stone.png", "audio_asset": "assets/audio/stone.wav" },
+    { "word": "smile", "image_asset": "assets/images/smile.png", "audio_asset": "assets/audio/smile.wav" },
+    { "word": "slide", "image_asset": "assets/images/slide.png", "audio_asset": "assets/audio/slide.wav" },
+    { "word": "plant", "image_asset": "assets/images/plant.png", "audio_asset": "assets/audio/plant.wav" }
   ]
 }

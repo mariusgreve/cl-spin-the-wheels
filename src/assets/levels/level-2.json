@@ -2,19 +2,19 @@
   "level_id": "level-2",
   "next_level_id": "level-3",
   "spinners": [
-    { "id": "spinner1", "letter_list": ["b", "c", "h", "m", "p", "s"] },
+    { "id": "spinner1", "letter_list": ["b", "c", "l", "m", "p", "s"] },
     { "id": "spinner2", "letter_list": ["a", "e", "i", "o", "u"] },
-    { "id": "spinner3", "letter_list": ["d", "n", "p", "r", "t"] }
+    { "id": "spinner3", "letter_list": ["k", "l", "m", "n", "r", "t"] },
+    { "id": "spinner4", "letter_list": ["d", "e", "l", "p", "t"] }
   ],
   "word_list": [
-    { "word": "bun", "image_asset": "assets/images/bun.png", "audio_asset": "assets/audio/bun.wav" },
-    { "word": "cat", "image_asset": "assets/images/cat.png", "audio_asset": "assets/audio/cat.wav" },
-    { "word": "hat", "image_asset": "assets/images/hat.png", "audio_asset": "assets/audio/hat.wav" },
-    { "word": "hut", "image_asset": "assets/images/hut.png", "audio_asset": "assets/audio/hut.wav" },
-    { "word": "pen", "image_asset": "assets/images/pen.png", "audio_asset": "assets/audio/pen.wav" },
-    { "word": "pet", "image_asset": "assets/images/pet.png", "audio_asset": "assets/audio/pet.wav" },
-    { "word": "pin", "image_asset": "assets/images/pin.png", "audio_asset": "assets/audio/pin.wav" },
-    { "word": "pot", "image_asset": "assets/images/pot.png", "audio_asset": "assets/audio/pot.wav" },
-    { "word": "sun", "image_asset": "assets/images/sun.png", "audio_asset": "assets/audio/sun.wav" }
+    { "word": "ball", "image_asset": "assets/images/ball.png", "audio_asset": "assets/audio/ball.wav" },
+    { "word": "bird", "image_asset": "assets/images/bird.png", "audio_asset": "assets/audio/bird.wav" },
+    { "word": "book", "image_asset": "assets/images/book.png", "audio_asset": "assets/audio/book.wav" },
+    { "word": "cake", "image_asset": "assets/images/cake.png", "audio_asset": "assets/audio/cake.wav" },
+    { "word": "lamp", "image_asset": "assets/images/lamp.png", "audio_asset": "assets/audio/lamp.wav" },
+    { "word": "moon", "image_asset": "assets/images/moon.png", "audio_asset": "assets/audio/moon.wav" },
+    { "word": "milk", "image_asset": "assets/images/milk.png", "audio_asset": "assets/audio/milk.wav" },
+    { "word": "sand", "image_asset": "assets/images/sand.png", "audio_asset": "assets/audio/sand.wav" }
   ]
 }
