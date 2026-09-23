@@ -85,7 +85,7 @@ M4 adds direct flick-to-spin interaction and support for levels with more than t
 
 **Done when:** A valid flick enters `Spinning`, settles on one valid letter, and follows the same resolution path as random and manual interactions.
 
-**Verification:** Pointer down/up events on a spinner produce a targeted animation that settles on a valid letter and triggers the shared `onSettled` callback path; the component regression suite includes the flick interaction check.
+**Verification:** Pointer down/up events on a spinner produce a targeted animation that settles on a valid letter and triggers the shared `onSettled` callback path; the component regression suite includes the flick interaction check. Focused five-vowel regressions confirm the final `320ms` deceleration step completes before the bounce begins and a boundary recenter settles on the same reel copy, preventing an interrupted or cross-strip `a`/`e` transition.
 
 ### M4-05 — Five-spinner match and reward integration
 

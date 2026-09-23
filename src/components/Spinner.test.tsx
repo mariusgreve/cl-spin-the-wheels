@@ -68,7 +68,7 @@ describe('Spinner imperative API', () => {
     expect(screen.getByLabelText('spinner1 letter wheel showing b')).toHaveClass('is-spinning')
 
     await act(async () => {
-      await vi.advanceTimersByTimeAsync(210)
+      await vi.advanceTimersByTimeAsync(400)
       await animation
     })
 
@@ -139,11 +139,88 @@ describe('Spinner imperative API', () => {
     })
 
     await act(async () => {
-      await vi.advanceTimersByTimeAsync(2000)
+      await vi.advanceTimersByTimeAsync(4000)
     })
 
     expect(onSettled).toHaveBeenCalledTimes(1)
     expect(screen.getByLabelText(/spinner1 letter wheel showing [bch]/)).toBeInTheDocument()
+  })
+
+  it('finishes the final vowel step before starting the flick bounce', async () => {
+    vi.useFakeTimers()
+    const spinnerRef = createRef<SpinnerHandle>()
+
+    const { container } = render(
+      <Spinner
+        ref={spinnerRef}
+        definition={{ id: 'spinner2', letter_list: ['a', 'e', 'i', 'o', 'u'] }}
+        position={1}
+        totalSpinners={3}
+      />,
+    )
+
+    act(() => {
+      getHandle(spinnerRef).flick(120)
+    })
+
+    for (let step = 0; step < 6; step += 1) {
+      await act(async () => {
+        await vi.advanceTimersToNextTimerAsync()
+      })
+    }
+
+    const reel = container.querySelector<HTMLElement>('.spinner-reel')
+    expect(reel).toHaveStyle({ transitionDuration: '320ms' })
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(120)
+    })
+
+    expect(reel).toHaveStyle({ transitionDuration: '320ms' })
+  })
+
+  it('settles a recentered flick bounce on the same reel copy', async () => {
+    vi.useFakeTimers()
+    const spinnerRef = createRef<SpinnerHandle>()
+
+    const { container } = render(
+      <Spinner
+        ref={spinnerRef}
+        definition={{ id: 'spinner2', letter_list: ['a', 'e', 'i', 'o', 'u'] }}
+        position={1}
+        totalSpinners={3}
+      />,
+    )
+
+    for (let step = 0; step < 19; step += 1) {
+      act(() => {
+        getHandle(spinnerRef).step()
+        vi.advanceTimersByTime(120)
+      })
+    }
+
+    act(() => {
+      getHandle(spinnerRef).flick(120)
+    })
+    for (let step = 0; step < 6; step += 1) {
+      await act(async () => {
+        await vi.advanceTimersToNextTimerAsync()
+      })
+    }
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(320)
+    })
+
+    const reel = container.querySelector<HTMLElement>('.spinner-reel')
+    const overshootTransform = reel?.style.transform ?? ''
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(90)
+    })
+
+    const settledTransform = reel?.style.transform ?? ''
+    const readTranslateY = (transform: string) => Number(transform.match(/-([\d.]+)%/)?.[1])
+    expect(Math.abs(readTranslateY(settledTransform) - readTranslateY(overshootTransform))).toBeLessThan(1)
   })
 
   it('settles downward and upward flick plans in opposite directions', async () => {
