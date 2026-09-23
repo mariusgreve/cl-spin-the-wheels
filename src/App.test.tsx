@@ -49,7 +49,7 @@ describe('MVP spin flow', () => {
 
     render(<App />)
 
-    expect(screen.getByText('level-1')).toBeInTheDocument()
+    expect(screen.getByText('level 1')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Spin' })).toBeEnabled()
 
     fireEvent.click(screen.getByRole('button', { name: 'Spin' }))
@@ -211,11 +211,11 @@ describe('MVP spin flow', () => {
     }
 
     expect(screen.getByRole('button', { name: 'Go to next level' })).toBeEnabled()
-    expect(screen.getByText('level-1')).toBeInTheDocument()
+    expect(screen.getByText('level 1')).toBeInTheDocument()
 
     fireEvent.click(screen.getByRole('button', { name: 'Go to next level' }))
 
-    expect(screen.getByText('level-2')).toBeInTheDocument()
+    expect(screen.getByText('level 2')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Spin' })).toBeEnabled()
     expect(screen.queryByRole('button', { name: 'Go to next level' })).not.toBeInTheDocument()
   })

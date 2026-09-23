@@ -29,6 +29,10 @@ function assetUrl(assetPath: string): string | null {
   return bundledAssets[relativePath] ?? null
 }
 
+function formatLevelId(levelId: string): string {
+  return levelId.replace(/[\p{Dash_Punctuation}]/gu, ' ')
+}
+
 export function App() {
   const [currentLevelId, setCurrentLevelId] = useState('level-1')
   const levelDefinition = bundledLevels[currentLevelId] ?? levelData
@@ -236,7 +240,7 @@ export function App() {
       <header className="masthead">
         <div className="masthead-top">
           <p className="eyebrow">Spin The Wheels</p>
-          <span className="level-tag">{result.level.level_id}</span>
+          <span className="level-tag">{formatLevelId(result.level.level_id)}</span>
         </div>
         <h1>Make a word</h1>
       </header>
