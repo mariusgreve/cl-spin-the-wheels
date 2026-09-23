@@ -207,7 +207,11 @@ export function App() {
     let previousPath = 0
     const wheelAnimations = pickedWord.letters.map((letter, index) => {
       const path = wheelPaths[index] ?? previousPath
-      const extraSteps = index === 0 ? 0 : Math.max(0, previousPath + 5 - path)
+      const letterCount = result.level!.spinners[index].letter_list.length
+      // Round up to a whole number of loops so the padding never shifts which letter the
+      // timed animation lands on (a partial-loop pad would need a reverse correction at settle).
+      const rawExtraSteps = index === 0 ? 0 : Math.max(0, previousPath + 5 - path)
+      const extraSteps = Math.ceil(rawExtraSteps / letterCount) * letterCount
       previousPath = path + extraSteps
       return spinnerRefs.current[index]?.animateAndSettle(letter, 100, extraSteps)
     })

@@ -31,6 +31,26 @@ describe('Spinner imperative API', () => {
     expect(screen.getByLabelText('spinner1 letter wheel showing h')).toBeInTheDocument()
   })
 
+  it('resets to the first letter when its level definition changes', () => {
+    const spinnerRef = createRef<SpinnerHandle>()
+    const { rerender } = render(<Spinner ref={spinnerRef} definition={definition} position={0} totalSpinners={3} />)
+
+    act(() => {
+      getHandle(spinnerRef).jumpToLetter('h')
+    })
+
+    rerender(
+      <Spinner
+        ref={spinnerRef}
+        definition={{ id: 'spinner1', letter_list: ['s', 'p'] }}
+        position={0}
+        totalSpinners={5}
+      />,
+    )
+
+    expect(screen.getByLabelText('spinner1 letter wheel showing s')).toBeInTheDocument()
+  })
+
   it('animates to a declared letter, settles, and rejects an undeclared letter', async () => {
     vi.useFakeTimers()
     const onSettled = vi.fn()
@@ -124,6 +144,31 @@ describe('Spinner imperative API', () => {
 
     expect(onSettled).toHaveBeenCalledTimes(1)
     expect(screen.getByLabelText(/spinner1 letter wheel showing [bch]/)).toBeInTheDocument()
+  })
+
+  it('settles downward and upward flick plans in opposite directions', async () => {
+    vi.useFakeTimers()
+    const onSettled = vi.fn()
+    const spinnerRef = createRef<SpinnerHandle>()
+
+    render(<Spinner ref={spinnerRef} definition={definition} position={0} totalSpinners={3} onSettled={onSettled} />)
+
+    act(() => {
+      getHandle(spinnerRef).flick(-1_000)
+    })
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(5_000)
+    })
+    expect(screen.getByLabelText('spinner1 letter wheel showing c')).toBeInTheDocument()
+
+    act(() => {
+      getHandle(spinnerRef).flick(1_000)
+    })
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(5_000)
+    })
+    expect(screen.getByLabelText('spinner1 letter wheel showing b')).toBeInTheDocument()
+    expect(onSettled).toHaveBeenCalledTimes(2)
   })
 
   it('interrupts an in-flight settle when a new spin target starts', async () => {

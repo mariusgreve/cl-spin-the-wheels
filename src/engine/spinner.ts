@@ -6,17 +6,22 @@ export type SpinnerState = SpinnerDefinition & {
 
 export type FlickSpinPlan = {
   velocity: number
+  direction: 1 | -1
   targetIndex: number
+  loops: number
   totalSteps: number
   stepDurationMs: number
   totalDurationMs: number
   letter: string
 }
 
-const MIN_FLICK_VELOCITY = 120
-const MAX_FLICK_VELOCITY = 2000
+// Velocity is release speed in pixels/second; below this a drag snaps instead of flicking.
+export const MIN_FLICK_VELOCITY = 120
+const MAX_FLICK_VELOCITY = 2500
+const MAX_STEP_DURATION_MS = 130
 const MIN_STEP_DURATION_MS = 70
-const MAX_STEP_DURATION_MS = 160
+const MIN_FLICK_LOOPS = 1
+const MAX_FLICK_LOOPS = 9
 
 export function createSpinnerState(definition: SpinnerDefinition): SpinnerState {
   return {
@@ -46,21 +51,29 @@ export function planFlickSpin(spinner: SpinnerState, velocity: number): FlickSpi
     throw new Error(`Spinner "${spinner.id}" has no letters to spin.`)
   }
 
-  const safeVelocity = Number.isFinite(velocity)
-    ? Math.min(Math.max(velocity, MIN_FLICK_VELOCITY), MAX_FLICK_VELOCITY)
-    : MIN_FLICK_VELOCITY
+  const direction: 1 | -1 = velocity < 0 ? -1 : 1
+  const speed = Number.isFinite(velocity) ? Math.abs(velocity) : MIN_FLICK_VELOCITY
+  const safeVelocity = Math.min(Math.max(speed, MIN_FLICK_VELOCITY), MAX_FLICK_VELOCITY)
 
   const normalizedVelocity = (safeVelocity - MIN_FLICK_VELOCITY) / (MAX_FLICK_VELOCITY - MIN_FLICK_VELOCITY)
-  const extraDistance = Math.max(1, Math.round(2 + normalizedVelocity * (letterCount + 2)))
-  const targetIndex = (spinner.currentIndex + extraDistance) % letterCount
+  const loops = Math.round(MIN_FLICK_LOOPS + normalizedVelocity * (MAX_FLICK_LOOPS - MIN_FLICK_LOOPS))
+  // Clamped below letterCount so a max-velocity flick never wraps a full circle back onto the
+  // starting letter (which would look like the flick did nothing).
+  const extraDistance = letterCount <= 1
+    ? 1
+    : Math.min(letterCount - 1, Math.max(1, Math.round(1 + normalizedVelocity * (letterCount - 1))))
+  const targetIndex = (spinner.currentIndex + direction * extraDistance + letterCount) % letterCount
+  const totalSteps = loops * letterCount + extraDistance
+  // Step speed and spin distance both scale with velocity so a hard flick looks faster, not just longer.
   const stepDurationMs = Math.round(MAX_STEP_DURATION_MS - normalizedVelocity * (MAX_STEP_DURATION_MS - MIN_STEP_DURATION_MS))
-  const totalSteps = Math.max(5, Math.round(4 + extraDistance + normalizedVelocity * 10))
   const totalDurationMs = totalSteps * stepDurationMs
   const letter = spinner.letter_list[targetIndex]
 
   return {
-    velocity: safeVelocity,
+    velocity: direction * safeVelocity,
+    direction,
     targetIndex,
+    loops,
     totalSteps,
     stepDurationMs,
     totalDurationMs,
