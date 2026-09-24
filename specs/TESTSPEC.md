@@ -160,6 +160,15 @@ The browser acceptance suite passes as of 2026-09-24:
 - Physical-device smoke testing remains outstanding and prevents formal release
 	sign-off.
 
+## 5.7 Current M5-06 Verification Snapshot
+
+The physical-device smoke test remains blocked because no mobile handset or physical browser hardware was available in this verification environment.
+
+- Result: Blocked (external hardware not available)
+- Device/browser: not tested on real hardware; no handset model, browser, or orientation was captured
+- Date: 2026-09-24
+- Release impact: no formal release sign-off claim is made until the required on-device smoke protocol completes
+
 ## 6. Test-to-Fixture Traceability
 
 | Test ID | Fixture(s) used |

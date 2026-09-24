@@ -1,6 +1,6 @@
 # M5 — Completion and Release Sign-off
 
-**Status:** In progress; M5-01 through M5-04 are complete, but release sign-off remains open
+**Status:** In progress; M5-01 through M5-05 are complete, M5-06 is blocked by the unavailable physical-device smoke test, and M5-07 remains pending
 **Last updated:** 2026-09-24
 
 M5 closes the remaining implementation, verification, and documentation gaps identified after the M4 Great-tier audit. It does not add a new gameplay tier. It makes the existing Great behavior faithful to its planner contract, completes browser acceptance coverage, reconciles fixture evidence, and records the physical-device smoke result required for release.
@@ -28,6 +28,10 @@ M5 is complete only when the implementation, automated checks, browser E2E check
 | M5-05 | Configure and pass browser E2E acceptance tests | M5-04 | Done | `pnpm test:e2e` runs the required mobile-viewport E2E scenarios and records results for E2E-1 through E2E-5 |
 | M5-06 | Perform physical-device mobile smoke testing | M5-05 | Blocked | At least one physical mobile browser completes the TESTSPEC smoke protocol, or the task records a concrete external blocker |
 | M5-07 | Reconcile specifications and record release evidence | M5-01, M5-04, M5-05, M5-06 | Not started | README, task index, specs, and this milestone agree on implementation and sign-off status |
+
+### External blocker record for M5-06
+
+No physical mobile device or mobile browser hardware was available during the current verification window. The required smoke protocol in TESTSPEC Section 4 was therefore not executed on real handset hardware, and the app is not marked as release-signed-off because the gate remains incomplete.
 
 ## Task details
 
@@ -103,6 +107,8 @@ M5 is complete only when the implementation, automated checks, browser E2E check
 - Confirm the three-spinner middle wheel remains vowel-only and the layout has no overflow or overlapping controls.
 - Record device, browser, viewport/orientation, date, and result. If hardware is unavailable, record the blocker and leave release sign-off open.
 
+**Blocked by:** No physical mobile device or handset browser was available in this environment during verification, so the real-device smoke protocol could not be executed. The release gate remains open until a human performs the hardware check on a real phone or tablet.
+
 **Done when:** The physical smoke protocol passes, or an explicit external blocker is recorded without claiming release completion.
 
 ### M5-07 — Documentation reconciliation and release evidence
@@ -134,5 +140,5 @@ M5-01 can proceed independently. M5-02 and M5-03 are the implementation fixes; M
 - [x] Cancelled pointer gestures restore a stable settled visual state.
 - [x] Automated regression coverage passes.
 - [x] `pnpm test:e2e` is configured and passes, or its external blocker is explicitly recorded.
-- [ ] Physical-device smoke testing passes, or its external blocker is explicitly recorded.
+- [x] Physical-device smoke testing passes, or its external blocker is explicitly recorded.
 - [ ] Documentation distinguishes feature completion from formal release sign-off.
