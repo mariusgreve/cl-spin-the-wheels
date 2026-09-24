@@ -23,6 +23,7 @@ The M0 implementation scaffold and loader tests are present. Keep future source 
 | [docs/SETUP.md](docs/SETUP.md) | What is the manual setup and troubleshooting path? | Onboarding |
 | [docs/CONTENT_PIPELINE.md](docs/CONTENT_PIPELINE.md) | How do levels and media become bundled content? | Setup |
 | [docs/tasks/M4-GREAT.md](docs/tasks/M4-GREAT.md) | What Great-tier work is complete and what remains for release sign-off? | Relevant milestone |
+| [docs/tasks/M5-COMPLETION.md](docs/tasks/M5-COMPLETION.md) | What remains to make the project fully complete and release-signed-off? | Current completion milestone |
 | [specs/README.md](specs/README.md) | How do the living specifications relate? | This page |
 | [docs/AI_AGENT_PLAYBOOK.md](docs/AI_AGENT_PLAYBOOK.md) | How should humans and coding agents collaborate? | This page |
 | [docs/DECISIONS.md](docs/DECISIONS.md) | Why were important project constraints chosen? | Relevant spec |
@@ -46,6 +47,6 @@ Agents should read `AGENTS.md`, this README, the specs index, and only the opera
 
 ## Current status
 
-The M3 Better implementation is complete, and the Great-tier five-spinner reward flow is now verified. The app boots with bundled levels, blocks gameplay with visible validation errors when level data is invalid, supports animated random spins, manual letter stepping, and flick-to-spin interaction, shows no-match feedback, progresses after 50% distinct-word completion, and preserves the image/audio reward loop at both three-spinner and five-spinner levels. Automated checks pass (`pnpm test`, `pnpm lint`, `pnpm typecheck`, and `pnpm build`); browser checks pass at a 390x844 viewport. Physical-device smoke testing remains a release-signoff gate because no physical mobile device/browser was available.
+The M3 Better implementation and M4 Great gameplay are complete. The app boots with bundled levels, blocks gameplay with visible validation errors when level data is invalid, supports animated random spins, manual letter stepping, and flick-to-spin interaction, shows no-match feedback, progresses after 50% distinct-word completion, and preserves the image/audio reward loop at both three-spinner and five-spinner levels. Automated checks pass (`pnpm test`, `pnpm lint`, `pnpm typecheck`, and `pnpm build`); available browser checks pass at a 390x844 viewport. M5 tracks the remaining completion work: hardening the flick planner/component boundary, reconciling fixture evidence, configuring `pnpm test:e2e`, and performing physical-device smoke testing. Formal release sign-off remains open.
 
 Formal release sign-off still requires the physical-device smoke check and a configured browser E2E runner listed in [TESTSPEC.md](specs/TESTSPEC.md). No additional M4 gameplay work is pending.
