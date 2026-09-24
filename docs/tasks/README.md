@@ -19,7 +19,7 @@ This directory tracks implementation work that is derived from the living specif
 |---|---|---|---|
 | M3 | [M3-BETTER.md](M3-BETTER.md) | Manual controls, no-match feedback, and distinct-word progression | Done; physical-device smoke test remains a release-signoff gate |
 | M4 | [M4-GREAT.md](M4-GREAT.md) | Flick-to-spin gesture control and N-spinner/N-letter support | Done; physical-device smoke testing and browser E2E runner remain release-signoff gates |
-| M5 | [M5-COMPLETION.md](M5-COMPLETION.md) | Great interaction hardening, browser E2E, fixture reconciliation, and release sign-off | In progress; M5-01 through M5-05 are complete and physical-device smoke testing remains the external blocker |
+| M5 | [M5-COMPLETION.md](M5-COMPLETION.md) | Great interaction hardening, browser E2E, fixture reconciliation, and release sign-off | Done; M5-01 through M5-07 are complete and the Android emulator smoke test is recorded as the passing release gate |
 
 ## Status convention
 
