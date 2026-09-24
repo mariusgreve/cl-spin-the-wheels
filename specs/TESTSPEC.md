@@ -1,6 +1,6 @@
 # TESTSPEC — Spin The Wheels
 
-**Status:** M4 Great automated and available browser verification complete; M5-01 through M5-04 implementation verification is recorded, and the release-signoff gate remains physical-device smoke testing plus browser E2E
+**Status:** M5-05 browser E2E verification complete; physical-device smoke testing remains the release-signoff gate
 **Version:** 0.6.2
 **Last Updated:** 2026-09-24
 **References:** DEVSPEC.md (module behavior), UISPEC.md (states/screens) — this document does not redefine behavior, only verifies it.
@@ -119,8 +119,7 @@ The Great-tier implementation passes the available automated and browser checks 
 - `pnpm lint` — passed.
 - `pnpm build` — passed.
 - Browser smoke check — passed at a 390x844 viewport: a real Pointer Event flick settled on a valid letter, returned to `Idle`, rendered the no-match placeholder/media, and produced no horizontal overflow.
-- `E2E-5` browser execution was skipped because the five-spinner fixture is injected by the App integration test and is not bundled into the browser app; the equivalent five-spinner App test passed.
-- `pnpm test:e2e` was unavailable because no script or browser E2E runner is configured. Physical-device smoke testing was also skipped because no physical mobile device/browser was available; both remain release-signoff gates.
+- The browser E2E runner is recorded in the M5-05 verification snapshot below; physical-device smoke testing remains the release-signoff gate.
 
 ## 5.3 Current M5-02 Verification Snapshot
 
@@ -135,7 +134,7 @@ M5-03 gesture recovery passes as of 2026-09-24:
 
 - `pnpm test -- src/components/Spinner.test.tsx` — passed with 55 tests across 6 files, including pointer-cancel visual restoration, next-gesture restart from the settled position, and interrupted imperative settlement.
 - Pointer cancellation restores the settled reel transform and displayed index, clears drag state without resolving a word, and releases pointer capture when available.
-- M5-05 through M5-07 remain open; browser E2E and physical-device smoke testing remain release-signoff gates.
+- M5-06 and M5-07 remain open; physical-device smoke testing remains the release-signoff gate.
 
 ## 5.5 Current M5-04 Verification Snapshot
 
@@ -146,7 +145,20 @@ M5-04 Great interaction coverage passes as of 2026-09-24:
 - `pnpm typecheck` — passed.
 - `pnpm build` — passed.
 - Component regression coverage includes high/low-velocity flick timing, reverse-direction animation, pointer-cancel restoration, shared match/no-match settlement, five-spinner reward flow, and the retained three-spinner vowel/audio-overlap protections.
-- M5-05 through M5-07 remain open; browser E2E and physical-device smoke testing remain release-signoff gates.
+- M5-06 and M5-07 remain open; physical-device smoke testing remains the release-signoff gate.
+
+## 5.6 Current M5-05 Verification Snapshot
+
+The browser acceptance suite passes as of 2026-09-24:
+
+- `pnpm test:e2e` — 5 Playwright tests passed at a 390x844 mobile viewport.
+- E2E-1 through E2E-5 passed, covering random reward media, no-match feedback,
+	progression, bidirectional pointer flick settlement, and the five-spinner
+	Great-tier reward cycle.
+- The runner starts the local Vite server on `127.0.0.1:4173` and loads all
+	level and media content from the bundled app assets.
+- Physical-device smoke testing remains outstanding and prevents formal release
+	sign-off.
 
 ## 6. Test-to-Fixture Traceability
 
@@ -158,7 +170,8 @@ M5-04 Great interaction coverage passes as of 2026-09-24:
 | LL-4 | `fixture_missing_media.json` |
 | PR-1..4, E2E-3 | `fixture_progression_pair.json`, `fixture_progression_next.json` |
 | FL-1, FL-2, E2E-4 | `fixture_valid_3spinner.json` (gesture simulated at two velocities) |
-| NL-1, NL-2, E2E-5 | `fixture_5spinner_great.json` |
+| NL-1, NL-2 | `fixture_5spinner_great.json` |
+| E2E-5 | `src/assets/levels/fixture-5spinner-great.json` |
 
 ---
 
@@ -177,3 +190,4 @@ M5-04 Great interaction coverage passes as of 2026-09-24:
 2026-09-24 — GitHub Copilot — Added the missing invalid-level and progression fixture files and recorded the M5-01 traceability evidence in the repo.
 2026-09-24 — GitHub Copilot — Recorded M5-02 component evidence for planner loop-count and direction wiring, including velocity-dependent duration and reverse flick movement.
 2026-09-24 — GitHub Copilot — Recorded M5-03 pointer-cancellation recovery evidence, including settled visual restoration and follow-up gesture behavior.
+2026-09-24 — GitHub Copilot — Added the Playwright mobile E2E runner, passed E2E-1 through E2E-5, and recorded M5-05 browser verification evidence; physical-device smoke testing remains open.

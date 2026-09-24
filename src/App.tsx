@@ -37,18 +37,33 @@ export type AppProps = {
   initialLevelId?: string
 }
 
-export function App({ levels = bundledLevels, initialLevelId = 'level-1' }: AppProps = {}) {
+function getInitialLevelId(initialLevelId?: string): string {
+  if (initialLevelId) {
+    return initialLevelId
+  }
+
+  if (typeof window === 'undefined') {
+    return 'level-1'
+  }
+
+  const params = new URLSearchParams(window.location.search)
+  return params.get('level') ?? 'level-1'
+}
+
+export function App({ levels = bundledLevels, initialLevelId }: AppProps = {}) {
+  const resolvedInitialLevelId = getInitialLevelId(initialLevelId)
+
   const levelResult = useMemo(
     () => loadLevelCollection(levels, {
       assetExists: (assetPath) => assetUrl(assetPath) !== null,
     }),
     [levels],
   )
-  const [currentLevelId, setCurrentLevelId] = useState(initialLevelId)
+  const [currentLevelId, setCurrentLevelId] = useState(resolvedInitialLevelId)
 
   useEffect(() => {
-    setCurrentLevelId(initialLevelId)
-  }, [initialLevelId])
+    setCurrentLevelId(resolvedInitialLevelId)
+  }, [resolvedInitialLevelId])
 
   const currentLevel = levelResult.levels?.[currentLevelId] ?? null
   const validationErrors = currentLevel
