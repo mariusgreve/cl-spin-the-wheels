@@ -1,6 +1,6 @@
 # M5 — Completion and Release Sign-off
 
-**Status:** Not started; M4 gameplay is implementation-complete, but release sign-off remains open
+**Status:** In progress; M5-01 fixture evidence is reconciled, but release sign-off remains open
 **Last updated:** 2026-09-24
 
 M5 closes the remaining implementation, verification, and documentation gaps identified after the M4 Great-tier audit. It does not add a new gameplay tier. It makes the existing Great behavior faithful to its planner contract, completes browser acceptance coverage, reconciles fixture evidence, and records the physical-device smoke result required for release.
@@ -21,7 +21,7 @@ M5 is complete only when the implementation, automated checks, browser E2E check
 
 | ID | Task | Depends on | Status | Focused verification |
 |---|---|---|---|---|
-| M5-01 | Reconcile release scope and fixture evidence | None | Not started | Every TESTSPEC fixture is either present and used, or the spec records the actual inline-fixture strategy |
+| M5-01 | Reconcile release scope and fixture evidence | None | Done | Every TESTSPEC fixture is either present and used, or the spec records the actual inline-fixture strategy |
 | M5-02 | Wire the complete flick plan into animation | None | Not started | Component tests prove velocity-dependent duration and both flick directions reach the planned valid letter |
 | M5-03 | Recover cancelled and interrupted pointer gestures | M5-02 | Not started | Pointer-cancel and interrupted-drag tests prove the reel returns to a stable displayed letter without a visible stale preview |
 | M5-04 | Add regression coverage for Great interaction behavior | M5-02, M5-03 | Not started | Focused tests cover planner-to-component wiring, cancellation, bounds, and shared match/no-match settlement |

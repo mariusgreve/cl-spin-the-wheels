@@ -1,0 +1,14 @@
+{
+  "level_id": "fixture-progression-next",
+  "spinners": [
+    { "id": "spinner1", "letter_list": ["b", "c", "h", "m", "p", "s"] },
+    { "id": "spinner2", "letter_list": ["a", "e", "i", "o", "u"] },
+    { "id": "spinner3", "letter_list": ["d", "n", "p", "r", "t"] }
+  ],
+  "word_list": [
+    { "word": "bun", "image_asset": "assets/images/bun.png", "audio_asset": "assets/audio/bun.wav" },
+    { "word": "mop", "image_asset": "assets/images/mop.png", "audio_asset": "assets/audio/mop.wav" },
+    { "word": "pet", "image_asset": "assets/images/pet.png", "audio_asset": "assets/audio/pet.wav" },
+    { "word": "sun", "image_asset": "assets/images/sun.png", "audio_asset": "assets/audio/sun.wav" }
+  ]
+}

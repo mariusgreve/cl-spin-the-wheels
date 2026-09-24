@@ -1,0 +1,11 @@
+{
+  "level_id": "fixture-missing-media",
+  "spinners": [
+    { "id": "spinner1", "letter_list": ["c", "h", "p"] },
+    { "id": "spinner2", "letter_list": ["a", "i", "o"] },
+    { "id": "spinner3", "letter_list": ["t", "n", "p"] }
+  ],
+  "word_list": [
+    { "word": "cat", "image_asset": "assets/images/missing.png", "audio_asset": "assets/audio/missing.wav" }
+  ]
+}

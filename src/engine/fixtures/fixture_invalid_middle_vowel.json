@@ -1,0 +1,13 @@
+{
+  "level_id": "fixture-invalid-middle-vowel",
+  "spinners": [
+    { "id": "spinner1", "letter_list": ["c", "h", "p"] },
+    { "id": "spinner2", "letter_list": ["x", "a", "o"] },
+    { "id": "spinner3", "letter_list": ["t", "n", "p"] }
+  ],
+  "word_list": [
+    { "word": "cat", "image_asset": "assets/images/cat.png", "audio_asset": "assets/audio/cat.wav" },
+    { "word": "hat", "image_asset": "assets/images/hat.png", "audio_asset": "assets/audio/hat.wav" },
+    { "word": "hop", "image_asset": "assets/images/hop.png", "audio_asset": "assets/audio/hop.wav" }
+  ]
+}

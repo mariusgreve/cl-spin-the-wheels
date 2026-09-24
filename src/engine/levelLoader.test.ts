@@ -1,4 +1,9 @@
 import { describe, expect, it } from 'vitest'
+import invalidMiddleVowelData from './fixtures/fixture_invalid_middle_vowel.json'
+import invalidUnspellableWordData from './fixtures/fixture_invalid_unspellable_word.json'
+import missingMediaData from './fixtures/fixture_missing_media.json'
+import progressionPairData from './fixtures/fixture_progression_pair.json'
+import progressionNextData from './fixtures/fixture_progression_next.json'
 import levelData from './fixtures/fixture_valid_3spinner.json'
 import greatLevelData from './fixtures/fixture_5spinner_great.json'
 import { loadLevel, loadLevelCollection } from './levelLoader'
@@ -43,6 +48,23 @@ describe('loadLevel', () => {
 
     expect(result.errors).toEqual([])
     expect(result.level?.next_level_id).toBe('fixture-valid-3spinner-next')
+  })
+
+  it('loads the invalid-level fixture set named by TESTSPEC', () => {
+    expect(loadLevel(invalidMiddleVowelData, { assetExists: () => true }).level).toBeNull()
+    expect(loadLevel(invalidMiddleVowelData, { assetExists: () => true }).errors).toContain(
+      'The middle spinner of a 3-spinner level must contain vowels only.',
+    )
+
+    expect(loadLevel(invalidUnspellableWordData, { assetExists: () => true }).level).toBeNull()
+    expect(loadLevel(invalidUnspellableWordData, { assetExists: () => true }).errors).toContain(
+      'Word "bog" cannot be spelled by the declared spinners.',
+    )
+
+    expect(loadLevel(missingMediaData, { assetExists: () => false }).level).toBeNull()
+    expect(loadLevel(missingMediaData, { assetExists: () => false }).errors).toContain(
+      'Missing image asset: assets/images/missing.png',
+    )
   })
 
   it('rejects a consonant in the middle spinner of a 3-spinner level', () => {
@@ -102,6 +124,18 @@ describe('loadLevelCollection', () => {
 
     expect(result.errors).toEqual([])
     expect(result.levels && Object.keys(result.levels)).toEqual(['level-1', 'level-2'])
+  })
+
+  it('loads the progression fixtures named by TESTSPEC and preserves the next-level link', () => {
+    const result = loadLevelCollection({
+      'fixture-progression-pair': progressionPairData,
+      'fixture-progression-next': progressionNextData,
+    }, {
+      assetExists: (path) => path.startsWith('assets/'),
+    })
+
+    expect(result.errors).toEqual([])
+    expect(result.levels?.['fixture-progression-pair']?.next_level_id).toBe('fixture-progression-next')
   })
 
   it('rejects the collection when a later level is invalid', () => {

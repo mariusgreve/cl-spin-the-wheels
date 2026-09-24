@@ -1,0 +1,11 @@
+{
+  "level_id": "fixture-invalid-unspellable-word",
+  "spinners": [
+    { "id": "spinner1", "letter_list": ["b", "c", "m"] },
+    { "id": "spinner2", "letter_list": ["a", "e", "i"] },
+    { "id": "spinner3", "letter_list": ["n", "p", "t"] }
+  ],
+  "word_list": [
+    { "word": "bog", "image_asset": "assets/images/bun.png", "audio_asset": "assets/audio/bun.wav" }
+  ]
+}

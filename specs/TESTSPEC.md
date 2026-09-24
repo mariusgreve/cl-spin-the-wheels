@@ -1,13 +1,15 @@
 # TESTSPEC — Spin The Wheels
 
-**Status:** M4 Great automated and available browser verification complete; physical-device smoke test remains a release-signoff gate
-**Version:** 0.6.1
+**Status:** M4 Great automated and available browser verification complete; M5-01 fixture traceability is recorded, and the release-signoff gate remains physical-device smoke testing plus browser E2E
+**Version:** 0.6.2
 **Last Updated:** 2026-09-24
 **References:** DEVSPEC.md (module behavior), UISPEC.md (states/screens) — this document does not redefine behavior, only verifies it.
 
 ## 1. Fixtures
 
 ### 1.1 Level Fixtures (JSON)
+
+All level fixtures live under `src/engine/fixtures/` and are intentionally local to the app test bundle.
 
 - `fixture_valid_3spinner.json` — 3 spinners, middle spinner vowels-only, word list of 6 three-letter words (e.g., cat, hat, cot, cut, hit, hut), each with a valid image/audio asset reference.
 - `fixture_invalid_middle_vowel.json` — 3 spinners where the middle spinner's `letter_list` includes a consonant. Expected: Level Loader rejects with a validation error.
@@ -146,3 +148,4 @@ The Great-tier implementation passes the available automated and browser checks 
 2026-09-22 — GitHub Copilot — Recorded the MVP/M2 automated verification snapshot and clarified the remaining browser, manual smoke, and audio-overlap regression gates.
 2026-09-22 — GitHub Copilot — Recorded M3 Better automated and 390x844 browser verification, updated the affected test coverage snapshot, and documented the skipped physical-device smoke test as a release-signoff gate.
 2026-09-23 — GitHub Copilot — Added collection-level startup coverage for invalid later levels, mismatched identifiers, and unresolved progression links.
+2026-09-24 — GitHub Copilot — Added the missing invalid-level and progression fixture files and recorded the M5-01 traceability evidence in the repo.
