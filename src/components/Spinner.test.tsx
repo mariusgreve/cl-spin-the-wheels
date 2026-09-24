@@ -276,6 +276,65 @@ describe('Spinner imperative API', () => {
     expect(onSettled).toHaveBeenCalledTimes(2)
   })
 
+  it('uses flick velocity for animation duration and direction', async () => {
+    vi.useFakeTimers()
+    const spinnerRef = createRef<SpinnerHandle>()
+    const onSettled = vi.fn()
+
+    render(<Spinner ref={spinnerRef} definition={definition} position={0} totalSpinners={3} onSettled={onSettled} />)
+
+    const reel = document.querySelector('.spinner-reel')
+    if (reel === null) {
+      throw new Error('Spinner reel was not rendered')
+    }
+    const startingPosition = getReelPosition(reel, definition.letter_list.length)
+
+    act(() => {
+      getHandle(spinnerRef).flick(-600)
+    })
+    act(() => {
+      vi.advanceTimersByTime(130)
+    })
+    expect(getReelPosition(reel, definition.letter_list.length)).toBeCloseTo(startingPosition - 1)
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(5_000)
+    })
+    expect(onSettled).toHaveBeenCalledTimes(1)
+
+    cleanup()
+    onSettled.mockClear()
+    const lowVelocityRef = createRef<SpinnerHandle>()
+    let lowVelocityElapsed = 0
+    render(<Spinner ref={lowVelocityRef} definition={definition} position={0} totalSpinners={3} onSettled={onSettled} />)
+    act(() => {
+      getHandle(lowVelocityRef).flick(150)
+    })
+    while (onSettled.mock.calls.length === 0) {
+      await act(async () => {
+        await vi.advanceTimersByTimeAsync(10)
+      })
+      lowVelocityElapsed += 10
+    }
+
+    cleanup()
+    onSettled.mockClear()
+    const highVelocityRef = createRef<SpinnerHandle>()
+    let highVelocityElapsed = 0
+    render(<Spinner ref={highVelocityRef} definition={definition} position={0} totalSpinners={3} onSettled={onSettled} />)
+    act(() => {
+      getHandle(highVelocityRef).flick(1_800)
+    })
+    while (onSettled.mock.calls.length === 0) {
+      await act(async () => {
+        await vi.advanceTimersByTimeAsync(10)
+      })
+      highVelocityElapsed += 10
+    }
+
+    expect(highVelocityElapsed).toBeGreaterThan(lowVelocityElapsed)
+  })
+
   it('turns a pointer flick into one targeted settlement', async () => {
     vi.useFakeTimers()
     const onSettled = vi.fn()

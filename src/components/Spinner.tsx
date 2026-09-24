@@ -163,7 +163,7 @@ export const Spinner = forwardRef<SpinnerHandle, SpinnerProps>(function Spinner(
     return current + remainder
   }
 
-  const animateAndSettle = (letter: string, stepDuration = 100, extraSteps = 0, minLoops = 2, direction: 1 | -1 = 1) => {
+  const animateAndSettle = (letter: string, stepDuration = 100, extraSteps = 0, loops = 2, direction: 1 | -1 = 1) => {
     validateLetter(letter)
 
     if (intervalRef.current !== null) {
@@ -182,7 +182,7 @@ export const Spinner = forwardRef<SpinnerHandle, SpinnerProps>(function Spinner(
     const distanceToTarget = direction === 1
       ? (targetIndex - currentLetterIndex + letterCount) % letterCount
       : (currentLetterIndex - targetIndex + letterCount) % letterCount
-    const totalSteps = letterCount * minLoops + distanceToTarget + extraSteps
+    const totalSteps = letterCount * loops + distanceToTarget + extraSteps
     recenterIfNeeded(letterCount, direction, totalSteps)
     reelPositionRef.current = Math.round(reelPositionRef.current)
     let completedSteps = 0

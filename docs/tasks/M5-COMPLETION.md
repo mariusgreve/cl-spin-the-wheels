@@ -1,6 +1,6 @@
 # M5 — Completion and Release Sign-off
 
-**Status:** In progress; M5-01 fixture evidence is reconciled, but release sign-off remains open
+**Status:** In progress; M5-01 and M5-02 are complete, but release sign-off remains open
 **Last updated:** 2026-09-24
 
 M5 closes the remaining implementation, verification, and documentation gaps identified after the M4 Great-tier audit. It does not add a new gameplay tier. It makes the existing Great behavior faithful to its planner contract, completes browser acceptance coverage, reconciles fixture evidence, and records the physical-device smoke result required for release.
@@ -22,7 +22,7 @@ M5 is complete only when the implementation, automated checks, browser E2E check
 | ID | Task | Depends on | Status | Focused verification |
 |---|---|---|---|---|
 | M5-01 | Reconcile release scope and fixture evidence | None | Done | Every TESTSPEC fixture is either present and used, or the spec records the actual inline-fixture strategy |
-| M5-02 | Wire the complete flick plan into animation | None | Not started | Component tests prove velocity-dependent duration and both flick directions reach the planned valid letter |
+| M5-02 | Wire the complete flick plan into animation | None | Done | Component tests prove velocity-dependent duration and both flick directions reach the planned valid letter |
 | M5-03 | Recover cancelled and interrupted pointer gestures | M5-02 | Not started | Pointer-cancel and interrupted-drag tests prove the reel returns to a stable displayed letter without a visible stale preview |
 | M5-04 | Add regression coverage for Great interaction behavior | M5-02, M5-03 | Not started | Focused tests cover planner-to-component wiring, cancellation, bounds, and shared match/no-match settlement |
 | M5-05 | Configure and pass browser E2E acceptance tests | M5-04 | Not started | `pnpm test:e2e` runs the required mobile-viewport E2E scenarios and records results for E2E-1 through E2E-5 |
@@ -52,6 +52,8 @@ M5 is complete only when the implementation, automated checks, browser E2E check
 - Keep all settlements aligned to valid discrete letters and within the rendered reel runway.
 
 **Done when:** The component consumes `loops` and `direction` as real animation inputs, and focused tests fail if either is ignored.
+
+**Verification (2026-09-24):** `Spinner` passes the planner's loop count and direction into the imperative animation path. Component coverage now observes reverse reel movement after the first planned step and measures a longer high-velocity animation than a low-velocity animation. `pnpm test -- src/components/Spinner.test.tsx` passed with 55 tests across 6 files.
 
 ### M5-03 — Recover cancelled and interrupted pointer gestures
 
@@ -124,7 +126,7 @@ M5-01 can proceed independently. M5-02 and M5-03 are the implementation fixes; M
 ## Milestone completion checklist
 
 - [ ] M5-01 through M5-07 have truthful statuses and evidence.
-- [ ] Flick loop count and direction are honored by the rendered animation.
+- [x] Flick loop count and direction are honored by the rendered animation.
 - [ ] Cancelled pointer gestures restore a stable settled visual state.
 - [ ] Automated regression coverage passes.
 - [ ] `pnpm test:e2e` is configured and passes, or its external blocker is explicitly recorded.

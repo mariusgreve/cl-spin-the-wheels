@@ -122,6 +122,13 @@ The Great-tier implementation passes the available automated and browser checks 
 - `E2E-5` browser execution was skipped because the five-spinner fixture is injected by the App integration test and is not bundled into the browser app; the equivalent five-spinner App test passed.
 - `pnpm test:e2e` was unavailable because no script or browser E2E runner is configured. Physical-device smoke testing was also skipped because no physical mobile device/browser was available; both remain release-signoff gates.
 
+## 5.3 Current M5-02 Verification Snapshot
+
+M5-02 component coverage passes as of 2026-09-24:
+
+- `pnpm test -- src/components/Spinner.test.tsx` — passed with 55 tests across 6 files, including velocity-dependent duration and reverse-direction animation coverage.
+- The component forwards the planner's loop count and direction into the rendered animation; M5-03 through M5-07 remain open.
+
 ## 6. Test-to-Fixture Traceability
 
 | Test ID | Fixture(s) used |
@@ -149,3 +156,4 @@ The Great-tier implementation passes the available automated and browser checks 
 2026-09-22 — GitHub Copilot — Recorded M3 Better automated and 390x844 browser verification, updated the affected test coverage snapshot, and documented the skipped physical-device smoke test as a release-signoff gate.
 2026-09-23 — GitHub Copilot — Added collection-level startup coverage for invalid later levels, mismatched identifiers, and unresolved progression links.
 2026-09-24 — GitHub Copilot — Added the missing invalid-level and progression fixture files and recorded the M5-01 traceability evidence in the repo.
+2026-09-24 — GitHub Copilot — Recorded M5-02 component evidence for planner loop-count and direction wiring, including velocity-dependent duration and reverse flick movement.
