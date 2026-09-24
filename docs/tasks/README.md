@@ -19,7 +19,7 @@ This directory tracks implementation work that is derived from the living specif
 |---|---|---|---|
 | M3 | [M3-BETTER.md](M3-BETTER.md) | Manual controls, no-match feedback, and distinct-word progression | Done; physical-device smoke test remains a release-signoff gate |
 | M4 | [M4-GREAT.md](M4-GREAT.md) | Flick-to-spin gesture control and N-spinner/N-letter support | Done; physical-device smoke testing and browser E2E runner remain release-signoff gates |
-| M5 | [M5-COMPLETION.md](M5-COMPLETION.md) | Great interaction hardening, browser E2E, fixture reconciliation, and release sign-off | In progress; M5-01 through M5-03 are complete |
+| M5 | [M5-COMPLETION.md](M5-COMPLETION.md) | Great interaction hardening, browser E2E, fixture reconciliation, and release sign-off | In progress; M5-01 through M5-04 are complete |
 
 ## Status convention
 

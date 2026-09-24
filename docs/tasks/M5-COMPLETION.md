@@ -1,6 +1,6 @@
 # M5 — Completion and Release Sign-off
 
-**Status:** In progress; M5-01 through M5-03 are complete, but release sign-off remains open
+**Status:** In progress; M5-01 through M5-04 are complete, but release sign-off remains open
 **Last updated:** 2026-09-24
 
 M5 closes the remaining implementation, verification, and documentation gaps identified after the M4 Great-tier audit. It does not add a new gameplay tier. It makes the existing Great behavior faithful to its planner contract, completes browser acceptance coverage, reconciles fixture evidence, and records the physical-device smoke result required for release.
@@ -24,7 +24,7 @@ M5 is complete only when the implementation, automated checks, browser E2E check
 | M5-01 | Reconcile release scope and fixture evidence | None | Done | Every TESTSPEC fixture is either present and used, or the spec records the actual inline-fixture strategy |
 | M5-02 | Wire the complete flick plan into animation | None | Done | Component tests prove velocity-dependent duration and both flick directions reach the planned valid letter |
 | M5-03 | Recover cancelled and interrupted pointer gestures | M5-02 | Done | Pointer-cancel and interrupted-drag tests prove the reel returns to a stable displayed letter without a visible stale preview |
-| M5-04 | Add regression coverage for Great interaction behavior | M5-02, M5-03 | Not started | Focused tests cover planner-to-component wiring, cancellation, bounds, and shared match/no-match settlement |
+| M5-04 | Add regression coverage for Great interaction behavior | M5-02, M5-03 | Done | Focused tests cover planner-to-component wiring, cancellation, bounds, and shared match/no-match settlement |
 | M5-05 | Configure and pass browser E2E acceptance tests | M5-04 | Not started | `pnpm test:e2e` runs the required mobile-viewport E2E scenarios and records results for E2E-1 through E2E-5 |
 | M5-06 | Perform physical-device mobile smoke testing | M5-05 | Not started | At least one physical mobile browser completes the TESTSPEC smoke protocol, or the task records a concrete external blocker |
 | M5-07 | Reconcile specifications and record release evidence | M5-01, M5-04, M5-05, M5-06 | Not started | README, task index, specs, and this milestone agree on implementation and sign-off status |
@@ -79,6 +79,8 @@ M5 is complete only when the implementation, automated checks, browser E2E check
 
 **Done when:** The automated suite proves the planner contract survives the component boundary and all existing M3/M4 behavior remains green.
 
+**Verification (2026-09-24):** The Great-tier component regression suite is green: `pnpm test` passed with 55 tests across 6 files, and the same repository verification run also passed `pnpm lint`, `pnpm typecheck`, and `pnpm build`. Coverage includes high/low-velocity flick duration tests, reverse-direction animation checks, pointer-cancel state restoration, five-spinner reward execution, no-match resolution, and the existing three-spinner vowel and audio-overlap regressions.
+
 ### M5-05 — Configure and pass browser E2E acceptance tests
 
 **Goal:** Turn the documented browser checks into a repeatable repository command.
@@ -130,7 +132,7 @@ M5-01 can proceed independently. M5-02 and M5-03 are the implementation fixes; M
 - [ ] M5-01 through M5-07 have truthful statuses and evidence.
 - [x] Flick loop count and direction are honored by the rendered animation.
 - [x] Cancelled pointer gestures restore a stable settled visual state.
-- [ ] Automated regression coverage passes.
+- [x] Automated regression coverage passes.
 - [ ] `pnpm test:e2e` is configured and passes, or its external blocker is explicitly recorded.
 - [ ] Physical-device smoke testing passes, or its external blocker is explicitly recorded.
 - [ ] Documentation distinguishes feature completion from formal release sign-off.

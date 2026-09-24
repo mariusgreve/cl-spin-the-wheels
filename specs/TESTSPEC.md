@@ -1,6 +1,6 @@
 # TESTSPEC — Spin The Wheels
 
-**Status:** M4 Great automated and available browser verification complete; M5-01 through M5-03 implementation verification is recorded, and the release-signoff gate remains physical-device smoke testing plus browser E2E
+**Status:** M4 Great automated and available browser verification complete; M5-01 through M5-04 implementation verification is recorded, and the release-signoff gate remains physical-device smoke testing plus browser E2E
 **Version:** 0.6.2
 **Last Updated:** 2026-09-24
 **References:** DEVSPEC.md (module behavior), UISPEC.md (states/screens) — this document does not redefine behavior, only verifies it.
@@ -135,7 +135,18 @@ M5-03 gesture recovery passes as of 2026-09-24:
 
 - `pnpm test -- src/components/Spinner.test.tsx` — passed with 55 tests across 6 files, including pointer-cancel visual restoration, next-gesture restart from the settled position, and interrupted imperative settlement.
 - Pointer cancellation restores the settled reel transform and displayed index, clears drag state without resolving a word, and releases pointer capture when available.
-- M5-04 through M5-07 remain open; browser E2E and physical-device smoke testing remain release-signoff gates.
+- M5-05 through M5-07 remain open; browser E2E and physical-device smoke testing remain release-signoff gates.
+
+## 5.5 Current M5-04 Verification Snapshot
+
+M5-04 Great interaction coverage passes as of 2026-09-24:
+
+- `pnpm test` — passed with 55 tests across 6 files, including the planner-to-component Great-tier regressions.
+- `pnpm lint` — passed.
+- `pnpm typecheck` — passed.
+- `pnpm build` — passed.
+- Component regression coverage includes high/low-velocity flick timing, reverse-direction animation, pointer-cancel restoration, shared match/no-match settlement, five-spinner reward flow, and the retained three-spinner vowel/audio-overlap protections.
+- M5-05 through M5-07 remain open; browser E2E and physical-device smoke testing remain release-signoff gates.
 
 ## 6. Test-to-Fixture Traceability
 
