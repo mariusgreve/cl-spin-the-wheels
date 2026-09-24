@@ -29,7 +29,7 @@ M4 adds direct flick-to-spin interaction and support for levels with more than t
 | M4-03 | Implement deterministic flick velocity mapping and settle planning | None | Done | `FL-1`, `FL-2`, and focused engine tests |
 | M4-04 | Wire Pointer Events into spinner flick interaction | M4-02, M4-03 | Done | `E2E-4`; flicks animate one spinner and reuse the shared settle path |
 | M4-05 | Complete five-spinner match and reward integration | M4-02, M4-04 | Done | `NL-1`, `NL-2`, and `E2E-5` |
-| M4-06 | Complete M4 regression, accessibility, and mobile checks | M4-05 | Not started | Full automated suite, Great-tier acceptance checks, and mobile smoke check |
+| M4-06 | Complete M4 regression, accessibility, and mobile checks | M4-05 | Done | Full automated suite, Great-tier acceptance checks, and mobile smoke check |
 | M4-07 | Reconcile specifications and record milestone evidence | M4-06 | Not started | Affected specs, README, and this tracker contain current status and verification evidence |
 
 ## Task details
@@ -111,6 +111,8 @@ M4 adds direct flick-to-spin interaction and support for levels with more than t
 - Perform the manual smoke checks required by `TESTSPEC.md` and record skipped checks explicitly.
 
 **Done when:** Great-tier automated and available browser/mobile checks are recorded with their actual results, and M3 regression coverage remains green.
+
+**Verification (2026-09-24):** `pnpm test` passed with 52 tests across 6 files; `pnpm typecheck`, `pnpm lint`, and `pnpm build` passed. Added Pointer Event settlement and cancellation coverage, five-spinner match/no-match and media coverage, and an explicit three-spinner middle-vowel regression. Browser smoke testing passed at 390x844 for a real flick settlement, reward/no-match media rendering, idle return, and no horizontal overflow. `E2E-5` could not be run in the browser because the five-spinner fixture is test-injected rather than bundled into the app; the equivalent App integration test passed. Physical-device smoke testing and `pnpm test:e2e` remain unavailable and are recorded as release-signoff gates.
 
 ### M4-07 — Documentation reconciliation
 

@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom/vitest'
-import { act, cleanup, fireEvent, render, screen } from '@testing-library/react'
+import { act, cleanup, createEvent, fireEvent, render, screen } from '@testing-library/react'
 import { createRef } from 'react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { Spinner, type SpinnerHandle } from './Spinner'
@@ -274,6 +274,48 @@ describe('Spinner imperative API', () => {
     })
     expect(screen.getByLabelText('spinner1 letter wheel showing b')).toBeInTheDocument()
     expect(onSettled).toHaveBeenCalledTimes(2)
+  })
+
+  it('turns a pointer flick into one targeted settlement', async () => {
+    vi.useFakeTimers()
+    const onSettled = vi.fn()
+    const spinnerRef = createRef<SpinnerHandle>()
+
+    render(<Spinner ref={spinnerRef} definition={definition} position={0} totalSpinners={3} onSettled={onSettled} />)
+
+    const slot = screen.getByLabelText('spinner1 letter wheel showing b')
+    vi.spyOn(slot, 'getBoundingClientRect').mockReturnValue({ height: 100 } as DOMRect)
+    const pointerDown = createEvent.pointerDown(slot, { clientY: 120, pointerId: 1 })
+    const pointerMove = createEvent.pointerMove(slot, { clientY: 60, pointerId: 1 })
+    const pointerUp = createEvent.pointerUp(slot, { clientY: 0, pointerId: 1 })
+    Object.defineProperty(pointerDown, 'timeStamp', { value: 0 })
+    Object.defineProperty(pointerMove, 'timeStamp', { value: 40 })
+    Object.defineProperty(pointerUp, 'timeStamp', { value: 80 })
+    fireEvent(slot, pointerDown)
+    fireEvent(slot, pointerMove)
+    fireEvent(slot, pointerUp)
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(5_000)
+    })
+
+    expect(slot).toHaveAttribute('aria-label', expect.stringMatching(/^spinner1 letter wheel showing [bch]$/))
+    expect(onSettled).toHaveBeenCalledTimes(1)
+  })
+
+  it('cancels a pointer gesture without starting a flick', () => {
+    vi.useFakeTimers()
+    const onSettled = vi.fn()
+
+    render(<Spinner definition={definition} position={0} totalSpinners={3} onSettled={onSettled} />)
+
+    const slot = screen.getByLabelText('spinner1 letter wheel showing b')
+    fireEvent.pointerDown(slot, { clientY: 120, pointerId: 1, timeStamp: 0 })
+    fireEvent.pointerMove(slot, { clientY: 60, pointerId: 1, timeStamp: 40 })
+    fireEvent.pointerCancel(slot, { clientY: 60, pointerId: 1, timeStamp: 40 })
+
+    expect(slot).not.toHaveClass('is-spinning')
+    expect(onSettled).not.toHaveBeenCalled()
   })
 
   it('interrupts an in-flight settle when a new spin target starts', async () => {

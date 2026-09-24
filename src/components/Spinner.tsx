@@ -312,6 +312,13 @@ export const Spinner = forwardRef<SpinnerHandle, SpinnerProps>(function Spinner(
     flick(releaseVelocity)
   }
 
+  const handlePointerCancel = () => {
+    pointerStartRef.current = null
+    dragPreviewRef.current = null
+    moveHistoryRef.current = []
+    setIsDragging(false)
+  }
+
   useImperativeHandle(ref, () => ({ getCurrentIndex, animateAndSettle, jumpToLetter, step, flick }), [currentIndex, isSpinning, controlsDisabled])
 
   return (
@@ -332,7 +339,7 @@ export const Spinner = forwardRef<SpinnerHandle, SpinnerProps>(function Spinner(
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
-        onPointerCancel={handlePointerUp}
+        onPointerCancel={handlePointerCancel}
         style={{ touchAction: 'none' }}
       >
         <div

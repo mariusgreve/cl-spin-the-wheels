@@ -1,8 +1,8 @@
 # TESTSPEC — Spin The Wheels
 
-**Status:** M3 Better verification complete; Great pending; physical-device smoke test remains a release-signoff gate
+**Status:** M4 Great automated and available browser verification complete; physical-device smoke test remains a release-signoff gate
 **Version:** 0.6.1
-**Last Updated:** 2026-09-23
+**Last Updated:** 2026-09-24
 **References:** DEVSPEC.md (module behavior), UISPEC.md (states/screens) — this document does not redefine behavior, only verifies it.
 
 ## 1. Fixtures
@@ -107,6 +107,18 @@ The current implementation passes the automated and available browser checks as 
 - Physical-device smoke testing was skipped because no physical mobile device/browser was available; it remains a release-signoff gate.
 
 M3 implementation coverage is present for the random-spin reward loop, Spinner imperative API, animation state, invalid-letter rejection, wrap-around behavior, bundled media validation, no-match media replacement, audio stop-before-replay ordering, distinct-word progression, and level reset behavior. Great-tier checks remain pending. M3 is implementation-complete with the physical-device smoke test explicitly recorded as a release-signoff exception.
+
+## 5.2 Current M4 Verification Snapshot
+
+The Great-tier implementation passes the available automated and browser checks as of 2026-09-24:
+
+- `pnpm test` — 52 tests passed across 6 files, including flick velocity bounds, Pointer Event settlement and cancellation, five-spinner match/no-match media paths, and the three-spinner middle-vowel regression.
+- `pnpm typecheck` — passed.
+- `pnpm lint` — passed.
+- `pnpm build` — passed.
+- Browser smoke check — passed at a 390x844 viewport: a real Pointer Event flick settled on a valid letter, returned to `Idle`, rendered the no-match placeholder/media, and produced no horizontal overflow.
+- `E2E-5` browser execution was skipped because the five-spinner fixture is injected by the App integration test and is not bundled into the browser app; the equivalent five-spinner App test passed.
+- `pnpm test:e2e` was unavailable because no script or browser E2E runner is configured. Physical-device smoke testing was also skipped because no physical mobile device/browser was available; both remain release-signoff gates.
 
 ## 6. Test-to-Fixture Traceability
 

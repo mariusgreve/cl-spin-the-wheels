@@ -279,4 +279,54 @@ describe('MVP spin flow', () => {
     expect(play).toHaveBeenCalledTimes(1)
   })
 
+  it('uses the shared no-match path for a five-spinner level', async () => {
+    vi.useFakeTimers()
+    const play = vi.spyOn(HTMLMediaElement.prototype, 'play').mockResolvedValue(undefined)
+    vi.spyOn(HTMLMediaElement.prototype, 'pause').mockImplementation(() => {})
+
+    render(
+      <App
+        initialLevelId="fixture-5spinner-great"
+        levels={{
+          'fixture-5spinner-great': {
+            ...greatLevelData,
+            word_list: [greatLevelData.word_list[0]],
+          },
+        }}
+      />,
+    )
+
+    const spinnerFiveButton = screen.getByRole('button', { name: 'Next letter for spinner5' })
+    fireEvent.click(spinnerFiveButton)
+    await act(async () => {
+      vi.advanceTimersByTime(120)
+    })
+
+    expect(screen.getByRole('img', { name: 'confused reward' })).toBeInTheDocument()
+    expect(screen.queryByRole('img', { name: 'strip reward' })).not.toBeInTheDocument()
+    expect(play).toHaveBeenCalledTimes(1)
+  })
+
+  it('keeps the middle-spinner vowel restriction for exactly three spinners', async () => {
+    vi.useFakeTimers()
+    vi.spyOn(HTMLMediaElement.prototype, 'play').mockResolvedValue(undefined)
+    vi.spyOn(HTMLMediaElement.prototype, 'pause').mockImplementation(() => {})
+
+    render(<App />)
+
+    const middleSpinner = screen.getByRole('button', { name: 'Next letter for spinner2' })
+    for (let step = 0; step < 4; step += 1) {
+      fireEvent.click(middleSpinner)
+      await act(async () => {
+        vi.advanceTimersByTime(120)
+      })
+    }
+
+    expect(screen.getByLabelText('spinner2 letter wheel showing u')).toBeInTheDocument()
+    expect(screen.getByLabelText('spinner2 letter wheel showing u')).toHaveAttribute(
+      'aria-label',
+      'spinner2 letter wheel showing u',
+    )
+  })
+
 })
