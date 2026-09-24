@@ -312,11 +312,17 @@ export const Spinner = forwardRef<SpinnerHandle, SpinnerProps>(function Spinner(
     flick(releaseVelocity)
   }
 
-  const handlePointerCancel = () => {
+  const handlePointerCancel = (event: React.PointerEvent<HTMLDivElement>) => {
+    suppressReelTransition()
+    setReelPosition(reelPositionRef.current)
+    setCurrentIndex(currentIndexRef.current)
     pointerStartRef.current = null
     dragPreviewRef.current = null
     moveHistoryRef.current = []
     setIsDragging(false)
+    if (typeof event.currentTarget.releasePointerCapture === 'function' && event.currentTarget.hasPointerCapture?.(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId)
+    }
   }
 
   useImperativeHandle(ref, () => ({ getCurrentIndex, animateAndSettle, jumpToLetter, step, flick }), [currentIndex, isSpinning, controlsDisabled])

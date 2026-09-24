@@ -1,6 +1,6 @@
 # TESTSPEC — Spin The Wheels
 
-**Status:** M4 Great automated and available browser verification complete; M5-01 fixture traceability is recorded, and the release-signoff gate remains physical-device smoke testing plus browser E2E
+**Status:** M4 Great automated and available browser verification complete; M5-01 through M5-03 implementation verification is recorded, and the release-signoff gate remains physical-device smoke testing plus browser E2E
 **Version:** 0.6.2
 **Last Updated:** 2026-09-24
 **References:** DEVSPEC.md (module behavior), UISPEC.md (states/screens) — this document does not redefine behavior, only verifies it.
@@ -129,6 +129,14 @@ M5-02 component coverage passes as of 2026-09-24:
 - `pnpm test -- src/components/Spinner.test.tsx` — passed with 55 tests across 6 files, including velocity-dependent duration and reverse-direction animation coverage.
 - The component forwards the planner's loop count and direction into the rendered animation; M5-03 through M5-07 remain open.
 
+## 5.4 Current M5-03 Verification Snapshot
+
+M5-03 gesture recovery passes as of 2026-09-24:
+
+- `pnpm test -- src/components/Spinner.test.tsx` — passed with 55 tests across 6 files, including pointer-cancel visual restoration, next-gesture restart from the settled position, and interrupted imperative settlement.
+- Pointer cancellation restores the settled reel transform and displayed index, clears drag state without resolving a word, and releases pointer capture when available.
+- M5-04 through M5-07 remain open; browser E2E and physical-device smoke testing remain release-signoff gates.
+
 ## 6. Test-to-Fixture Traceability
 
 | Test ID | Fixture(s) used |
@@ -157,3 +165,4 @@ M5-02 component coverage passes as of 2026-09-24:
 2026-09-23 — GitHub Copilot — Added collection-level startup coverage for invalid later levels, mismatched identifiers, and unresolved progression links.
 2026-09-24 — GitHub Copilot — Added the missing invalid-level and progression fixture files and recorded the M5-01 traceability evidence in the repo.
 2026-09-24 — GitHub Copilot — Recorded M5-02 component evidence for planner loop-count and direction wiring, including velocity-dependent duration and reverse flick movement.
+2026-09-24 — GitHub Copilot — Recorded M5-03 pointer-cancellation recovery evidence, including settled visual restoration and follow-up gesture behavior.

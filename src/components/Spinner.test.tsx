@@ -362,19 +362,35 @@ describe('Spinner imperative API', () => {
     expect(onSettled).toHaveBeenCalledTimes(1)
   })
 
-  it('cancels a pointer gesture without starting a flick', () => {
+  it('restores the settled reel position after pointer cancellation', () => {
     vi.useFakeTimers()
     const onSettled = vi.fn()
 
     render(<Spinner definition={definition} position={0} totalSpinners={3} onSettled={onSettled} />)
 
     const slot = screen.getByLabelText('spinner1 letter wheel showing b')
+    const reel = document.querySelector('.spinner-reel')
+    if (reel === null) {
+      throw new Error('Spinner reel was not rendered')
+    }
+    vi.spyOn(slot, 'getBoundingClientRect').mockReturnValue({ height: 100 } as DOMRect)
+    const settledPosition = getReelPosition(reel, definition.letter_list.length)
     fireEvent.pointerDown(slot, { clientY: 120, pointerId: 1, timeStamp: 0 })
     fireEvent.pointerMove(slot, { clientY: 60, pointerId: 1, timeStamp: 40 })
+    const previewPosition = getReelPosition(reel, definition.letter_list.length)
+    expect(previewPosition).not.toBeCloseTo(settledPosition)
     fireEvent.pointerCancel(slot, { clientY: 60, pointerId: 1, timeStamp: 40 })
 
     expect(slot).not.toHaveClass('is-spinning')
+    expect(slot).not.toHaveClass('is-dragging')
+    expect(slot).toHaveAttribute('aria-label', 'spinner1 letter wheel showing b')
+    expect(getReelPosition(reel, definition.letter_list.length)).toBeCloseTo(settledPosition)
     expect(onSettled).not.toHaveBeenCalled()
+
+    fireEvent.pointerDown(slot, { clientY: 120, pointerId: 2, timeStamp: 100 })
+    fireEvent.pointerMove(slot, { clientY: 60, pointerId: 2, timeStamp: 140 })
+
+    expect(getReelPosition(reel, definition.letter_list.length)).toBeCloseTo(previewPosition)
   })
 
   it('interrupts an in-flight settle when a new spin target starts', async () => {
