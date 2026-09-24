@@ -1,6 +1,7 @@
 import '@testing-library/jest-dom/vitest'
 import { act, cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import greatLevelData from './engine/fixtures/fixture_5spinner_great.json'
 import { App } from './App'
 
 describe('MVP spin flow', () => {
@@ -246,6 +247,36 @@ describe('MVP spin flow', () => {
     })
 
     expect(events).toEqual(['pause', 'pause', 'play'])
+  })
+
+  it('resolves a five-spinner reward cycle using the Great-tier fixture', async () => {
+    vi.useFakeTimers()
+    const play = vi.spyOn(HTMLMediaElement.prototype, 'play').mockResolvedValue(undefined)
+    vi.spyOn(HTMLMediaElement.prototype, 'pause').mockImplementation(() => {})
+
+    render(
+      <App
+        initialLevelId="fixture-5spinner-great"
+        levels={{ 'fixture-5spinner-great': greatLevelData }}
+      />,
+    )
+
+    expect(screen.getByText('fixture 5spinner great')).toBeInTheDocument()
+
+    fireEvent.click(screen.getByRole('button', { name: 'Spin' }))
+    await act(async () => {
+      vi.advanceTimersByTime(25_000)
+    })
+
+    const letters = Array.from(document.querySelectorAll('.spinner-slot'))
+      .map((slot) => slot.getAttribute('aria-label')?.match(/showing ([a-z])$/)?.[1])
+      .filter((letter): letter is string => Boolean(letter))
+
+    expect(letters).toHaveLength(5)
+    const resolvedWord = letters.join('')
+    expect(greatLevelData.word_list.some((entry) => entry.word === resolvedWord)).toBe(true)
+    expect(screen.getByRole('img', { name: `${resolvedWord} reward` })).toBeInTheDocument()
+    expect(play).toHaveBeenCalledTimes(1)
   })
 
 })

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Confetti } from './components/Confetti'
 import { Spinner, type SpinnerHandle } from './components/Spinner'
 import { loadLevelCollection, type WordDefinition } from './engine/levelLoader'
@@ -32,16 +32,30 @@ function formatLevelId(levelId: string): string {
   return levelId.replace(/[\p{Dash_Punctuation}]/gu, ' ')
 }
 
-const bundledLevelResult = loadLevelCollection(bundledLevels, {
-  assetExists: (assetPath) => assetUrl(assetPath) !== null,
-})
+export type AppProps = {
+  levels?: Record<string, unknown>
+  initialLevelId?: string
+}
 
-export function App() {
-  const [currentLevelId, setCurrentLevelId] = useState('level-1')
-  const currentLevel = bundledLevelResult.levels?.[currentLevelId] ?? null
-  const validationErrors = bundledLevelResult.levels
-    ? [`Starting level "${currentLevelId}" is not bundled.`]
-    : bundledLevelResult.errors
+export function App({ levels = bundledLevels, initialLevelId = 'level-1' }: AppProps = {}) {
+  const levelResult = useMemo(
+    () => loadLevelCollection(levels, {
+      assetExists: (assetPath) => assetUrl(assetPath) !== null,
+    }),
+    [levels],
+  )
+  const [currentLevelId, setCurrentLevelId] = useState(initialLevelId)
+
+  useEffect(() => {
+    setCurrentLevelId(initialLevelId)
+  }, [initialLevelId])
+
+  const currentLevel = levelResult.levels?.[currentLevelId] ?? null
+  const validationErrors = currentLevel
+    ? []
+    : levelResult.levels
+      ? [`Starting level "${currentLevelId}" is not bundled.`]
+      : levelResult.errors
   const [spinnerStates, setSpinnerStates] = useState<SpinnerState[]>(() =>
     currentLevel ? currentLevel.spinners.map(createSpinnerState) : [],
   )
