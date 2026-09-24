@@ -1,8 +1,8 @@
 # DEVSPEC — Spin The Wheels
 
-**Status:** M3 Better implementation complete; Great planned
+**Status:** M4 Great implementation complete; physical-device smoke testing and browser E2E runner setup remain release-signoff gates
 **Version:** 0.4.1
-**Last Updated:** 2026-09-23
+**Last Updated:** 2026-09-24
 **References:** PRD.md (goals, tiers, personas — this document does not restate them)
 
 ## Part I — Functional Requirements
@@ -209,6 +209,7 @@ Rules:
 - **M3 (Better):** Manual Letter Control, gibberish placeholder path, Word List Progression module working end-to-end.
 - **M3 verification:** Automated tests, lint, typecheck, build, and 390x844 browser checks pass. Physical-device smoke testing remains a release-signoff gate because no physical mobile device/browser was available.
 - **M4 (Great):** Flick-To-Spin Gesture Control and N-Letter Word Support working end-to-end on a 5-spinner test level.
+- **M4 verification:** Automated tests, lint, typecheck, build, and 390x844 browser checks pass. The five-spinner App integration path passes; browser execution of E2E-5 is unavailable because the fixture is test-injected, and physical-device smoke testing plus browser E2E runner setup remain release-signoff gates.
 
 ## Part IV — Appendices
 
@@ -242,6 +243,7 @@ Rules:
 2026-09-21 — GitHub Copilot — Inserted new milestone M2 (MVP Hardening) into Deliverables per Milestone to close gaps found between the M1 implementation and the MVP requirements (no spin/settle animation, no `Spinning` UI state, no extracted Spinner component or component-level vowel check, no UI-level test coverage); renumbered Better to M3 and Great to M4.
 2026-09-22 — GitHub Copilot — Recorded M3 Better implementation and verification evidence, including no-match feedback, distinct-word progression, and the remaining physical-device release-signoff gate.
 2026-09-23 — GitHub Copilot — Clarified that startup validates the complete bundled level collection and progression links before gameplay begins.
+2026-09-24 — GitHub Copilot — Recorded M4 Great implementation and available verification evidence, including Pointer Event flick settlement, N-spinner support, and the remaining release-signoff gates.
 
 ### Lessons Log
 

@@ -1,8 +1,8 @@
 # PRD — Spin The Wheels
 
-**Status:** M3 Better implementation complete; Great planned
+**Status:** M4 Great implementation complete; physical-device smoke testing remains a release-signoff gate
 **Version:** 0.3.0
-**Last Updated:** 2026-09-22
+**Last Updated:** 2026-09-24
 **Owner:** Curious Learning — Open Source Workshop ("Creating Literacy Games with React Native", implemented in this project as a React web app)
 **Source brief:** Curious Learning, "Spin The Wheels" Interaction Specification Brief, v.1, Apr. 17 2017, Ben Burrage (bburrage@curiouslearning.org)
 
@@ -91,3 +91,4 @@ Each tier is independently playable and independently demoable; Better and Great
 2026-09-21 — GitHub Copilot — Changed project target from React Native to a React (web) app designed for mobile viewports, since it will be embedded in a CMS shown inside an Android app's webview; added CMS/host integrator persona and related non-goals/constraints.
 2026-09-21 — GitHub Copilot — Inserted new milestone M2 (MVP Hardening: spin/settle animation, Spinning UI state, dedicated Spinner component, and UI-level test coverage for the MVP reward loop) after M1; renumbered Better to M3 and Great to M4.
 2026-09-22 — GitHub Copilot — Recorded completion of the M3 Better tier: manual stepping, no-match feedback, and distinct-word progression are implemented and verified; physical-device smoke testing remains a release-signoff gate.
+2026-09-24 — GitHub Copilot — Recorded M4 Great implementation completion: flick-to-spin and N-spinner/N-letter support are verified by automated checks and available mobile-viewport browser checks; physical-device smoke testing and browser E2E runner setup remain release-signoff gates.

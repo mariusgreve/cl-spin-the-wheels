@@ -1,7 +1,7 @@
 # M4 — Great Tier
 
-**Status:** M4-01 through M4-05 complete; M4-06 and M4-07 remain pending release-signoff and documentation reconciliation
-**Last updated:** 2026-09-23
+**Status:** M4-01 through M4-07 complete; physical-device smoke testing and browser E2E runner setup remain release-signoff gates
+**Last updated:** 2026-09-24
 
 M4 adds direct flick-to-spin interaction and support for levels with more than three spinners. It builds on the completed M3 shared settle-and-resolve path, progression behavior, and no-match feedback.
 
@@ -30,7 +30,7 @@ M4 adds direct flick-to-spin interaction and support for levels with more than t
 | M4-04 | Wire Pointer Events into spinner flick interaction | M4-02, M4-03 | Done | `E2E-4`; flicks animate one spinner and reuse the shared settle path |
 | M4-05 | Complete five-spinner match and reward integration | M4-02, M4-04 | Done | `NL-1`, `NL-2`, and `E2E-5` |
 | M4-06 | Complete M4 regression, accessibility, and mobile checks | M4-05 | Done | Full automated suite, Great-tier acceptance checks, and mobile smoke check |
-| M4-07 | Reconcile specifications and record milestone evidence | M4-06 | Not started | Affected specs, README, and this tracker contain current status and verification evidence |
+| M4-07 | Reconcile specifications and record milestone evidence | M4-06 | Done | Affected specs, README, and this tracker contain current status and verification evidence |
 
 ## Task details
 
@@ -138,10 +138,12 @@ M4-03 can be implemented independently because velocity mapping is an engine con
 
 ## Milestone completion checklist
 
-- [ ] M4-01 through M4-07 are `Done`; any release-signoff exceptions are recorded.
-- [ ] Flick velocity changes spin duration or speed and always settles on a valid letter.
-- [ ] Pointer Events flicks resolve through the existing match/no-match/progression path.
-- [ ] Five-spinner levels render and play end to end.
-- [ ] The middle-spinner vowel-only rule applies only to exactly three spinners.
-- [ ] Existing M2 and M3 random-spin, manual-control, reward, no-match, and progression tests still pass.
-- [ ] `TESTSPEC.md` Great-tier unit, integration, and browser requirements have evidence.
+- [x] M4-01 through M4-07 are `Done`; release-signoff exceptions are recorded.
+- [x] Flick velocity changes spin duration or speed and always settles on a valid letter.
+- [x] Pointer Events flicks resolve through the existing match/no-match/progression path.
+- [x] Five-spinner levels render and play end to end.
+- [x] The middle-spinner vowel-only rule applies only to exactly three spinners.
+- [x] Existing M2 and M3 random-spin, manual-control, reward, no-match, and progression tests still pass.
+- [x] `TESTSPEC.md` Great-tier unit, integration, and browser requirements have evidence.
+
+Formal release sign-off remains open for physical-device smoke testing and a configured `pnpm test:e2e` browser runner. The available desktop-browser mobile-viewport checks and equivalent five-spinner App integration coverage are recorded above and in `specs/TESTSPEC.md`.

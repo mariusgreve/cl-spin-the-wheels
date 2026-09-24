@@ -106,7 +106,7 @@ The current implementation passes the automated and available browser checks as 
 - Browser checks passed at a 390x844 viewport: `E2E-2` showed the confused image and bundled gibberish audio, and `E2E-3` advanced from `level-1` to `level-2` after seven distinct matches and returned to `Idle`.
 - Physical-device smoke testing was skipped because no physical mobile device/browser was available; it remains a release-signoff gate.
 
-M3 implementation coverage is present for the random-spin reward loop, Spinner imperative API, animation state, invalid-letter rejection, wrap-around behavior, bundled media validation, no-match media replacement, audio stop-before-replay ordering, distinct-word progression, and level reset behavior. Great-tier checks remain pending. M3 is implementation-complete with the physical-device smoke test explicitly recorded as a release-signoff exception.
+M3 implementation coverage is present for the random-spin reward loop, Spinner imperative API, animation state, invalid-letter rejection, wrap-around behavior, bundled media validation, no-match media replacement, audio stop-before-replay ordering, distinct-word progression, and level reset behavior. Great-tier verification is recorded in Section 5.2. M3 is implementation-complete with the physical-device smoke test explicitly recorded as a release-signoff exception.
 
 ## 5.2 Current M4 Verification Snapshot
 
@@ -138,6 +138,7 @@ The Great-tier implementation passes the available automated and browser checks 
 
 2026-09-21 — GitHub Copilot (from source brief by Ben Burrage) — Initial TESTSPEC drafted with fixtures, unit/integration test cases, dry-run protocol, and validation criteria for MVP/Better/Great tiers.
 2026-09-21 — GitHub Copilot — Replaced iOS/Android simulator smoke-test steps with browser-based mobile-viewport testing (devtools emulation + physical mobile browser), matching the React (web) stack decision.
+2026-09-24 — GitHub Copilot — Recorded M4 Great automated and available browser verification evidence, including the five-spinner App integration equivalent for E2E-5; physical-device smoke testing and browser E2E runner setup remain release-signoff gates.
 2026-09-21 — GitHub Copilot — Updated milestone reference in the Build-and-Test Sequence to M1/M2/M3/M4 after DEVSPEC inserted a new M2 (MVP Hardening) milestone and renumbered Better/Great to M3/M4.
 2026-09-21 — GitHub Copilot — Added square and landscape reward image presentation coverage.
 2026-09-21 — GitHub Copilot — Updated media coverage for consistently rounded 1:1 reward images.

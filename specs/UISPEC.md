@@ -1,8 +1,8 @@
 # UISPEC — Spin The Wheels
 
-**Status:** M3 Better implementation complete; Great planned
+**Status:** M4 Great implementation complete; physical-device smoke testing and browser E2E runner setup remain release-signoff gates
 **Version:** 0.4.1
-**Last Updated:** 2026-09-23
+**Last Updated:** 2026-09-24
 **References:** DEVSPEC.md (all behavior definitions — this document defines presentation and states only, and does not duplicate DEVSPEC logic)
 
 This is a React (web) app, not React Native. It is designed to eventually be embedded in a CMS page displayed inside an Android app's webview, so all layouts below are designed for a mobile device viewport width (~360–430px) as the primary target, even when previewed in a desktop browser during development.
@@ -122,3 +122,4 @@ Feature: N-letter words (Great)
 2026-09-21 — GitHub Copilot — Matched the waiting placeholder to the rounded 1:1 reward-image frame.
 2026-09-22 — GitHub Copilot — Recorded the implemented M3 Better states and interactions, including no-match feedback and level progression; physical-device smoke testing remains a release-signoff gate.
 2026-09-23 — GitHub Copilot — Added the blocking validation-error state shown when any bundled level or progression link is invalid at startup.
+2026-09-24 — GitHub Copilot — Recorded Great-tier flick and N-spinner interaction coverage and the remaining physical-device and browser E2E release-signoff gates.
