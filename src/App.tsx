@@ -257,6 +257,13 @@ export function App({ levels = bundledLevels, initialLevelId }: AppProps = {}) {
   const hasMatchedWord = matchedWord !== null && gameState === 'SettledMatch'
   const rewardAlt = matchedWord && gameState === 'SettledMatch' ? `${matchedWord.word} reward` : 'confused reward'
   const spinButtonLabel = gameState === 'Spinning' ? 'Spinning...' : pendingLevelTransition ? 'Go to next level' : 'Spin'
+  const feedbackState = pendingLevelTransition
+    ? 'progression'
+    : gameState === 'SettledMatch'
+      ? 'match'
+      : gameState === 'SettledNoMatch'
+        ? 'no-match'
+        : gameState.toLowerCase()
   const taskMessage = pendingLevelTransition
     ? 'You made enough words!'
     : gameState === 'Spinning'
@@ -276,7 +283,7 @@ export function App({ levels = bundledLevels, initialLevelId }: AppProps = {}) {
           <span className="level-tag">{formatLevelId(currentLevel.level_id)}</span>
         </div>
         <h1>Make a word</h1>
-        <p className="task-message" aria-live="polite">{taskMessage}</p>
+        <p className={`task-message task-message--${feedbackState}`} role="status">{taskMessage}</p>
       </header>
       <div
         className={levelProgress ? 'level-progress' : 'level-progress is-hidden'}
@@ -301,7 +308,7 @@ export function App({ levels = bundledLevels, initialLevelId }: AppProps = {}) {
             : '\u00A0'}
         </p>
       </div>
-      <section className="picture-area" aria-label="Picture area">
+      <section className={`picture-area picture-area--${feedbackState}`} aria-label="Picture area">
         {rewardImage ? (
           <img src={rewardImage} alt={rewardAlt} />
         ) : (

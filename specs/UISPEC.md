@@ -1,7 +1,7 @@
 # UISPEC — Spin The Wheels
 
 **Status:** M4 Great implementation complete; physical-device smoke testing and browser E2E runner setup remain release-signoff gates
-**Version:** 0.4.1
+**Version:** 0.4.2
 **Last Updated:** 2026-09-25
 **References:** DEVSPEC.md (all behavior definitions — this document defines presentation and states only, and does not duplicate DEVSPEC logic)
 
@@ -44,6 +44,13 @@ The Task Prompt uses these messages:
 - `SettledMatch`: “You made {word}!”
 - `SettledNoMatch`: “Try another letter combination.”
 - Completed progression threshold: “You made enough words!”
+
+Feedback presentation reinforces these states without changing the screen composition:
+
+- `SettledMatch` uses a success accent on the task prompt and picture area.
+- `SettledNoMatch` uses an encouraging warm accent on the task prompt and confused picture area.
+- A completed progression threshold uses the progression accent on the task prompt and reward area while the next-level control remains available.
+- The task prompt is exposed as a polite live status so state changes are announced without relying on audio.
 
 ## 3. Visibility Rules
 
@@ -134,6 +141,25 @@ Feature: Word-building objective clarity (M6-01)
 ```
 
 ```gherkin
+Feature: Feedback state clarity (M6-03)
+
+  Scenario: A matched word has distinct success feedback
+    Given the settled letters spell a word
+    Then the task prompt and picture area expose the match state
+    And the formed word, reward image, and audio remain associated
+
+  Scenario: A no-match result has encouraging feedback
+    Given the settled letters do not spell a word
+    Then the task prompt and picture area expose the no-match state
+    And the confused picture and next-step message remain visible
+
+  Scenario: Completed progression has distinct next-step feedback
+    Given the player reaches the distinct-word progression threshold
+    Then the task prompt and picture area expose the progression state
+    And the “Go to next level” control remains available
+```
+
+```gherkin
 Feature: Mobile readability and controls (M6-02)
 
   Scenario: The game keeps controls comfortable on a phone
@@ -167,3 +193,4 @@ Feature: Mobile readability and controls (M6-02)
 2026-09-23 — GitHub Copilot — Added the blocking validation-error state shown when any bundled level or progression link is invalid at startup.
 2026-09-24 — GitHub Copilot — Recorded Great-tier flick and N-spinner interaction coverage and the remaining physical-device and browser E2E release-signoff gates.
 2026-09-25 — GitHub Copilot — Added the M6-01 task prompt and matched-word reward caption states.
+2026-09-25 — GitHub Copilot — Added explicit M6-03 feedback-state presentation for matches, no-matches, and progression.

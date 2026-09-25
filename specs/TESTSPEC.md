@@ -1,7 +1,7 @@
 # TESTSPEC — Spin The Wheels
 
 **Status:** M5-06 physical-device smoke test passed on Android emulator; release sign-off is recorded
-**Version:** 0.6.3
+**Version:** 0.6.4
 **Last Updated:** 2026-09-25
 **References:** DEVSPEC.md (module behavior), UISPEC.md (states/screens) — this document does not redefine behavior, only verifies it.
 
@@ -114,6 +114,14 @@ M6-02 mobile readability and controls pass as of 2026-09-25:
 - The primary control is 56px tall, the reward frame is compacted for mobile, and spinning wheels receive a visible accent border and focus treatment.
 - The implementation keeps the existing word-resolution, media, progression, and offline asset behavior unchanged.
 
+## 5.10 Current M6-03 Verification Snapshot
+
+M6-03 feedback-state coverage passes as of 2026-09-25:
+
+- `pnpm test -- src/App.test.tsx` — passed with 55 tests across 6 files, including explicit match, no-match, and progression feedback-state assertions.
+- Match, no-match, and progression states retain their existing word/media/action behavior while adding distinct prompt and picture-area state treatment.
+- The task prompt uses status semantics so state changes remain understandable without relying on audio.
+
 ## 5.1 Current M3 Verification Snapshot
 
 The current implementation passes the automated and available browser checks as of 2026-09-22:
@@ -222,3 +230,4 @@ The smoke protocol passed on an Android emulator browser on 2026-09-24.
 2026-09-24 — GitHub Copilot — Added the Playwright mobile E2E runner, passed E2E-1 through E2E-5, and recorded M5-05 browser verification evidence. The Android emulator smoke test then passed, and the M5-06 release gate is recorded as complete with device evidence.
 2026-09-25 — GitHub Copilot — Added M6-01 objective-clarity verification for task prompts and matched-word reward labeling.
 2026-09-25 — GitHub Copilot — Added M6-02 mobile readability, touch-target, state-styling, and focused verification coverage.
+2026-09-25 — GitHub Copilot — Added M6-03 feedback-state styling, status semantics, and focused regression coverage.

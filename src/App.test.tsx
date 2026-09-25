@@ -71,6 +71,8 @@ describe('MVP spin flow', () => {
     expect(screen.getByLabelText('spinner3 letter wheel showing n')).toBeInTheDocument()
     expect(screen.getByRole('img', { name: 'bun reward' })).toBeInTheDocument()
     expect(screen.getByText('You made bun!')).toBeInTheDocument()
+    expect(screen.getByRole('status')).toHaveClass('task-message--match')
+    expect(screen.getByRole('region', { name: 'Picture area' })).toHaveClass('picture-area--match')
     expect(screen.getByRole('main')).toHaveAttribute('data-game-state', 'settledmatch')
     expect(screen.getByText('bun', { selector: '.reward-caption' })).toBeInTheDocument()
     expect(play).toHaveBeenCalledTimes(1)
@@ -160,6 +162,8 @@ describe('MVP spin flow', () => {
     expect(screen.getByLabelText('spinner2 letter wheel showing a')).toBeInTheDocument()
     expect(screen.getByRole('img', { name: 'confused reward' })).toBeInTheDocument()
     expect(screen.getByText('Try another letter combination.')).toBeInTheDocument()
+    expect(screen.getByRole('status')).toHaveClass('task-message--no-match')
+    expect(screen.getByRole('region', { name: 'Picture area' })).toHaveClass('picture-area--no-match')
     expect(screen.queryByRole('img', { name: 'bun reward' })).not.toBeInTheDocument()
     expect(play.mock.calls.length).toBeGreaterThan(0)
   })
@@ -222,6 +226,8 @@ describe('MVP spin flow', () => {
 
     expect(screen.getByRole('button', { name: 'Go to next level' })).toBeEnabled()
     expect(screen.getByText('level 1')).toBeInTheDocument()
+    expect(screen.getByRole('status')).toHaveClass('task-message--progression')
+    expect(screen.getByRole('region', { name: 'Picture area' })).toHaveClass('picture-area--progression')
 
     fireEvent.click(screen.getByRole('button', { name: 'Go to next level' }))
 

@@ -1,6 +1,6 @@
 # M6 — UX and Pedagogical Improvement Plan
 
-**Status:** M6-01 and M6-02 complete; M6-03 through M6-07 proposed
+**Status:** M6-01 through M6-03 complete; M6-04 through M6-07 proposed
 **Last updated:** 2026-09-25
 
 M6 is a product-focused improvement milestone. It does not redefine the core game mechanic; it upgrades the presentation, interaction clarity, educational framing, and visual alignment of the app so it better matches the purpose of the project and the broader Curious Learning family.
@@ -27,7 +27,7 @@ The next work should make that objective feel obvious, joyful, and educationally
 |---|---|---|---|---|
 | M6-01 | Clarify the core learning objective in the game screen | None | Done | Prompt, state feedback, and matched-word reward caption are covered by App tests |
 | M6-02 | Improve mobile readability and larger tap targets | M6-01 | Done | Mobile-first spacing, target sizing, focus feedback, and state styling are covered by App tests |
-| M6-03 | Strengthen success and no-match feedback states | M6-02 | Proposed | Teach and encourage rather than confuse |
+| M6-03 | Strengthen success and no-match feedback states | M6-02 | Done | Existing feedback flow now has explicit semantic and visual state treatment |
 | M6-04 | Align with Curious Learning visual language | M6-01 | Proposed | Color, card structure, and app-family polish |
 | M6-05 | Improve pedagogical progression by word family and difficulty | M6-03 | Proposed | Structure content for literacy learning |
 | M6-06 | Expand reward and content richness | M6-04, M6-05 | Proposed | Increase replay value and delight |
@@ -72,6 +72,8 @@ The next work should make that objective feel obvious, joyful, and educationally
 - make progression moments feel celebratory but not chaotic
 
 **Done when:** The user can always tell whether they solved a word, did not solve one, or advanced to the next level.
+
+**Implementation evidence (2026-09-25):** The existing success, no-match, and progression flow now exposes explicit feedback-state classes on the live task prompt and picture area. Match feedback uses the formed word and reward media, no-match feedback uses the encouraging prompt and confused media, and progression feedback highlights the completion state while preserving the “Go to next level” action. `src/App.test.tsx` verifies all three state treatments.
 
 ### M6-04 — Align with the broader app-family visual system
 
