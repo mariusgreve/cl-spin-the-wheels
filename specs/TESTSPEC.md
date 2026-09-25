@@ -82,6 +82,7 @@ All level fixtures live under `src/engine/fixtures/` and are intentionally local
 - `E2E-4` (Great, flick): Simulate a flick gesture at two different velocities on the same spinner and assert relative spin duration/behavior, matches `UISPEC.md` Feature: Flick-to-spin.
 - `E2E-5` (Great, N-letter): Full spin/match/reward cycle on `fixture_5spinner_great.json`, matches `UISPEC.md` Feature: N-letter words.
 - `E2E-6` (M6-01, objective clarity): Assert the idle and spinning task prompts, the formed-word prompt and reward caption after a match, and the encouraging next-step prompt after a no-match result.
+- `E2E-7` (M6-02, mobile readability): At a mobile viewport, assert the game exposes explicit idle/spinning/settled state styling, the manual controls remain at least 44 CSS pixels in both dimensions, and the primary control remains at least 44 CSS pixels tall without horizontal overflow.
 
 ## 4. Build-and-Test Sequence (Dry Run Protocol)
 
@@ -103,6 +104,15 @@ M6-01 objective-clarity coverage passes as of 2026-09-25:
 
 - `pnpm test -- src/App.test.tsx` — passed with 55 tests across 6 files, including idle, spinning, match, and no-match task messaging and the matched-word reward caption.
 - The implementation keeps the existing spinner, reward media, progression, and offline asset behavior unchanged.
+
+## 5.9 Current M6-02 Verification Snapshot
+
+M6-02 mobile readability and controls pass as of 2026-09-25:
+
+- `pnpm test -- src/App.test.tsx` — passed with 55 tests across 6 files, including explicit idle, spinning, and settled-match state attributes.
+- Manual controls are 50px targets at standard mobile widths and 46px at the narrow 320–380px breakpoint, both above the 44px minimum.
+- The primary control is 56px tall, the reward frame is compacted for mobile, and spinning wheels receive a visible accent border and focus treatment.
+- The implementation keeps the existing word-resolution, media, progression, and offline asset behavior unchanged.
 
 ## 5.1 Current M3 Verification Snapshot
 
@@ -211,3 +221,4 @@ The smoke protocol passed on an Android emulator browser on 2026-09-24.
 2026-09-24 — GitHub Copilot — Recorded M5-03 pointer-cancellation recovery evidence, including settled visual restoration and follow-up gesture behavior.
 2026-09-24 — GitHub Copilot — Added the Playwright mobile E2E runner, passed E2E-1 through E2E-5, and recorded M5-05 browser verification evidence. The Android emulator smoke test then passed, and the M5-06 release gate is recorded as complete with device evidence.
 2026-09-25 — GitHub Copilot — Added M6-01 objective-clarity verification for task prompts and matched-word reward labeling.
+2026-09-25 — GitHub Copilot — Added M6-02 mobile readability, touch-target, state-styling, and focused verification coverage.

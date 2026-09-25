@@ -1,6 +1,6 @@
 # M6 — UX and Pedagogical Improvement Plan
 
-**Status:** M6-01 complete; M6-02 through M6-07 proposed
+**Status:** M6-01 and M6-02 complete; M6-03 through M6-07 proposed
 **Last updated:** 2026-09-25
 
 M6 is a product-focused improvement milestone. It does not redefine the core game mechanic; it upgrades the presentation, interaction clarity, educational framing, and visual alignment of the app so it better matches the purpose of the project and the broader Curious Learning family.
@@ -26,7 +26,7 @@ The next work should make that objective feel obvious, joyful, and educationally
 | ID | Task | Depends on | Status | Notes |
 |---|---|---|---|---|
 | M6-01 | Clarify the core learning objective in the game screen | None | Done | Prompt, state feedback, and matched-word reward caption are covered by App tests |
-| M6-02 | Improve mobile readability and larger tap targets | M6-01 | Proposed | Primary UX fix for young children |
+| M6-02 | Improve mobile readability and larger tap targets | M6-01 | Done | Mobile-first spacing, target sizing, focus feedback, and state styling are covered by App tests |
 | M6-03 | Strengthen success and no-match feedback states | M6-02 | Proposed | Teach and encourage rather than confuse |
 | M6-04 | Align with Curious Learning visual language | M6-01 | Proposed | Color, card structure, and app-family polish |
 | M6-05 | Improve pedagogical progression by word family and difficulty | M6-03 | Proposed | Structure content for literacy learning |

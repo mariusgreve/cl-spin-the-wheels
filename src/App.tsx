@@ -268,7 +268,7 @@ export function App({ levels = bundledLevels, initialLevelId }: AppProps = {}) {
           : 'Spin to build it.'
 
   return (
-    <main className="shell">
+    <main className="shell" data-game-state={gameState.toLowerCase()}>
       <Confetti active={showConfetti} />
       <header className="masthead">
         <div className="masthead-top">

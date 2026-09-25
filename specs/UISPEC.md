@@ -133,10 +133,26 @@ Feature: Word-building objective clarity (M6-01)
     Then the task prompt says “Try another letter combination.”
 ```
 
+```gherkin
+Feature: Mobile readability and controls (M6-02)
+
+  Scenario: The game keeps controls comfortable on a phone
+    Given the game screen is loaded at a mobile viewport
+    Then each manual step control has a touch target of at least 44x44 CSS pixels
+    And the primary Spin control is at least 44 CSS pixels tall
+    And the letter wheels remain prominent above the primary control
+
+  Scenario: The active wheel state is visually distinct
+    When a wheel is spinning
+    Then its border and focus treatment distinguish it from an idle wheel
+    And the task prompt continues to identify the current spinning state
+```
+
 ## 5. Accessibility Notes
 
 - Every state that plays audio must also have the corresponding image/graphic as a non-audio cue, since the primary audience is pre-reading children who may play with sound off.
 - Tap targets for Manual Step Controls must be large enough for young children (minimum 44x44pt touch target).
+- The mobile layout keeps the reward area compact enough for the wheel row and primary control to remain visible without horizontal overflow.
 
 ---
 

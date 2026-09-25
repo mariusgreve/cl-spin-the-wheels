@@ -52,12 +52,14 @@ describe('MVP spin flow', () => {
 
     expect(screen.getByText('level 1')).toBeInTheDocument()
     expect(screen.getByText('Spin to build it.')).toBeInTheDocument()
+    expect(screen.getByRole('main')).toHaveAttribute('data-game-state', 'idle')
     expect(document.querySelector('.reward-caption')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Spin' })).toBeEnabled()
 
     fireEvent.click(screen.getByRole('button', { name: 'Spin' }))
 
     expect(screen.getByRole('button', { name: 'Spinning...' })).toBeDisabled()
+    expect(screen.getByRole('main')).toHaveAttribute('data-game-state', 'spinning')
     expect(screen.getByText('Watch the letters come together.')).toBeInTheDocument()
 
     await act(async () => {
@@ -69,6 +71,7 @@ describe('MVP spin flow', () => {
     expect(screen.getByLabelText('spinner3 letter wheel showing n')).toBeInTheDocument()
     expect(screen.getByRole('img', { name: 'bun reward' })).toBeInTheDocument()
     expect(screen.getByText('You made bun!')).toBeInTheDocument()
+    expect(screen.getByRole('main')).toHaveAttribute('data-game-state', 'settledmatch')
     expect(screen.getByText('bun', { selector: '.reward-caption' })).toBeInTheDocument()
     expect(play).toHaveBeenCalledTimes(1)
   })
