@@ -24,6 +24,7 @@ The M0 implementation scaffold and loader tests are present. Keep future source 
 | [docs/CONTENT_PIPELINE.md](docs/CONTENT_PIPELINE.md) | How do levels and media become bundled content? | Setup |
 | [docs/tasks/M4-GREAT.md](docs/tasks/M4-GREAT.md) | What Great-tier work is complete and what remains for release sign-off? | Relevant milestone |
 | [docs/tasks/M5-COMPLETION.md](docs/tasks/M5-COMPLETION.md) | What remains to make the project fully complete and release-signed-off? | Current completion milestone |
+| [docs/UX-IMPROVEMENT-PLAN.md](docs/UX-IMPROVEMENT-PLAN.md) | What product and UX improvements should happen next to strengthen the literacy objective and app-family fit? | Improvement planning |
 | [specs/README.md](specs/README.md) | How do the living specifications relate? | This page |
 | [docs/AI_AGENT_PLAYBOOK.md](docs/AI_AGENT_PLAYBOOK.md) | How should humans and coding agents collaborate? | This page |
 | [docs/DECISIONS.md](docs/DECISIONS.md) | Why were important project constraints chosen? | Relevant spec |
