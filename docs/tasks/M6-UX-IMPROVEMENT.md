@@ -1,7 +1,7 @@
 # M6 — UX and Pedagogical Improvement Plan
 
-**Status:** Proposed
-**Last updated:** 2026-09-24
+**Status:** M6-01 complete; M6-02 through M6-07 proposed
+**Last updated:** 2026-09-25
 
 M6 is a product-focused improvement milestone. It does not redefine the core game mechanic; it upgrades the presentation, interaction clarity, educational framing, and visual alignment of the app so it better matches the purpose of the project and the broader Curious Learning family.
 
@@ -25,7 +25,7 @@ The next work should make that objective feel obvious, joyful, and educationally
 
 | ID | Task | Depends on | Status | Notes |
 |---|---|---|---|---|
-| M6-01 | Clarify the core learning objective in the game screen | None | Proposed | “Make a word” should be visually obvious and immediate |
+| M6-01 | Clarify the core learning objective in the game screen | None | Done | Prompt, state feedback, and matched-word reward caption are covered by App tests |
 | M6-02 | Improve mobile readability and larger tap targets | M6-01 | Proposed | Primary UX fix for young children |
 | M6-03 | Strengthen success and no-match feedback states | M6-02 | Proposed | Teach and encourage rather than confuse |
 | M6-04 | Align with Curious Learning visual language | M6-01 | Proposed | Color, card structure, and app-family polish |
@@ -46,6 +46,8 @@ The next work should make that objective feel obvious, joyful, and educationally
 - reduce ambiguous generic spinner styling
 
 **Done when:** A first-time child can understand the objective without reading instructions.
+
+**Implementation evidence (2026-09-25):** The game screen now pairs the “Make a word” heading with an idle prompt, a spinning-state prompt, a matched-word message, and an encouraging no-match next step. The reward area also names the matched word directly beneath its image. `src/App.test.tsx` verifies the idle, spinning, match, and no-match messages.
 
 ### M6-02 — Improve mobile readability and controls
 

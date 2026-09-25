@@ -51,11 +51,14 @@ describe('MVP spin flow', () => {
     render(<App />)
 
     expect(screen.getByText('level 1')).toBeInTheDocument()
+    expect(screen.getByText('Spin to build it.')).toBeInTheDocument()
+    expect(document.querySelector('.reward-caption')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Spin' })).toBeEnabled()
 
     fireEvent.click(screen.getByRole('button', { name: 'Spin' }))
 
     expect(screen.getByRole('button', { name: 'Spinning...' })).toBeDisabled()
+    expect(screen.getByText('Watch the letters come together.')).toBeInTheDocument()
 
     await act(async () => {
       vi.advanceTimersByTime(20_000)
@@ -65,6 +68,8 @@ describe('MVP spin flow', () => {
     expect(screen.getByLabelText('spinner2 letter wheel showing u')).toBeInTheDocument()
     expect(screen.getByLabelText('spinner3 letter wheel showing n')).toBeInTheDocument()
     expect(screen.getByRole('img', { name: 'bun reward' })).toBeInTheDocument()
+    expect(screen.getByText('You made bun!')).toBeInTheDocument()
+    expect(screen.getByText('bun', { selector: '.reward-caption' })).toBeInTheDocument()
     expect(play).toHaveBeenCalledTimes(1)
   })
 
@@ -151,6 +156,7 @@ describe('MVP spin flow', () => {
 
     expect(screen.getByLabelText('spinner2 letter wheel showing a')).toBeInTheDocument()
     expect(screen.getByRole('img', { name: 'confused reward' })).toBeInTheDocument()
+    expect(screen.getByText('Try another letter combination.')).toBeInTheDocument()
     expect(screen.queryByRole('img', { name: 'bun reward' })).not.toBeInTheDocument()
     expect(play.mock.calls.length).toBeGreaterThan(0)
   })

@@ -254,8 +254,18 @@ export function App({ levels = bundledLevels, initialLevelId }: AppProps = {}) {
   }
 
   const rewardImage = matchedWord ? assetUrl(matchedWord.image_asset) : null
+  const hasMatchedWord = matchedWord !== null && gameState === 'SettledMatch'
   const rewardAlt = matchedWord && gameState === 'SettledMatch' ? `${matchedWord.word} reward` : 'confused reward'
   const spinButtonLabel = gameState === 'Spinning' ? 'Spinning...' : pendingLevelTransition ? 'Go to next level' : 'Spin'
+  const taskMessage = pendingLevelTransition
+    ? 'You made enough words!'
+    : gameState === 'Spinning'
+      ? 'Watch the letters come together.'
+      : gameState === 'SettledMatch' && matchedWord
+        ? `You made ${matchedWord.word}!`
+        : gameState === 'SettledNoMatch'
+          ? 'Try another letter combination.'
+          : 'Spin to build it.'
 
   return (
     <main className="shell">
@@ -266,6 +276,7 @@ export function App({ levels = bundledLevels, initialLevelId }: AppProps = {}) {
           <span className="level-tag">{formatLevelId(currentLevel.level_id)}</span>
         </div>
         <h1>Make a word</h1>
+        <p className="task-message" aria-live="polite">{taskMessage}</p>
       </header>
       <div
         className={levelProgress ? 'level-progress' : 'level-progress is-hidden'}
@@ -296,6 +307,12 @@ export function App({ levels = bundledLevels, initialLevelId }: AppProps = {}) {
         ) : (
           <div className="picture-placeholder" aria-label="No reward yet">?</div>
         )}
+        <p
+          className={hasMatchedWord ? 'reward-caption is-visible' : 'reward-caption'}
+          aria-hidden={hasMatchedWord ? undefined : true}
+        >
+          {hasMatchedWord ? matchedWord.word : '\u00A0'}
+        </p>
       </section>
       <section className="spinner-row" aria-label="Letter wheels">
         {currentLevel.spinners.map((spinner, index) => (

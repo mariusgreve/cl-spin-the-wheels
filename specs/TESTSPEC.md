@@ -2,7 +2,7 @@
 
 **Status:** M5-06 physical-device smoke test passed on Android emulator; release sign-off is recorded
 **Version:** 0.6.3
-**Last Updated:** 2026-09-24
+**Last Updated:** 2026-09-25
 **References:** DEVSPEC.md (module behavior), UISPEC.md (states/screens) — this document does not redefine behavior, only verifies it.
 
 ## 1. Fixtures
@@ -81,6 +81,7 @@ All level fixtures live under `src/engine/fixtures/` and are intentionally local
 - `E2E-3` (`LevelTransition`, Better): Drive matches to reach the 50% threshold on `fixture_progression_pair.json`, assert the screen reloads with `fixture_progression_next.json`'s spinners, matches `UISPEC.md` Feature: Word list progression.
 - `E2E-4` (Great, flick): Simulate a flick gesture at two different velocities on the same spinner and assert relative spin duration/behavior, matches `UISPEC.md` Feature: Flick-to-spin.
 - `E2E-5` (Great, N-letter): Full spin/match/reward cycle on `fixture_5spinner_great.json`, matches `UISPEC.md` Feature: N-letter words.
+- `E2E-6` (M6-01, objective clarity): Assert the idle and spinning task prompts, the formed-word prompt and reward caption after a match, and the encouraging next-step prompt after a no-match result.
 
 ## 4. Build-and-Test Sequence (Dry Run Protocol)
 
@@ -95,6 +96,13 @@ All level fixtures live under `src/engine/fixtures/` and are intentionally local
 
 - A milestone is "done" only when: all its module's unit tests pass, its corresponding E2E test(s) pass, and the manual smoke test shows no crash and no incorrect vowel/word-match behavior.
 - Zero tolerance items (must never fail, block release if they do): middle-spinner vowel constraint (`SP-1`, `MC-2`, `NL-2`), no audio overlap (`MP-2`), no false "word matched" event (`WR-2`).
+
+## 5.8 Current M6-01 Verification Snapshot
+
+M6-01 objective-clarity coverage passes as of 2026-09-25:
+
+- `pnpm test -- src/App.test.tsx` — passed with 55 tests across 6 files, including idle, spinning, match, and no-match task messaging and the matched-word reward caption.
+- The implementation keeps the existing spinner, reward media, progression, and offline asset behavior unchanged.
 
 ## 5.1 Current M3 Verification Snapshot
 
@@ -202,3 +210,4 @@ The smoke protocol passed on an Android emulator browser on 2026-09-24.
 2026-09-24 — GitHub Copilot — Recorded M5-02 component evidence for planner loop-count and direction wiring, including velocity-dependent duration and reverse flick movement.
 2026-09-24 — GitHub Copilot — Recorded M5-03 pointer-cancellation recovery evidence, including settled visual restoration and follow-up gesture behavior.
 2026-09-24 — GitHub Copilot — Added the Playwright mobile E2E runner, passed E2E-1 through E2E-5, and recorded M5-05 browser verification evidence. The Android emulator smoke test then passed, and the M5-06 release gate is recorded as complete with device evidence.
+2026-09-25 — GitHub Copilot — Added M6-01 objective-clarity verification for task prompts and matched-word reward labeling.

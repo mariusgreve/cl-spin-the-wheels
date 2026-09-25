@@ -21,7 +21,7 @@ This directory tracks implementation work that is derived from the living specif
 | M3 | [M3-BETTER.md](M3-BETTER.md) | Manual controls, no-match feedback, and distinct-word progression | Done; physical-device smoke test remains a release-signoff gate |
 | M4 | [M4-GREAT.md](M4-GREAT.md) | Flick-to-spin gesture control and N-spinner/N-letter support | Done; physical-device smoke testing and browser E2E runner remain release-signoff gates |
 | M5 | [M5-COMPLETION.md](M5-COMPLETION.md) | Great interaction hardening, browser E2E, fixture reconciliation, and release sign-off | Done; M5-01 through M5-07 are complete and the Android emulator smoke test is recorded as the passing release gate |
-| M6 | [M6-UX-IMPROVEMENT.md](M6-UX-IMPROVEMENT.md) | UX polish, app-family alignment, and pedagogical improvement for the word-building experience | Proposed; follows the current implementation and focuses on child-first educational polish |
+| M6 | [M6-UX-IMPROVEMENT.md](M6-UX-IMPROVEMENT.md) | UX polish, app-family alignment, and pedagogical improvement for the word-building experience | In progress; M6-01 complete, remaining tasks proposed |
 
 ## Status convention
 

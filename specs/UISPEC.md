@@ -2,7 +2,7 @@
 
 **Status:** M4 Great implementation complete; physical-device smoke testing and browser E2E runner setup remain release-signoff gates
 **Version:** 0.4.1
-**Last Updated:** 2026-09-24
+**Last Updated:** 2026-09-25
 **References:** DEVSPEC.md (all behavior definitions — this document defines presentation and states only, and does not duplicate DEVSPEC logic)
 
 This is a React (web) app, not React Native. It is designed to eventually be embedded in a CMS page displayed inside an Android app's webview, so all layouts below are designed for a mobile device viewport width (~360–430px) as the primary target, even when previewed in a desktop browser during development.
@@ -13,7 +13,9 @@ This is a React (web) app, not React Native. It is designed to eventually be emb
 
 Layout, top to bottom:
 
+- **Task Prompt** — states the immediate word-building action while idle and gives short feedback while spinning or after a match/no-match result.
 - **Picture Area** — displays the reward image for the last matched word, or a question-mark placeholder before any match. Reward images and the waiting placeholder use the same centered, rounded 1:1 frame; reward images remain fully visible without cropping. (Better tier: displays a placeholder "confused" graphic instead when letters don't spell a word.)
+- **Reward Caption** — names the matched word beneath its reward image after a successful solve; it is hidden before a match to keep the waiting state uncluttered.
 - **Spinner Row** — one Spinner Slot per entry in the level's `spinners` array, laid out left to right in array order.
 - **Trigger Control** — MVP: a single "Spin" button/lever that triggers the random-spin mechanism (Word Resolution Engine random path in DEVSPEC.md).
 - **Manual Step Controls** (Better tier) — up/down tap zones on each Spinner Slot for per-letter stepping.
@@ -34,6 +36,14 @@ Layout, top to bottom:
 | `SettledNoMatch` (Better tier) | Settled letters do not spell a word | Picture Area shows placeholder "confused" graphic; gibberish audio plays once | Next spin/step/flick begins (returns to `Spinning`) |
 | `LevelTransition` (Better tier) | Word List Progression module fires a level change | Brief transition treatment (e.g., fade), then reload of Idle state for new level | Transition animation completes |
 | `ValidationError` | Any bundled level or progression link fails startup validation | Gameplay controls are hidden; a human-readable list identifies the invalid bundled content | Bundled content is corrected and the app reloads |
+
+The Task Prompt uses these messages:
+
+- `Idle`: “Spin to build it.”
+- `Spinning`: “Watch the letters come together.”
+- `SettledMatch`: “You made {word}!”
+- `SettledNoMatch`: “Try another letter combination.”
+- Completed progression threshold: “You made enough words!”
 
 ## 3. Visibility Rules
 
@@ -106,6 +116,23 @@ Feature: N-letter words (Great)
     And a match/no-match evaluation occurs exactly as in the 3-spinner case
 ```
 
+```gherkin
+Feature: Word-building objective clarity (M6-01)
+
+  Scenario: The game explains the word-building task and result
+    Given the game screen is loaded in the Idle state
+    Then it shows “Make a word” and “Spin to build it.”
+    When the player starts a spin
+    Then the task prompt says “Watch the letters come together.”
+    When the wheels settle on a word
+    Then the task prompt names the formed word
+    And the reward area labels the same formed word beneath its image
+
+  Scenario: A no-match result gives the player a next step
+    Given the displayed letters do not spell a word
+    Then the task prompt says “Try another letter combination.”
+```
+
 ## 5. Accessibility Notes
 
 - Every state that plays audio must also have the corresponding image/graphic as a non-audio cue, since the primary audience is pre-reading children who may play with sound off.
@@ -123,3 +150,4 @@ Feature: N-letter words (Great)
 2026-09-22 — GitHub Copilot — Recorded the implemented M3 Better states and interactions, including no-match feedback and level progression; physical-device smoke testing remains a release-signoff gate.
 2026-09-23 — GitHub Copilot — Added the blocking validation-error state shown when any bundled level or progression link is invalid at startup.
 2026-09-24 — GitHub Copilot — Recorded Great-tier flick and N-spinner interaction coverage and the remaining physical-device and browser E2E release-signoff gates.
+2026-09-25 — GitHub Copilot — Added the M6-01 task prompt and matched-word reward caption states.
