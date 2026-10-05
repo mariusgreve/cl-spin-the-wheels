@@ -89,9 +89,9 @@ M4 adds direct flick-to-spin interaction and support for levels with more than t
 
 ### M4-05 — Five-spinner match and reward integration
 
-**Goal:** Prove Great-tier behavior end to end on the required N-spinner fixture.
+**Goal:** Prove Great-tier behavior end to end on a bundled five-spinner level.
 
-- Drive a five-spinner cycle to a known word from `fixture_5spinner_great.json`.
+- Drive a five-spinner cycle to a known word from bundled `level-3.json`.
 - Confirm image and pronunciation audio use the same reward path as three-spinner matches.
 - Confirm a five-spinner non-word uses the existing no-match feedback path.
 - Confirm the three-spinner vowel-only rule remains active for three-spinner levels.

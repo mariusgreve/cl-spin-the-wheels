@@ -37,7 +37,7 @@ describe('loadLevel', () => {
     expect(result.errors).toEqual([])
     expect(result.level?.level_id).toBe('fixture-5spinner-great')
     expect(result.level?.spinners).toHaveLength(5)
-    expect(result.level?.word_list.map(({ word }) => word)).toContain('strip')
+    expect(result.level?.word_list.map(({ word }) => word)).toContain('slide')
   })
 
   it('preserves configured next-level metadata for ordered progression', () => {

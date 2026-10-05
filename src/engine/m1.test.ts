@@ -65,12 +65,12 @@ describe('M1 gameplay', () => {
     expect(result.level).not.toBeNull()
 
     const spinners = result.level!.spinners.map(createSpinnerState)
-    for (const [index, letter] of [...'strip'].entries()) {
+    for (const [index, letter] of [...'slide'].entries()) {
       settleSpinnerToLetter(spinners[index], letter)
     }
 
     expect(resolveWordMatch(result.level!, spinners)).toEqual(
-      expect.objectContaining({ word: 'strip' }),
+      expect.objectContaining({ word: 'slide' }),
     )
   })
 })

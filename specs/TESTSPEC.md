@@ -80,7 +80,7 @@ All level fixtures live under `src/engine/fixtures/` and are intentionally local
 - `E2E-2` (`SettledNoMatch`, Better): Manually step spinners to a known non-word combination, assert placeholder graphic and gibberish audio fire, matches `UISPEC.md` Feature: Manual letter stepping.
 - `E2E-3` (`LevelTransition`, Better): Drive matches to reach the 50% threshold on `fixture_progression_pair.json`, assert the screen reloads with `fixture_progression_next.json`'s spinners, matches `UISPEC.md` Feature: Word list progression.
 - `E2E-4` (Great, flick): Simulate a flick gesture at two different velocities on the same spinner and assert relative spin duration/behavior, matches `UISPEC.md` Feature: Flick-to-spin.
-- `E2E-5` (Great, N-letter): Full spin/match/reward cycle on `fixture_5spinner_great.json`, matches `UISPEC.md` Feature: N-letter words.
+- `E2E-5` (Great, N-letter): Full spin/match/reward cycle on bundled `level-3.json`, matches `UISPEC.md` Feature: N-letter words.
 - `E2E-6` (M6-01, objective clarity): Assert the accessible idle and spinning task prompts, the formed-word prompt and visible reward caption after a match, and the accessible encouraging next-step prompt after a no-match result. Instructional copy and action labels remain screen-reader-only rather than adding visible reading requirements.
 - `E2E-7` (M6-02, mobile readability): At a mobile viewport, assert the game exposes explicit idle/spinning/settled state styling, the manual controls remain at least 44 CSS pixels in both dimensions, and the primary control remains at least 44 CSS pixels tall without horizontal overflow.
 
@@ -109,7 +109,7 @@ First-pass standalone adoption of [shared UX v0.1.0](CURIOUS-LEARNING-GAME-UX.md
 - Browser `UX-08` verifies interrupted-spin rollback and keyboard-activated explicit resume; `UX-09` checks muted play, replay availability and reduced-motion settlement without confetti. Existing E2E-1 through E2E-5 remain passing.
 - Integrated-browser screenshots were inspected at 320x568 (three-wheel ready) and 1280x720 (five-wheel matched result); local Fredoka loaded and the reward image decoded with `object-fit: contain`. These are engineering checks, not human brand or child-usability approval.
 - Built assets measured 57,695,562 bytes, including 56,073,399 bytes of PNGs; sum of individually gzip-compressed assets was 56,987,200 bytes. This is not a container ZIP measurement or a low-cost-device performance claim. Existing media optimization and project budgets remain follow-up work.
-- The five-wheel QA fixture reuses unrelated image/audio assets (for example, `stone` uses hat media). Its mechanical/layout coverage does not establish teaching-content correctness; it must not be treated as approved child-facing content.
+- The five-wheel QA fixture now mirrors level 3's spellable words and matching image/audio assets. Its human visual and child-discovery approval remains separate from automated verification.
 
 Shared checks UX-03 through UX-10 have partial automated/visual evidence, not full conformance. UX-01 profile/device ownership, UX-02 cold/offline and missing-media fallback, UX-06 child observations, UX-10 full contrast/screen-reader audit, UX-11 educator/cultural review, UX-12 physical-device performance/container ownership, 200% text enlargement and mid-gesture resize recovery remain pending.
 
@@ -119,7 +119,7 @@ Shared checks UX-03 through UX-10 have partial automated/visual evidence, not fu
 - `UX-05` now checks three-, four- and five-letter bundled levels, including levels with and without progression, at all six supported viewports. Picture, wheel-row and primary-action vertical positions/heights must be identical across levels and before, during and after help. Touch-target and viewport bounds remain checked.
 - `UX-09` additionally requires reward settlement to preserve picture, wheel-row and action bounds. App help coverage checks hidden instructional status, icon-only primary action, hidden replay while help is open, toolbar dismissal and automatic dismissal on play.
 - Full gates passed: `pnpm lint`, `pnpm typecheck`, `pnpm test` (64 tests), `pnpm build`, and `pnpm test:e2e` (eight tests).
-- Integrated-browser screenshots inspected: four-letter visual help at 320x568 and a five-letter settled reward at 1280x720. Help examples fit the reserved stage; the settled caption and wheel letters agree, and the reward image loads uncropped. The QA fixture's unrelated reward media remains the known teaching-content exception above.
+- Integrated-browser screenshots inspected: four-letter visual help at 320x568 and a five-letter settled reward at 1280x720. Help examples fit the reserved stage; the settled caption and wheel letters agree, and the reward image loads uncropped. The QA fixture's word/media associations match level 3; human child-discovery approval remains outstanding.
 - Visual and child-discovery approval remain separate from these engineering checks; no physical-device smoke rerun is claimed for this presentation change.
 
 ## 5.8 Current M6-01 Verification Snapshot
@@ -232,7 +232,7 @@ The smoke protocol passed on an Android emulator browser on 2026-09-24.
 | PR-1..4, E2E-3 | `fixture_progression_pair.json`, `fixture_progression_next.json` |
 | FL-1, FL-2, E2E-4 | `fixture_valid_3spinner.json` (gesture simulated at two velocities) |
 | NL-1, NL-2 | `fixture_5spinner_great.json` |
-| E2E-5 | `src/assets/levels/fixture-5spinner-great.json` |
+| E2E-5 | `src/assets/levels/level-3.json` |
 
 ---
 

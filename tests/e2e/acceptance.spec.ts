@@ -27,7 +27,7 @@ test('UX-05 keeps the stage stable across help, progress and three-, four- and f
   for (const [width, height] of viewports) {
     await page.setViewportSize({ width, height })
     let referenceStage: Awaited<ReturnType<typeof stageGeometry>> | undefined
-    for (const level of ['level-1', 'level-2', 'level-3', 'fixture-5spinner-great']) {
+    for (const level of ['level-1', 'level-2', 'level-3']) {
       await page.goto(`/?level=${level}`)
       await page.evaluate(() => document.fonts.ready)
       const beforeHelp = await stageGeometry()
@@ -193,15 +193,15 @@ test('E2E-4 simulates two pointer flicks and verifies the wheel settles on valid
   await runFlick(120, 60, 0)
 })
 
-test('E2E-5 resolves the bundled five-spinner reward cycle on the great-tier fixture', async ({ page }) => {
-  await page.goto('/?level=fixture-5spinner-great')
+test('E2E-5 resolves the bundled five-spinner reward cycle on level 3', async ({ page }) => {
+  await page.goto('/?level=level-3')
 
-  await expect(page.getByRole('main')).toHaveAttribute('data-level-id', 'fixture-5spinner-great')
+  await expect(page.getByRole('main')).toHaveAttribute('data-level-id', 'level-3')
   await expect(page.locator('.spinner-slot')).toHaveCount(5)
 
   await page.getByRole('button', { name: 'Spin', exact: true }).click()
   await expect(page.locator('img[alt$=" reward"]').first()).toBeVisible({ timeout: 20_000 })
 
   const letters = await readLetters(page, ['spinner1', 'spinner2', 'spinner3', 'spinner4', 'spinner5'])
-  expect(['crane', 'stone', 'plane', 'flair', 'strip']).toContain(letters.join(''))
+  expect(['crane', 'plane', 'stone', 'smile', 'slide', 'plant']).toContain(letters.join(''))
 })
