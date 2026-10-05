@@ -1,6 +1,6 @@
 # UISPEC — Spin The Wheels
 
-**Status:** M6-04 standalone UI implemented; shared UX and child-usability approval remain pending
+**Status:** M6-04 standalone UX adoption accepted; broader conformance and host readiness are not claimed
 **Version:** 0.6.0
 **Last Updated:** 2026-10-05
 **References:** DEVSPEC.md (all behavior definitions — this document defines presentation and states only, and does not duplicate DEVSPEC logic)
@@ -182,11 +182,11 @@ Feature: Mobile readability and controls (M6-02)
 - Tap targets for Manual Step Controls must be large enough for young children (minimum 44x44pt touch target).
 - The mobile layout keeps the reward area compact enough for the wheel row and primary control to remain visible without horizontal overflow.
 
-## 6. Shared UX First Pass (M6-04)
+## 6. Shared UX Adoption (M6-04)
 
-Presentation provisionally follows [shared game UX v0.1.0](CURIOUS-LEARNING-GAME-UX.md). This is partial standalone adoption, not brand approval or full conformance.
+Presentation follows [shared game UX v0.1.0](CURIOUS-LEARNING-GAME-UX.md) for the standalone English early-reader profile. Adoption is accepted per user direction; this is not a claim of full conformance or Curious Reader readiness.
 
-- Semantic tokens define surfaces, ink, primary action, encouragement, success, celebration, focus, borders and spacing. Fredoka Latin 400/600 and Lucide icons are bundled locally; distribution notices are in [public/THIRD-PARTY-LICENSES.txt](../public/THIRD-PARTY-LICENSES.txt). Teaching-glyph review remains pending.
+- Semantic tokens define surfaces, ink, primary action, encouragement, success, celebration, focus, borders and spacing. Fredoka Latin 400/600 and Lucide icons are bundled locally; distribution notices are in [public/THIRD-PARTY-LICENSES.txt](../public/THIRD-PARTY-LICENSES.txt).
 - The top toolbar has 48x48 CSS px sound, pause/resume and help controls with accessible names, visible focus, native keyboard activation and tooltips. State uses speaker/slashed-speaker and pause/play symbols, not text alone.
 - Pronunciation replay is a separate speaker control beside the current picture; it is disabled without a matched word, while muted or while paused. Main Spin/next-level controls use icons only, with accessible names and tooltips.
 - Static visual help shows a hand tapping the spin symbol to form `cat`, then arrow-based letter adjustment leading to the bundled cat picture and sound symbol. It overlays the picture area without resizing it, hides the reward/replay controls from keyboard and accessibility APIs while open, does not award progress and yields to gameplay. The toolbar help control toggles it closed; an accessible description also explains swiping.
@@ -195,11 +195,13 @@ Presentation provisionally follows [shared game UX v0.1.0](CURIOUS-LEARNING-GAME
 - Paused play leaves committed letters and any reward visible, dims the wheel controls, disables play/replay/help and switches the pause button to Resume. No modal or fake exit control is added. Return from background stays paused.
 - Next-level emphasis is static. Celebration is brief and nonblocking; reduced motion removes particles and rolling transitions. Repeated reel copies are hidden from accessibility APIs instead of announcing a full animated strip.
 
-Acceptance: mute/unmute never replays stale sound; pronunciation replay never changes progress; an interrupted spin cannot award a match; visual help never changes gameplay; every supported viewport keeps the primary action and touch targets within bounds. Full screen-reader, contrast, 200% text-enlargement and child-discovery acceptance remain pending.
+Acceptance: mute/unmute never replays stale sound; pronunciation replay never changes progress; an interrupted spin cannot award a match; visual help never changes gameplay; every supported viewport keeps the primary action and touch targets within bounds. Broader screen-reader, contrast, 200% text-enlargement and physical-device checks are not claimed as passed by this adoption.
 
 ---
 
 ## Spec Change Log
+
+2026-10-05 — GitHub Copilot — Recorded accepted M6-04 standalone UX adoption and clarified that broader conformance and host readiness are not claimed.
 
 2026-10-05 — GitHub Copilot — Reduced play-screen copy, switched the primary action to icons, added pictorial help in a reserved reward stage and stabilized spacing across three-, four- and five-letter levels.
 

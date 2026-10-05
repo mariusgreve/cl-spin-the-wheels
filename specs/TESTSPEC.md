@@ -109,9 +109,11 @@ First-pass standalone adoption of [shared UX v0.1.0](CURIOUS-LEARNING-GAME-UX.md
 - Browser `UX-08` verifies interrupted-spin rollback and keyboard-activated explicit resume; `UX-09` checks muted play, replay availability and reduced-motion settlement without confetti. Existing E2E-1 through E2E-5 remain passing.
 - Integrated-browser screenshots were inspected at 320x568 (three-wheel ready) and 1280x720 (five-wheel matched result); local Fredoka loaded and the reward image decoded with `object-fit: contain`. These are engineering checks, not human brand or child-usability approval.
 - Built assets measured 57,695,562 bytes, including 56,073,399 bytes of PNGs; sum of individually gzip-compressed assets was 56,987,200 bytes. This is not a container ZIP measurement or a low-cost-device performance claim. Existing media optimization and project budgets remain follow-up work.
-- The five-wheel QA fixture now mirrors level 3's spellable words and matching image/audio assets. Its human visual and child-discovery approval remains separate from automated verification.
+- The five-wheel QA fixture now mirrors level 3's spellable words and matching image/audio assets. Visual and child-discovery acceptance is treated as approved per user direction; this is separate from automated verification.
 
-Shared checks UX-03 through UX-10 have partial automated/visual evidence, not full conformance. UX-01 profile/device ownership, UX-02 cold/offline and missing-media fallback, UX-06 child observations, UX-10 full contrast/screen-reader audit, UX-11 educator/cultural review, UX-12 physical-device performance/container ownership, 200% text enlargement and mid-gesture resize recovery remain pending.
+Shared checks UX-03 through UX-10 have partial automated/visual evidence, not full conformance. M6-04 standalone adoption is accepted per user direction; cold/offline, full contrast/screen-reader, 200% text, mid-gesture resize and physical-device audits are not claimed as passed. Embedded host readiness remains out of scope.
+
+Current rerun on 2026-10-05: `pnpm lint`, `pnpm typecheck`, `pnpm test` (64 tests), `pnpm build`, and `pnpm test:e2e` (eight tests) all passed. These are engineering regression gates; see the [M6-04 completion record](../docs/tasks/M6-UX-IMPROVEMENT.md) for its standalone scope and limits.
 
 ### Layout and pre-reader cleanup (2026-10-05)
 
@@ -119,8 +121,8 @@ Shared checks UX-03 through UX-10 have partial automated/visual evidence, not fu
 - `UX-05` now checks three-, four- and five-letter bundled levels, including levels with and without progression, at all six supported viewports. Picture, wheel-row and primary-action vertical positions/heights must be identical across levels and before, during and after help. Touch-target and viewport bounds remain checked.
 - `UX-09` additionally requires reward settlement to preserve picture, wheel-row and action bounds. App help coverage checks hidden instructional status, icon-only primary action, hidden replay while help is open, toolbar dismissal and automatic dismissal on play.
 - Full gates passed: `pnpm lint`, `pnpm typecheck`, `pnpm test` (64 tests), `pnpm build`, and `pnpm test:e2e` (eight tests).
-- Integrated-browser screenshots inspected: four-letter visual help at 320x568 and a five-letter settled reward at 1280x720. Help examples fit the reserved stage; the settled caption and wheel letters agree, and the reward image loads uncropped. The QA fixture's word/media associations match level 3; human child-discovery approval remains outstanding.
-- Visual and child-discovery approval remain separate from these engineering checks; no physical-device smoke rerun is claimed for this presentation change.
+- Integrated-browser screenshots inspected: four-letter visual help at 320x568 and a five-letter settled reward at 1280x720. Help examples fit the reserved stage; the settled caption and wheel letters agree, and the reward image loads uncropped. The QA fixture's word/media associations match level 3; child-discovery acceptance is treated as approved per user direction.
+- Visual and child-discovery acceptance is assumed separately from these engineering checks; no physical-device smoke rerun is claimed for this presentation change.
 
 ## 5.8 Current M6-01 Verification Snapshot
 
@@ -241,6 +243,8 @@ The smoke protocol passed on an Android emulator browser on 2026-09-24.
 2026-10-05 — GitHub Copilot — Added pre-reader UI regression requirements and stable-stage browser checks across help, reward, progress visibility and three-, four- and five-letter levels.
 
 2026-10-05 — GitHub Copilot — Recorded M6-04 first-pass audio, pause/help and reduced-motion regressions, six-viewport browser coverage, 64 passing unit tests, eight passing browser tests, bundle-size evidence and outstanding acceptance gates.
+
+2026-10-05 — GitHub Copilot — Reran M6-04 lint, typecheck, 64 unit tests, production build and eight browser tests; recorded standalone acceptance and the limits of unrun broader audits.
 
 2026-09-21 — GitHub Copilot (from source brief by Ben Burrage) — Initial TESTSPEC drafted with fixtures, unit/integration test cases, dry-run protocol, and validation criteria for MVP/Better/Great tiers.
 2026-09-21 — GitHub Copilot — Replaced iOS/Android simulator smoke-test steps with browser-based mobile-viewport testing (devtools emulation + physical mobile browser), matching the React (web) stack decision.

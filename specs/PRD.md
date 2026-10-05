@@ -1,6 +1,6 @@
 # PRD — Spin The Wheels
 
-**Status:** M4 Great implementation complete; physical-device smoke testing remains a release-signoff gate
+**Status:** M4 Great implementation complete; M6-04 standalone UX adoption accepted
 **Version:** 0.4.0
 **Last Updated:** 2026-10-05
 **Owner:** Curious Learning — Open Source Workshop ("Creating Literacy Games with React Native", implemented in this project as a React web app)
@@ -45,9 +45,9 @@ The project is delivered in three cumulative implementation tiers, matching the 
 
 Each tier is independently playable and independently demoable; Better and Great are additive on top of MVP and must not regress MVP behavior.
 
-### Shared game UX adoption (M6-04 first pass)
+### Shared game UX adoption (M6-04)
 
-The child can play with familiar pictorial controls, revisit a solved word's pronunciation, mute sound and pause without losing already-earned session progress. A static word-building example supports discovery without requiring written instructions. The visual theme prioritizes readable teaching letters, generous touch targets and restrained feedback; reduced-motion preferences must not prevent play. These additions preserve the existing learning objective, English-only content and progression criteria. Brand, teaching-glyph and child-comprehension approval remain separate acceptance gates; this first pass does not claim Curious Reader integration readiness.
+The child can play with familiar pictorial controls, revisit a solved word's pronunciation, mute sound and pause without losing already-earned session progress. A static word-building example supports discovery without requiring written instructions. The visual theme prioritizes readable teaching letters, generous touch targets and restrained feedback; reduced-motion preferences must not prevent play. These additions preserve the existing learning objective, English-only content and progression criteria. M6-04 standalone adoption is accepted per user direction; this does not claim full shared-spec conformance or Curious Reader integration readiness.
 
 ## 7. Non-Goals / Out of Scope
 
@@ -90,6 +90,8 @@ The child can play with familiar pictorial controls, revisit a solved word's pro
 ---
 
 ## Spec Change Log
+
+2026-10-05 — GitHub Copilot — Recorded accepted M6-04 standalone UX adoption without claiming full shared-spec conformance or host readiness.
 
 2026-10-05 — GitHub Copilot — Added first-pass shared game UX intent for pictorial controls, visual help, pronunciation replay, sound control, safe pause and reduced-motion play without changing curriculum or host scope.
 
