@@ -1,7 +1,7 @@
 # Curious Learning Web Games: Shared Visual and UX Specification
 
 **Status:** Draft for human review; not an official Curious Learning brand standard  
-**Version:** 0.1.0  
+**Version:** 0.2.0
 **Last Updated:** 2026-10-05  
 **Approval owner:** To be designated by the adopting team  
 **Audience:** Game designers, developers, content reviewers and QA  
@@ -40,7 +40,7 @@ Sources were read on 2026-10-05. Repository branches and web pages can change; a
 | [Word Smash repository](https://github.com/tinsleygalyean/word-smash) and [UI spec](https://github.com/tinsleygalyean/word-smash/blob/main/docs/specs/UISPEC.md) | Offline literacy game; a landscape workshop theme, local Fredoka font, direct manipulation, replayable sounds, demonstration hand and non-punitive wrong drops | A universal palette, portrait layout, mandatory mascot or shared component API |
 | [Feed The Monster JS](https://github.com/curiouslearning/FeedTheMonsterJS) | Smartphone/tablet web game; phonics puzzles, collectible characters, language-specific content and audio | A requirement to use its canvas stack, native dependencies, telemetry or characters |
 | [Curious Learning resources](https://www.curiouslearning.org/resources) and [localization guide](https://docs.google.com/document/d/e/2PACX-1vSZ7fc_Rcz24PGYaaRiy3_UUj_XZGl_jWs931RiGkcI2ft4DrN9PMb28jbndzisWccg3h5W_ynyxVU5/pub) | Discoverable interaction, minimal usage language, rendered text, replaceable assets, cultural review and low-cost/offline-device considerations | An approved visual token set or identical pedagogy across languages |
-| [Curious Reader listing](https://play.google.com/store/apps/details?id=org.curiouslearning.container) | A learning collection containing games and stories | A lifecycle, navigation, packaging, safe-area or persistence API |
+| [Curious Reader listing](https://play.google.com/store/apps/details?id=org.curiouslearning.container) | A learning collection containing games and stories; its public gallery shows distinct title-specific illustrated worlds, vivid color and prominent pictorial controls | A lifecycle, navigation, packaging, safe-area, persistence API or unified game-screen palette |
 
 The numeric defaults below are proposed engineering/design choices, not values extracted from an official brand guide. Reference source code and assets MUST NOT be copied without verifying their individual licenses and attribution obligations. No reference game was played or screenshot-compared during this drafting task.
 
@@ -48,7 +48,7 @@ The numeric defaults below are proposed engineering/design choices, not values e
 
 **CL-01:** Every game MUST record its learning objective, audience/reading ability, language, supported orientations, minimum viewport, input methods, supported browser/device baseline, shared-spec version and approved exceptions. Exact age bands and hardware models are project decisions; this profile does not invent them.
 
-**CL-02:** Games MUST share control meanings, feedback intent and accessible behavior. Worlds, characters, materials, composition, game-object shapes and reward metaphors MAY differ. A wood workshop, illustrated landscape and clean spinner stage are all valid themes. A character, reward card, toolbar or start screen is not mandatory.
+**CL-02:** Games MUST share control meanings, feedback intent and accessible behavior, and MUST review their visual direction against the current Curious Reader library and representative game screens. Preserve a distinct game identity; worlds, characters, materials, composition, game-object shapes and reward metaphors MAY differ. A wood workshop, illustrated landscape and clean spinner stage are all valid themes. A character, reward card, toolbar or start screen is not mandatory. When no approved brand guide is available, adopters SHOULD express family resemblance through child-first composition, vivid but balanced color, expressive locally licensed imagery, readable learning content and clear pictorial controls. Treat these as review prompts, not universal Curious Learning tokens; do not copy another title's distinctive characters or assets.
 
 **CL-03:** The game MUST work independently with bundled gameplay assets and no runtime network dependency. Styling, fonts, icons, instruction demonstrations and audio MUST be included locally. First acquisition/download is outside this UX contract; ordinary browser bundling does not prove local-file WebView compatibility.
 
@@ -185,7 +185,7 @@ Child observations require facilitator approval, consent and safeguarding approp
 
 1. Declare the profile and pin this specification version. Inventory existing controls/states and assign each requirement pass, gap, approved exception or not applicable.
 2. Resolve conflicts through the game's product -> behavior -> UI -> test chain. Do not copy another game's curriculum, palette or architecture as a shortcut.
-3. Approve a theme sheet showing tokens, teaching glyphs, icon meanings, media treatment and ready/retry/success/completion/help/pause states at minimum mobile size.
+3. Compare dated captures of the current Curious Reader library and at least two representative game screens; separate recurring family cues from title-specific art. Approve a theme sheet showing tokens, teaching glyphs, icon meanings, media treatment and ready/retry/success/completion/help/pause states at minimum mobile size. Prefer an approved brand guide when supplied; otherwise record the reviewer and mark inferred family styling provisional.
 4. Implement the smallest adoption slices and add focused state/media checks before broad build/browser checks. Reuse existing utilities rather than require a new library.
 5. Run UX-01 through UX-12, record deviations and verify game-specific regression tests. Complete child and visual review separately from automation.
 6. Obtain a named human review of visual fit, learning-content accuracy and exceptions. Claim embedded readiness only after actual Curious Reader checks and host ownership are resolved.
@@ -204,4 +204,6 @@ A draft document, matching colors or passing unit tests alone does not complete 
 
 ## Spec Change Log
 
+2026-10-05 - GitHub Copilot - Made visual-family review against the Curious Reader library and representative games an explicit adoption step while preserving distinct game identities and provisional status for inferred cues.
+2026-10-05 - GitHub Copilot - Recorded public Curious Reader gallery evidence as a diverse set of game-specific illustrated worlds, not a single shared game-screen palette.
 2026-10-05 - GitHub Copilot - Expanded M6-04 into a cross-game visual and UX draft with reference evidence, semantic tokens, state contracts, conditional language support, host boundaries and traceable adoption checks.

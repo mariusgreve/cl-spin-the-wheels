@@ -1,6 +1,6 @@
 # M6 — UX and Pedagogical Improvement Plan
 
-**Status:** M6-01 through M6-04 complete; M6-05 through M6-07 proposed
+**Status:** M6-01 through M6-04 complete; M6-07 in progress; M6-05 and M6-06 proposed
 **Last updated:** 2026-10-05
 
 M6 is a product-focused improvement milestone. It does not redefine the core game mechanic; it upgrades the presentation, interaction clarity, educational framing, and visual alignment of the app so it better matches the purpose of the project and the broader Curious Learning family.
@@ -32,7 +32,7 @@ The next work should make that objective feel obvious, joyful, and educationally
 | M6-04 | Adopt the shared Curious Learning game visual and UX specification | M6-01 | Done | Standalone adoption accepted; automated regression gates pass; broader conformance and host readiness are not claimed |
 | M6-05 | Improve pedagogical progression by word family and difficulty | M6-03 | Proposed | Structure content for literacy learning |
 | M6-06 | Expand reward and content richness | M6-04, M6-05 | Proposed | Increase replay value and delight |
-| M6-07 | Validate UX against the project objective and app-family references | M6-01 through M6-06 | Proposed | Final design sign-off before implementation lock |
+| M6-07 | Validate UX against the project objective and app-family references | M6-01 through M6-06 | In Progress | Preparatory visual-family review and provisional theme pass underway; M6-05/06 and final review remain open |
 
 ## Workstreams
 
@@ -134,15 +134,19 @@ The next work should make that objective feel obvious, joyful, and educationally
 
 ### M6-07 — Validate against the project objective
 
-**Goal:** Confirm that the design work remains true to the purpose of the game.
+**Goal:** Confirm that the design remains true to the word-order learning objective and feels at home in the Curious Reader visual landscape without copying one title's identity.
 
 **Planned work**
 - compare the design against the original pedagogical objective
-- review the flow with the app-family references
+- compare dated captures of the current Curious Reader library and at least two representative game screens; identify recurring family cues separately from title-specific art
+- request an approved brand guide or named visual reviewer; treat any inferred styling as provisional until reviewed
+- create and review a theme sheet for this game's typography, colors, illustration treatment, controls and key states at mobile size
 - check whether the screen still teaches letter order and word formation
 - confirm the UI is child-readable and emotionally inviting
 
-**Done when:** The improved experience still prioritizes literacy learning over generic game mechanics.
+**Done when:** A named reviewer accepts the visual family fit and game-specific theme, while the experience still prioritizes literacy learning, readable teaching content and accessible controls over generic game conventions. Do not claim official brand alignment without an approved source.
+
+**First visual pass (2026-10-05):** Reviewed the public Curious Reader Play listing/gallery and Curious Learning Resources page. The available public captures show a collection of distinct illustrated game worlds rather than one common game-screen palette; they are directional evidence, not an approved brand guide. Updated the shared UX draft to require a dated family-fit comparison while preserving individual game identity, and changed the game to a provisional sky/leaf/gold palette with tactile controls. At 360x640, the document has no overflow and controls remain within the viewport; `pnpm test:e2e --grep UX-05` passed. At 1280x720, the constrained stage has no overflow. Selected color-pair checks passed after darkening the success green, and `pnpm build` passed. The two-title reference review, named visual approval, full accessibility audit and child review are still pending. M6-05 and M6-06 remain proposed, so this is preparatory work only; M6-07 is not complete and official brand alignment is not claimed.
 
 ## Recommended implementation order
 
