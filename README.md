@@ -26,6 +26,7 @@ The M0 implementation scaffold and loader tests are present. Keep future source 
 | [docs/tasks/M5-COMPLETION.md](docs/tasks/M5-COMPLETION.md) | What remains to make the project fully complete and release-signed-off? | Current completion milestone |
 | [docs/UX-IMPROVEMENT-PLAN.md](docs/UX-IMPROVEMENT-PLAN.md) | What product and UX improvements should happen next to strengthen the literacy objective and app-family fit? | Improvement planning |
 | [specs/README.md](specs/README.md) | How do the living specifications relate? | This page |
+| [specs/CURIOUS-LEARNING-GAME-UX.md](specs/CURIOUS-LEARNING-GAME-UX.md) | What shared visual and UX contract can Curious Learning web games adopt? | Cross-project design planning; draft awaiting approval |
 | [docs/AI_AGENT_PLAYBOOK.md](docs/AI_AGENT_PLAYBOOK.md) | How should humans and coding agents collaborate? | This page |
 | [docs/DECISIONS.md](docs/DECISIONS.md) | Why were important project constraints chosen? | Relevant spec |
 
