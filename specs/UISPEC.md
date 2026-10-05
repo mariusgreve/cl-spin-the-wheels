@@ -1,8 +1,8 @@
 # UISPEC — Spin The Wheels
 
-**Status:** M4 Great implementation complete; physical-device smoke testing and browser E2E runner setup remain release-signoff gates
-**Version:** 0.4.2
-**Last Updated:** 2026-09-25
+**Status:** M6-04 standalone UI implemented; shared UX and child-usability approval remain pending
+**Version:** 0.6.0
+**Last Updated:** 2026-10-05
 **References:** DEVSPEC.md (all behavior definitions — this document defines presentation and states only, and does not duplicate DEVSPEC logic)
 
 This is a React (web) app, not React Native. It is designed to eventually be embedded in a CMS page displayed inside an Android app's webview, so all layouts below are designed for a mobile device viewport width (~360–430px) as the primary target, even when previewed in a desktop browser during development.
@@ -13,11 +13,12 @@ This is a React (web) app, not React Native. It is designed to eventually be emb
 
 Layout, top to bottom:
 
-- **Task Prompt** — states the immediate word-building action while idle and gives short feedback while spinning or after a match/no-match result.
-- **Picture Area** — displays the reward image for the last matched word, or a question-mark placeholder before any match. Reward images and the waiting placeholder use the same centered, rounded 1:1 frame; reward images remain fully visible without cropping. (Better tier: displays a placeholder "confused" graphic instead when letters don't spell a word.)
+- **Toolbar** — game name and sound, pause/resume and help icons. Level identifiers and instructional headings are not visible during play; state feedback remains in a screen-reader live status.
+- **Progress Track** — pictorial pips with a reserved-height row, including when no progression is configured.
+- **Picture Area** — displays the reward image for the last matched word, or a spin-symbol placeholder before any match. Reward images and the waiting placeholder use the same centered, rounded 1:1 frame; reward images remain fully visible without cropping. (Better tier: displays a placeholder "confused" graphic instead when letters don't spell a word.) Help overlays this reserved area without moving the wheels or play control.
 - **Reward Caption** — names the matched word beneath its reward image after a successful solve; it is hidden before a match to keep the waiting state uncluttered.
 - **Spinner Row** — one Spinner Slot per entry in the level's `spinners` array, laid out left to right in array order.
-- **Trigger Control** — MVP: a single "Spin" button/lever that triggers the random-spin mechanism (Word Resolution Engine random path in DEVSPEC.md).
+- **Trigger Control** — a large icon-only spin control, replaced by a forward arrow when the next level is ready; accessible names and hover tooltips identify each action.
 - **Manual Step Controls** (Better tier) — up/down tap zones on each Spinner Slot for per-letter stepping.
 
 ### 1.2 Spinner Slot (component, repeated per spinner)
@@ -37,7 +38,7 @@ Layout, top to bottom:
 | `LevelTransition` (Better tier) | Word List Progression module fires a level change | Brief transition treatment (e.g., fade), then reload of Idle state for new level | Transition animation completes |
 | `ValidationError` | Any bundled level or progression link fails startup validation | Gameplay controls are hidden; a human-readable list identifies the invalid bundled content | Bundled content is corrected and the app reloads |
 
-The Task Prompt uses these messages:
+The screen-reader-only Task Prompt uses these messages:
 
 - `Idle`: “Spin to build it.”
 - `Spinning`: “Watch the letters come together.”
@@ -47,9 +48,9 @@ The Task Prompt uses these messages:
 
 Feedback presentation reinforces these states without changing the screen composition:
 
-- `SettledMatch` uses a success accent on the task prompt and picture area.
-- `SettledNoMatch` uses an encouraging warm accent on the task prompt and confused picture area.
-- A completed progression threshold uses the progression accent on the task prompt and reward area while the next-level control remains available.
+- `SettledMatch` uses a success accent on the picture area and the visible matched-word caption.
+- `SettledNoMatch` uses an encouraging warm accent on the confused picture area.
+- A completed progression threshold uses the progression accent on the reward area while the forward-arrow next-level control remains available.
 - The task prompt is exposed as a polite live status so state changes are announced without relying on audio.
 
 ## 3. Visibility Rules
@@ -128,7 +129,8 @@ Feature: Word-building objective clarity (M6-01)
 
   Scenario: The game explains the word-building task and result
     Given the game screen is loaded in the Idle state
-    Then it shows “Make a word” and “Spin to build it.”
+    Then its pictorial controls are visible without instructional copy
+    And its accessible live status says “Spin to build it.”
     When the player starts a spin
     Then the task prompt says “Watch the letters come together.”
     When the wheels settle on a word
@@ -151,7 +153,7 @@ Feature: Feedback state clarity (M6-03)
   Scenario: A no-match result has encouraging feedback
     Given the settled letters do not spell a word
     Then the task prompt and picture area expose the no-match state
-    And the confused picture and next-step message remain visible
+    And the confused picture remains visible and the next-step message is announced
 
   Scenario: Completed progression has distinct next-step feedback
     Given the player reaches the distinct-word progression threshold
@@ -180,9 +182,28 @@ Feature: Mobile readability and controls (M6-02)
 - Tap targets for Manual Step Controls must be large enough for young children (minimum 44x44pt touch target).
 - The mobile layout keeps the reward area compact enough for the wheel row and primary control to remain visible without horizontal overflow.
 
+## 6. Shared UX First Pass (M6-04)
+
+Presentation provisionally follows [shared game UX v0.1.0](CURIOUS-LEARNING-GAME-UX.md). This is partial standalone adoption, not brand approval or full conformance.
+
+- Semantic tokens define surfaces, ink, primary action, encouragement, success, celebration, focus, borders and spacing. Fredoka Latin 400/600 and Lucide icons are bundled locally; distribution notices are in [public/THIRD-PARTY-LICENSES.txt](../public/THIRD-PARTY-LICENSES.txt). Teaching-glyph review remains pending.
+- The top toolbar has 48x48 CSS px sound, pause/resume and help controls with accessible names, visible focus, native keyboard activation and tooltips. State uses speaker/slashed-speaker and pause/play symbols, not text alone.
+- Pronunciation replay is a separate speaker control beside the current picture; it is disabled without a matched word, while muted or while paused. Main Spin/next-level controls use icons only, with accessible names and tooltips.
+- Static visual help shows a hand tapping the spin symbol to form `cat`, then arrow-based letter adjustment leading to the bundled cat picture and sound symbol. It overlays the picture area without resizing it, hides the reward/replay controls from keyboard and accessibility APIs while open, does not award progress and yields to gameplay. The toolbar help control toggles it closed; an accessible description also explains swiping.
+- Portrait play is checked at 320x568, 360x640 and 430x932; short landscape uses two columns at 568x320 and 932x430. Desktop at 1280x720 retains a constrained, unframed game stage. Three-, four- and five-wheel levels keep identical stage heights at each viewport, 48px manual targets and 8-12px horizontal gaps. Vertical gaps are 16px on compact screens and 24px on roomy screens. Picture, wheels and primary-action bounds do not change for help, reward or progress visibility. Teaching type is fixed, not scaled with viewport width.
+- Reward images and placeholders use stable, uncropped 1:1 frames. Retry uses a dashed encouragement border; success uses the success accent and actual matched word. The warm initial spin symbol differs from success/retry media.
+- Paused play leaves committed letters and any reward visible, dims the wheel controls, disables play/replay/help and switches the pause button to Resume. No modal or fake exit control is added. Return from background stays paused.
+- Next-level emphasis is static. Celebration is brief and nonblocking; reduced motion removes particles and rolling transitions. Repeated reel copies are hidden from accessibility APIs instead of announcing a full animated strip.
+
+Acceptance: mute/unmute never replays stale sound; pronunciation replay never changes progress; an interrupted spin cannot award a match; visual help never changes gameplay; every supported viewport keeps the primary action and touch targets within bounds. Full screen-reader, contrast, 200% text-enlargement and child-discovery acceptance remain pending.
+
 ---
 
 ## Spec Change Log
+
+2026-10-05 — GitHub Copilot — Reduced play-screen copy, switched the primary action to icons, added pictorial help in a reserved reward stage and stabilized spacing across three-, four- and five-letter levels.
+
+2026-10-05 — GitHub Copilot — Recorded provisional shared visual tokens, local fonts/icons, toolbar and replay controls, help, paused presentation, responsive layouts and reduced-motion behavior.
 
 2026-09-21 — GitHub Copilot (from source brief by Ben Burrage) — Initial UISPEC drafted: screens, states, visibility rules, and Gherkin acceptance criteria for MVP/Better/Great tiers.
 2026-09-21 — GitHub Copilot — Clarified target is a React (web) app designed for a mobile viewport, not React Native, per updated project constraint.

@@ -28,6 +28,43 @@ describe('Spinner imperative API', () => {
     vi.useRealTimers()
   })
 
+  it('cancels animation and restores a committed letter without settlement', async () => {
+    vi.useFakeTimers()
+    const onSettled = vi.fn()
+    const spinnerRef = createRef<SpinnerHandle>()
+    render(<Spinner ref={spinnerRef} definition={definition} position={0} totalSpinners={3} onSettled={onSettled} />)
+    let animation: Promise<void> | undefined
+    act(() => {
+      animation = getHandle(spinnerRef).animateAndSettle('h')
+      vi.advanceTimersByTime(200)
+      getHandle(spinnerRef).cancelAndRestore('b')
+    })
+    await act(async () => {
+      await animation
+      vi.advanceTimersByTime(20_000)
+    })
+    expect(screen.getByLabelText('spinner1 letter wheel showing b')).not.toHaveClass('is-spinning')
+    expect(onSettled).not.toHaveBeenCalled()
+    fireEvent.click(screen.getByRole('button', { name: 'Next letter for spinner1' }))
+    act(() => vi.advanceTimersByTime(120))
+    expect(onSettled).toHaveBeenCalledTimes(1)
+  })
+
+  it('settles without reel loops when reduced motion is requested', async () => {
+    vi.useFakeTimers()
+    const spinnerRef = createRef<SpinnerHandle>()
+    const onSettled = vi.fn()
+    render(<Spinner ref={spinnerRef} definition={definition} position={0} totalSpinners={3} reducedMotion onSettled={onSettled} />)
+    let animation: Promise<void> | undefined
+    act(() => { animation = getHandle(spinnerRef).animateAndSettle('h') })
+    await act(async () => {
+      vi.advanceTimersByTime(120)
+      await animation
+    })
+    expect(screen.getByLabelText('spinner1 letter wheel showing h')).not.toHaveClass('is-spinning')
+    expect(onSettled).toHaveBeenCalledTimes(1)
+  })
+
   it('jumps to a declared letter and updates the displayed letter', () => {
     const spinnerRef = createRef<SpinnerHandle>()
 

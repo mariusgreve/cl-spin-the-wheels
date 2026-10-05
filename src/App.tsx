@@ -1,4 +1,7 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { ArrowRight, ChevronDown, ChevronUp, CircleHelp, Hand, Pause, Play, RotateCw, Volume2, VolumeX } from 'lucide-react'
+import '@fontsource/fredoka/latin-400.css'
+import '@fontsource/fredoka/latin-600.css'
 import { Confetti } from './components/Confetti'
 import { Spinner, type SpinnerHandle } from './components/Spinner'
 import { loadLevelCollection, type WordDefinition } from './engine/levelLoader'
@@ -78,12 +81,74 @@ export function App({ levels = bundledLevels, initialLevelId }: AppProps = {}) {
   const [gameState, setGameState] = useState<'Idle' | 'Spinning' | 'SettledMatch' | 'SettledNoMatch'>('Idle')
   const [pendingLevelTransition, setPendingLevelTransition] = useState<string | null>(null)
   const [showConfetti, setShowConfetti] = useState(false)
+  const [muted, setMuted] = useState(false)
+  const [paused, setPaused] = useState(false)
+  const [showHelp, setShowHelp] = useState(false)
+  const [reducedMotion, setReducedMotion] = useState(() => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false)
   const [levelProgress, setLevelProgress] = useState<{ distinctMatches: number; threshold: number } | null>(null)
   const spinnerRefs = useRef<Array<SpinnerHandle | null>>([])
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const spinInProgressRef = useRef(false)
   const progressionTrackerRef = useRef<ProgressionTracker | null>(null)
   const confettiTimeoutRef = useRef<number | null>(null)
+  const mutedRef = useRef(false)
+  const pausedRef = useRef(false)
+  const spinGenerationRef = useRef(0)
+  const previousResultRef = useRef<{ state: typeof gameState; word: WordDefinition | null }>({ state: 'Idle', word: null })
+
+  const stopAudio = useCallback(() => {
+    if (audioRef.current) {
+      audioRef.current.pause()
+      audioRef.current.currentTime = 0
+    }
+  }, [])
+
+  const playWord = useCallback((word: WordDefinition) => {
+    if (mutedRef.current || pausedRef.current) return
+    const audioUrl = assetUrl(word.audio_asset)
+    const audio = audioRef.current
+    if (!audioUrl || !audio) return
+    audio.pause()
+    audio.currentTime = 0
+    audio.src = audioUrl
+    void audio.play().catch(() => undefined)
+  }, [])
+
+  const pauseGame = useCallback(() => {
+    if (!currentLevel) return
+    pausedRef.current = true
+    setPaused(true)
+    setShowHelp(false)
+    spinGenerationRef.current += 1
+    spinnerRefs.current.forEach((spinner, index) => {
+      spinner?.cancelAndRestore(currentLevel.spinners[index].letter_list[spinnerStates[index]?.currentIndex ?? 0])
+    })
+    if (spinInProgressRef.current) {
+      setGameState(previousResultRef.current.state)
+      setMatchedWord(previousResultRef.current.word)
+    }
+    spinInProgressRef.current = false
+    stopAudio()
+    setShowConfetti(false)
+    if (confettiTimeoutRef.current !== null) window.clearTimeout(confettiTimeoutRef.current)
+    confettiTimeoutRef.current = null
+  }, [currentLevel, spinnerStates, stopAudio])
+
+  useEffect(() => {
+    const preference = window.matchMedia?.('(prefers-reduced-motion: reduce)')
+    if (!preference) return
+    const updatePreference = () => setReducedMotion(preference.matches)
+    preference.addEventListener('change', updatePreference)
+    return () => preference.removeEventListener('change', updatePreference)
+  }, [])
+
+  useEffect(() => {
+    const handleVisibility = () => {
+      if (document.visibilityState === 'hidden') pauseGame()
+    }
+    document.addEventListener('visibilitychange', handleVisibility)
+    return () => document.removeEventListener('visibilitychange', handleVisibility)
+  }, [pauseGame])
 
   useEffect(() => {
     if (!currentLevel) {
@@ -91,6 +156,8 @@ export function App({ levels = bundledLevels, initialLevelId }: AppProps = {}) {
     }
 
     progressionTrackerRef.current = new ProgressionTracker(currentLevel)
+    spinGenerationRef.current += 1
+    spinInProgressRef.current = false
     setSpinnerStates(currentLevel.spinners.map(createSpinnerState))
     setMatchedWord(null)
     setGameState('Idle')
@@ -112,29 +179,17 @@ export function App({ levels = bundledLevels, initialLevelId }: AppProps = {}) {
 
   useEffect(() => {
     if (!matchedWord) {
-      if (audioRef.current) {
-        audioRef.current.pause()
-        audioRef.current.currentTime = 0
-      }
+      stopAudio()
       return
     }
-
-    const audioUrl = assetUrl(matchedWord.audio_asset)
-    if (!audioUrl || !audioRef.current) {
-      return
-    }
-
-    const audio = audioRef.current
-    audio.pause()
-    audio.currentTime = 0
-    audio.src = audioUrl
-    audio.play().catch(() => {
-      // Audio may be blocked until user interaction; gameplay keeps moving without crashing.
-    })
-  }, [matchedWord])
+    playWord(matchedWord)
+  }, [matchedWord, playWord, stopAudio])
 
   useEffect(() => {
+    const audio = audioRef.current
     return () => {
+      spinGenerationRef.current += 1
+      audio?.pause()
       if (confettiTimeoutRef.current !== null) {
         window.clearTimeout(confettiTimeoutRef.current)
       }
@@ -155,6 +210,8 @@ export function App({ levels = bundledLevels, initialLevelId }: AppProps = {}) {
   }
 
   const resolveSettledSpinners = (nextSpinners: SpinnerState[]) => {
+    if (pausedRef.current) return
+    setShowHelp(false)
     setSpinnerStates(nextSpinners)
 
     const match = resolveWordMatch(currentLevel, nextSpinners)
@@ -176,14 +233,14 @@ export function App({ levels = bundledLevels, initialLevelId }: AppProps = {}) {
       if (decision.shouldTransition && currentLevel.next_level_id) {
         // Defer the switch so the just-matched word stays on screen until the next spin.
         setPendingLevelTransition(currentLevel.next_level_id)
-        setShowConfetti(true)
+        setShowConfetti(!reducedMotion)
         if (confettiTimeoutRef.current !== null) {
           window.clearTimeout(confettiTimeoutRef.current)
         }
         confettiTimeoutRef.current = window.setTimeout(() => {
           setShowConfetti(false)
           confettiTimeoutRef.current = null
-        }, 2800)
+        }, 1500)
       }
       return
     }
@@ -193,7 +250,7 @@ export function App({ levels = bundledLevels, initialLevelId }: AppProps = {}) {
   }
 
   const handleSettled = () => {
-    if (spinInProgressRef.current) {
+    if (spinInProgressRef.current || pausedRef.current) {
       return
     }
 
@@ -209,9 +266,10 @@ export function App({ levels = bundledLevels, initialLevelId }: AppProps = {}) {
   }
 
   const handleSpin = async () => {
-    if (gameState === 'Spinning') {
+    if (gameState === 'Spinning' || pausedRef.current) {
       return
     }
+    setShowHelp(false)
 
     if (pendingLevelTransition) {
       setPendingLevelTransition(null)
@@ -221,6 +279,8 @@ export function App({ levels = bundledLevels, initialLevelId }: AppProps = {}) {
 
     const currentWord = resolveWordMatch(currentLevel, spinnerStates)
     const pickedWord = spinForWord(currentLevel, currentWord?.word)
+    previousResultRef.current = { state: gameState, word: matchedWord }
+    const generation = ++spinGenerationRef.current
     spinInProgressRef.current = true
     setGameState('Spinning')
     setMatchedWord(null)
@@ -244,6 +304,7 @@ export function App({ levels = bundledLevels, initialLevelId }: AppProps = {}) {
     })
 
     await Promise.all(wheelAnimations)
+    if (generation !== spinGenerationRef.current || pausedRef.current) return
     spinInProgressRef.current = false
     const nextSpinners = currentLevel.spinners.map((spinner, index) => {
       const nextSpinner = createSpinnerState(spinner)
@@ -251,6 +312,21 @@ export function App({ levels = bundledLevels, initialLevelId }: AppProps = {}) {
       return nextSpinner
     })
     resolveSettledSpinners(nextSpinners)
+  }
+
+  const togglePause = () => {
+    if (pausedRef.current) {
+      pausedRef.current = false
+      setPaused(false)
+      return
+    }
+    pauseGame()
+  }
+
+  const toggleMute = () => {
+    mutedRef.current = !mutedRef.current
+    setMuted(mutedRef.current)
+    stopAudio()
   }
 
   const rewardImage = matchedWord ? assetUrl(matchedWord.image_asset) : null
@@ -275,15 +351,25 @@ export function App({ levels = bundledLevels, initialLevelId }: AppProps = {}) {
           : 'Spin to build it.'
 
   return (
-    <main className="shell" data-game-state={gameState.toLowerCase()}>
+    <main className="shell" data-game-state={gameState.toLowerCase()} data-paused={paused} data-level-id={currentLevel.level_id}>
       <Confetti active={showConfetti} />
       <header className="masthead">
         <div className="masthead-top">
-          <p className="eyebrow">Spin The Wheels</p>
-          <span className="level-tag">{formatLevelId(currentLevel.level_id)}</span>
+          <h1 className="eyebrow">Spin The Wheels</h1>
+          <div className="game-tools" aria-label="Game controls">
+            <button className="icon-button" type="button" onClick={toggleMute} aria-label={muted ? 'Unmute sound' : 'Mute sound'} aria-pressed={muted} title={muted ? 'Unmute sound' : 'Mute sound'}>
+              {muted ? <VolumeX aria-hidden="true" /> : <Volume2 aria-hidden="true" />}
+            </button>
+            <button className="icon-button" type="button" onClick={togglePause} aria-label={paused ? 'Resume game' : 'Pause game'} aria-pressed={paused} title={paused ? 'Resume game' : 'Pause game'}>
+              {paused ? <Play aria-hidden="true" /> : <Pause aria-hidden="true" />}
+            </button>
+            <button className="icon-button" type="button" onClick={() => setShowHelp(!showHelp)} disabled={paused} aria-label="Show visual help" aria-expanded={showHelp} aria-controls="visual-help" title={showHelp ? 'Close visual help' : 'Show visual help'}>
+              <CircleHelp aria-hidden="true" />
+            </button>
+          </div>
         </div>
-        <h1>Make a word</h1>
-        <p className={`task-message task-message--${feedbackState}`} role="status">{taskMessage}</p>
+        <span className="sr-only">{formatLevelId(currentLevel.level_id)}</span>
+        <p className={`task-message task-message--${feedbackState} sr-only`} role="status">{taskMessage}</p>
       </header>
       <div
         className={levelProgress ? 'level-progress' : 'level-progress is-hidden'}
@@ -302,26 +388,45 @@ export function App({ levels = bundledLevels, initialLevelId }: AppProps = {}) {
             />
           ))}
         </div>
-        <p className="level-progress-label">
+        <p className="level-progress-label sr-only">
           {levelProgress
             ? `${Math.max(0, levelProgress.threshold - levelProgress.distinctMatches)} word${levelProgress.threshold - levelProgress.distinctMatches === 1 ? '' : 's'} to next level`
             : '\u00A0'}
         </p>
       </div>
       <section className={`picture-area picture-area--${feedbackState}`} aria-label="Picture area">
+        <div className="picture-content" aria-hidden={showHelp ? true : undefined} style={{ visibility: showHelp ? 'hidden' : undefined }}>
         {rewardImage ? (
           <img src={rewardImage} alt={rewardAlt} />
         ) : (
-          <div className="picture-placeholder" aria-label="No reward yet">?</div>
+          <div className="picture-placeholder" aria-label="No reward yet"><RotateCw aria-hidden="true" /></div>
         )}
+        <button className="icon-button replay-button" type="button" onClick={() => { if (matchedWord) playWord(matchedWord) }} disabled={!hasMatchedWord || muted || paused} aria-label="Replay word sound" title="Replay word sound">
+          <Volume2 aria-hidden="true" />
+        </button>
         <p
           className={hasMatchedWord ? 'reward-caption is-visible' : 'reward-caption'}
           aria-hidden={hasMatchedWord ? undefined : true}
         >
           {hasMatchedWord ? matchedWord.word : '\u00A0'}
         </p>
+        </div>
+        {showHelp && (
+          <section id="visual-help" className="visual-help" aria-label="Visual word-building example">
+            <div className="help-example" aria-hidden="true">
+              <div className="help-action"><RotateCw /><Hand /></div>
+              <ArrowRight />
+              <div className="help-letters"><span>c</span><span>a</span><span>t</span></div>
+            </div>
+            <div className="help-example" aria-hidden="true">
+              <div className="help-step"><ChevronUp /><span>a</span><ChevronDown /><Hand /></div>
+              <ArrowRight /><img src={assetUrl('assets/images/cat.png') ?? undefined} alt="" /><Volume2 />
+            </div>
+            <p className="sr-only">Tap the spin symbol to make a word. Use the up and down arrows to change one letter, or swipe a wheel. Put letters together to make a word, like cat, and see its picture and hear its sound.</p>
+          </section>
+        )}
       </section>
-      <section className="spinner-row" aria-label="Letter wheels">
+      <section className="spinner-row" aria-label="Letter wheels" onPointerDownCapture={() => setShowHelp(false)}>
         {currentLevel.spinners.map((spinner, index) => (
           <Spinner
             key={spinner.id}
@@ -329,7 +434,8 @@ export function App({ levels = bundledLevels, initialLevelId }: AppProps = {}) {
             definition={spinner}
             position={index}
             totalSpinners={currentLevel.spinners.length}
-            controlsDisabled={gameState === 'Spinning' || Boolean(pendingLevelTransition)}
+            controlsDisabled={paused || gameState === 'Spinning' || Boolean(pendingLevelTransition)}
+            reducedMotion={reducedMotion}
             onSettled={gameState === 'Spinning' ? undefined : handleSettled}
           />
         ))}
@@ -338,10 +444,13 @@ export function App({ levels = bundledLevels, initialLevelId }: AppProps = {}) {
         className={pendingLevelTransition ? 'spin-button spin-button--next-level' : 'spin-button'}
         type="button"
         onClick={() => void handleSpin()}
-        disabled={gameState === 'Spinning'}
+        disabled={paused || gameState === 'Spinning'}
+        aria-label={spinButtonLabel}
+        title={spinButtonLabel}
       >
-        {spinButtonLabel}
+        {pendingLevelTransition ? <ArrowRight aria-hidden="true" /> : <RotateCw aria-hidden="true" />}
       </button>
+      {paused && <p className="sr-only" role="note">Game paused. Use Resume game to continue.</p>}
       <audio ref={audioRef} preload="auto" />
     </main>
   )

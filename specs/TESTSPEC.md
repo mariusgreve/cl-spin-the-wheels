@@ -1,8 +1,8 @@
 # TESTSPEC — Spin The Wheels
 
 **Status:** M5-06 physical-device smoke test passed on Android emulator; release sign-off is recorded
-**Version:** 0.6.4
-**Last Updated:** 2026-09-25
+**Version:** 0.8.0
+**Last Updated:** 2026-10-05
 **References:** DEVSPEC.md (module behavior), UISPEC.md (states/screens) — this document does not redefine behavior, only verifies it.
 
 ## 1. Fixtures
@@ -81,7 +81,7 @@ All level fixtures live under `src/engine/fixtures/` and are intentionally local
 - `E2E-3` (`LevelTransition`, Better): Drive matches to reach the 50% threshold on `fixture_progression_pair.json`, assert the screen reloads with `fixture_progression_next.json`'s spinners, matches `UISPEC.md` Feature: Word list progression.
 - `E2E-4` (Great, flick): Simulate a flick gesture at two different velocities on the same spinner and assert relative spin duration/behavior, matches `UISPEC.md` Feature: Flick-to-spin.
 - `E2E-5` (Great, N-letter): Full spin/match/reward cycle on `fixture_5spinner_great.json`, matches `UISPEC.md` Feature: N-letter words.
-- `E2E-6` (M6-01, objective clarity): Assert the idle and spinning task prompts, the formed-word prompt and reward caption after a match, and the encouraging next-step prompt after a no-match result.
+- `E2E-6` (M6-01, objective clarity): Assert the accessible idle and spinning task prompts, the formed-word prompt and visible reward caption after a match, and the accessible encouraging next-step prompt after a no-match result. Instructional copy and action labels remain screen-reader-only rather than adding visible reading requirements.
 - `E2E-7` (M6-02, mobile readability): At a mobile viewport, assert the game exposes explicit idle/spinning/settled state styling, the manual controls remain at least 44 CSS pixels in both dimensions, and the primary control remains at least 44 CSS pixels tall without horizontal overflow.
 
 ## 4. Build-and-Test Sequence (Dry Run Protocol)
@@ -97,6 +97,30 @@ All level fixtures live under `src/engine/fixtures/` and are intentionally local
 
 - A milestone is "done" only when: all its module's unit tests pass, its corresponding E2E test(s) pass, and the manual smoke test shows no crash and no incorrect vowel/word-match behavior.
 - Zero tolerance items (must never fail, block release if they do): middle-spinner vowel constraint (`SP-1`, `MC-2`, `NL-2`), no audio overlap (`MP-2`), no false "word matched" event (`WR-2`).
+
+## 5.11 M6-04 First-Pass Verification Snapshot
+
+First-pass standalone adoption of [shared UX v0.1.0](CURIOUS-LEARNING-GAME-UX.md), verified on 2026-10-05:
+
+- `pnpm exec vitest run src/components/Spinner.test.tsx --environment jsdom` passed with 18 tests after adding cancellation and reduced-motion coverage.
+- `pnpm exec vitest run src/App.test.tsx src/components/Spinner.test.tsx --environment jsdom` passed with 36 tests after adding muted rewards, non-awarding replay, autoplay rejection, help, visibility pause, random-spin rollback, manual-step cancellation and previous-reward restoration.
+- `pnpm lint`, `pnpm typecheck`, `pnpm test` (64 tests across six files), `pnpm build` and `pnpm test:e2e` (eight tests) passed.
+- Browser `UX-05` checks three- and five-wheel ready/help layouts at 320x568, 360x640, 430x932, 568x320, 932x430 and 1280x720: no horizontal overflow, primary action within viewport, and every button at least 44px with its horizontal bounds within the viewport.
+- Browser `UX-08` verifies interrupted-spin rollback and keyboard-activated explicit resume; `UX-09` checks muted play, replay availability and reduced-motion settlement without confetti. Existing E2E-1 through E2E-5 remain passing.
+- Integrated-browser screenshots were inspected at 320x568 (three-wheel ready) and 1280x720 (five-wheel matched result); local Fredoka loaded and the reward image decoded with `object-fit: contain`. These are engineering checks, not human brand or child-usability approval.
+- Built assets measured 57,695,562 bytes, including 56,073,399 bytes of PNGs; sum of individually gzip-compressed assets was 56,987,200 bytes. This is not a container ZIP measurement or a low-cost-device performance claim. Existing media optimization and project budgets remain follow-up work.
+- The five-wheel QA fixture reuses unrelated image/audio assets (for example, `stone` uses hat media). Its mechanical/layout coverage does not establish teaching-content correctness; it must not be treated as approved child-facing content.
+
+Shared checks UX-03 through UX-10 have partial automated/visual evidence, not full conformance. UX-01 profile/device ownership, UX-02 cold/offline and missing-media fallback, UX-06 child observations, UX-10 full contrast/screen-reader audit, UX-11 educator/cultural review, UX-12 physical-device performance/container ownership, 200% text enlargement and mid-gesture resize recovery remain pending.
+
+### Layout and pre-reader cleanup (2026-10-05)
+
+- Focused `pnpm test src/App.test.tsx` passed (18 tests); `pnpm test:e2e --grep UX-05` passed.
+- `UX-05` now checks three-, four- and five-letter bundled levels, including levels with and without progression, at all six supported viewports. Picture, wheel-row and primary-action vertical positions/heights must be identical across levels and before, during and after help. Touch-target and viewport bounds remain checked.
+- `UX-09` additionally requires reward settlement to preserve picture, wheel-row and action bounds. App help coverage checks hidden instructional status, icon-only primary action, hidden replay while help is open, toolbar dismissal and automatic dismissal on play.
+- Full gates passed: `pnpm lint`, `pnpm typecheck`, `pnpm test` (64 tests), `pnpm build`, and `pnpm test:e2e` (eight tests).
+- Integrated-browser screenshots inspected: four-letter visual help at 320x568 and a five-letter settled reward at 1280x720. Help examples fit the reserved stage; the settled caption and wheel letters agree, and the reward image loads uncropped. The QA fixture's unrelated reward media remains the known teaching-content exception above.
+- Visual and child-discovery approval remain separate from these engineering checks; no physical-device smoke rerun is claimed for this presentation change.
 
 ## 5.8 Current M6-01 Verification Snapshot
 
@@ -213,6 +237,10 @@ The smoke protocol passed on an Android emulator browser on 2026-09-24.
 ---
 
 ## Spec Change Log
+
+2026-10-05 — GitHub Copilot — Added pre-reader UI regression requirements and stable-stage browser checks across help, reward, progress visibility and three-, four- and five-letter levels.
+
+2026-10-05 — GitHub Copilot — Recorded M6-04 first-pass audio, pause/help and reduced-motion regressions, six-viewport browser coverage, 64 passing unit tests, eight passing browser tests, bundle-size evidence and outstanding acceptance gates.
 
 2026-09-21 — GitHub Copilot (from source brief by Ben Burrage) — Initial TESTSPEC drafted with fixtures, unit/integration test cases, dry-run protocol, and validation criteria for MVP/Better/Great tiers.
 2026-09-21 — GitHub Copilot — Replaced iOS/Android simulator smoke-test steps with browser-based mobile-viewport testing (devtools emulation + physical mobile browser), matching the React (web) stack decision.

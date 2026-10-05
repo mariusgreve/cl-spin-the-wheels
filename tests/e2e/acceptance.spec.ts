@@ -16,6 +16,86 @@ const levelOneWords = [
   'sun',
 ]
 
+test('UX-05 keeps the stage stable across help, progress and three-, four- and five-wheel levels', async ({ page }) => {
+  const viewports = [[320, 568], [360, 640], [430, 932], [568, 320], [932, 430], [1280, 720]]
+  const stageGeometry = () => page.evaluate(() =>
+    ['.picture-area', '.spinner-row', '.spin-button'].map((selector) => {
+      const bounds = document.querySelector(selector)!.getBoundingClientRect()
+      return { y: bounds.y, height: bounds.height }
+    }),
+  )
+  for (const [width, height] of viewports) {
+    await page.setViewportSize({ width, height })
+    let referenceStage: Awaited<ReturnType<typeof stageGeometry>> | undefined
+    for (const level of ['level-1', 'level-2', 'level-3', 'fixture-5spinner-great']) {
+      await page.goto(`/?level=${level}`)
+      await page.evaluate(() => document.fonts.ready)
+      const beforeHelp = await stageGeometry()
+      referenceStage ??= beforeHelp
+      expect(beforeHelp, `${level} at ${width}x${height}`).toEqual(referenceStage)
+      const geometry = await page.evaluate(() => ({
+        width: document.documentElement.scrollWidth,
+        bottom: document.querySelector('.spin-button')?.getBoundingClientRect().bottom ?? Infinity,
+        targets: Array.from(document.querySelectorAll('button')).map((button) => {
+          const bounds = button.getBoundingClientRect()
+          return { width: bounds.width, height: bounds.height, right: bounds.right, left: bounds.left }
+        }),
+      }))
+      expect(geometry.width, `${level} at ${width}x${height}`).toBeLessThanOrEqual(width)
+      expect(geometry.bottom, `${level} at ${width}x${height}`).toBeLessThanOrEqual(height)
+      for (const target of geometry.targets) {
+        expect(target.width).toBeGreaterThanOrEqual(44)
+        expect(target.height).toBeGreaterThanOrEqual(44)
+        expect(target.right).toBeLessThanOrEqual(width)
+        expect(target.left).toBeGreaterThanOrEqual(0)
+      }
+      await page.getByRole('button', { name: 'Show visual help' }).click()
+      await expect(page.getByRole('region', { name: 'Visual word-building example' })).toBeVisible()
+      expect(await stageGeometry()).toEqual(beforeHelp)
+      await expect(page.getByRole('button', { name: 'Replay word sound' })).toHaveCount(0)
+      const primary = await page.getByRole('button', { name: 'Spin', exact: true }).boundingBox()
+      expect((primary?.y ?? Infinity) + (primary?.height ?? Infinity)).toBeLessThanOrEqual(height)
+      await page.getByRole('button', { name: 'Show visual help' }).click()
+      await expect(page.getByRole('region', { name: 'Visual word-building example' })).toHaveCount(0)
+      expect(await stageGeometry()).toEqual(beforeHelp)
+    }
+  }
+})
+
+test('UX-08 cancels unfinished play and resumes explicitly with keyboard controls', async ({ page }) => {
+  await page.goto('/')
+  const original = await readLetters(page, ['spinner1', 'spinner2', 'spinner3'])
+  await page.getByRole('button', { name: 'Spin', exact: true }).click()
+  await page.getByRole('button', { name: 'Pause game' }).click()
+  await expect(page.getByRole('main')).toHaveAttribute('data-paused', 'true')
+  expect(await readLetters(page, ['spinner1', 'spinner2', 'spinner3'])).toEqual(original)
+  await expect(page.getByRole('button', { name: 'Spin', exact: true })).toBeDisabled()
+  await page.getByRole('button', { name: 'Resume game' }).focus()
+  await page.keyboard.press('Enter')
+  await expect(page.getByRole('button', { name: 'Spin', exact: true })).toBeEnabled()
+})
+
+test('UX-09 supports muted play and pronunciation replay under reduced motion', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.goto('/')
+  const readyPicture = await page.locator('.picture-area').boundingBox()
+  const readyWheels = await page.locator('.spinner-row').boundingBox()
+  const readyAction = await page.locator('.spin-button').boundingBox()
+  await page.getByRole('button', { name: 'Mute sound' }).click()
+  await page.getByRole('button', { name: 'Spin', exact: true }).click()
+  await expect(page.locator('.reward-caption')).toHaveClass(/is-visible/)
+  expect(await page.locator('.picture-area').boundingBox()).toEqual(readyPicture)
+  expect(await page.locator('.spinner-row').boundingBox()).toEqual(readyWheels)
+  expect(await page.locator('.spin-button').boundingBox()).toEqual(readyAction)
+  await expect(page.getByRole('button', { name: 'Replay word sound' })).toBeDisabled()
+  await expect(page.locator('.confetti')).toHaveCount(0)
+  await page.getByRole('button', { name: 'Unmute sound' }).click()
+  await expect(page.getByRole('button', { name: 'Replay word sound' })).toBeEnabled()
+  await page.getByRole('button', { name: 'Replay word sound' }).click()
+  const audio = await page.locator('audio').evaluate((element: HTMLAudioElement) => ({ paused: element.paused, source: element.src }))
+  expect(audio.source).toContain('/assets/audio/')
+})
+
 async function readLetters(page: Page, spinnerIds: string[]) {
   return Promise.all(
     spinnerIds.map(async (spinnerId) => {
@@ -89,7 +169,7 @@ test('E2E-3 progresses to the next level after the distinct-word threshold is me
 
   await expect(page.getByRole('button', { name: 'Go to next level', exact: true })).toBeVisible()
   await page.getByRole('button', { name: 'Go to next level', exact: true }).click()
-  await expect(page.getByText('level 2')).toBeVisible()
+  await expect(page.getByRole('main')).toHaveAttribute('data-level-id', 'level-2')
 })
 
 test('E2E-4 simulates two pointer flicks and verifies the wheel settles on valid letters', async ({ page }) => {
@@ -116,7 +196,7 @@ test('E2E-4 simulates two pointer flicks and verifies the wheel settles on valid
 test('E2E-5 resolves the bundled five-spinner reward cycle on the great-tier fixture', async ({ page }) => {
   await page.goto('/?level=fixture-5spinner-great')
 
-  await expect(page.getByText('fixture 5spinner great')).toBeVisible()
+  await expect(page.getByRole('main')).toHaveAttribute('data-level-id', 'fixture-5spinner-great')
   await expect(page.locator('.spinner-slot')).toHaveCount(5)
 
   await page.getByRole('button', { name: 'Spin', exact: true }).click()

@@ -1,8 +1,8 @@
 # PRD — Spin The Wheels
 
 **Status:** M4 Great implementation complete; physical-device smoke testing remains a release-signoff gate
-**Version:** 0.3.0
-**Last Updated:** 2026-09-24
+**Version:** 0.4.0
+**Last Updated:** 2026-10-05
 **Owner:** Curious Learning — Open Source Workshop ("Creating Literacy Games with React Native", implemented in this project as a React web app)
 **Source brief:** Curious Learning, "Spin The Wheels" Interaction Specification Brief, v.1, Apr. 17 2017, Ben Burrage (bburrage@curiouslearning.org)
 
@@ -30,7 +30,7 @@ The pedagogical objective is to put order to a set of letters to spell a word. A
 ## 5. Goals / Success Metrics (KPIs)
 
 - A child can trigger a randomized spin and observe all spinners land on letters that spell a valid word from the provided word list, 100% of the time the automatic word-selection mechanism is used.
-- When a valid word is displayed, the correct image and audio for that exact word play within 1 spin-settle cycle, every time.
+- When a valid word is displayed, the correct image appears within 1 spin-settle cycle; the corresponding audio plays when sound is enabled and browser playback is permitted.
 - The middle slot never displays a non-vowel letter (hard constraint, 0 violations tolerated).
 - The app runs entirely from a single provided JSON level file plus its referenced media assets — no network dependency required to play.
 - (Better/Great tiers) A child who reaches 50% completion of the current word list is automatically moved to a new word list/spinner set without manual intervention.
@@ -44,6 +44,10 @@ The project is delivered in three cumulative implementation tiers, matching the 
 - **Great:** Adds flick-to-spin gesture control (spin velocity proportional to flick velocity) and support for words/spinners longer than 3 letters (N spinners).
 
 Each tier is independently playable and independently demoable; Better and Great are additive on top of MVP and must not regress MVP behavior.
+
+### Shared game UX adoption (M6-04 first pass)
+
+The child can play with familiar pictorial controls, revisit a solved word's pronunciation, mute sound and pause without losing already-earned session progress. A static word-building example supports discovery without requiring written instructions. The visual theme prioritizes readable teaching letters, generous touch targets and restrained feedback; reduced-motion preferences must not prevent play. These additions preserve the existing learning objective, English-only content and progression criteria. Brand, teaching-glyph and child-comprehension approval remain separate acceptance gates; this first pass does not claim Curious Reader integration readiness.
 
 ## 7. Non-Goals / Out of Scope
 
@@ -86,6 +90,8 @@ Each tier is independently playable and independently demoable; Better and Great
 ---
 
 ## Spec Change Log
+
+2026-10-05 — GitHub Copilot — Added first-pass shared game UX intent for pictorial controls, visual help, pronunciation replay, sound control, safe pause and reduced-motion play without changing curriculum or host scope.
 
 2026-09-21 — GitHub Copilot (from source brief by Ben Burrage) — Initial PRD drafted from the Curious Learning "Spin The Wheels" specification brief (spec.pdf).
 2026-09-21 — GitHub Copilot — Changed project target from React Native to a React (web) app designed for mobile viewports, since it will be embedded in a CMS shown inside an Android app's webview; added CMS/host integrator persona and related non-goals/constraints.

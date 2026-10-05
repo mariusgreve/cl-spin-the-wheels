@@ -1,6 +1,6 @@
 import { useMemo, type CSSProperties } from 'react'
 
-const COLORS = ['#d15b48', '#243447', '#f2b134', '#4c9f70', '#5b7fd1', '#e8a0bf', '#ffffff']
+const COLORS = ['var(--focus)', 'var(--action)', 'var(--celebration)', 'var(--success)', 'var(--surface)']
 const SHAPES = ['rect', 'circle', 'strip'] as const
 
 type ConfettiShape = (typeof SHAPES)[number]
@@ -33,7 +33,7 @@ function createPieces(count: number): ConfettiPiece[] {
       color: COLORS[Math.floor(Math.random() * COLORS.length)],
       shape: SHAPES[Math.floor(Math.random() * SHAPES.length)],
       size: randomBetween(6, 14),
-      duration: randomBetween(1300, 2600),
+      duration: randomBetween(800, 1300),
       delay: randomBetween(0, 150),
       burstX: Math.cos(angle) * burstDistance,
       burstY: Math.sin(angle) * burstDistance - 60,
@@ -45,7 +45,7 @@ function createPieces(count: number): ConfettiPiece[] {
 
 export function Confetti({ active }: { active: boolean }) {
   // Re-roll piece positions only when a burst actually starts, not on every render.
-  const pieces = useMemo(() => (active ? createPieces(110) : []), [active])
+  const pieces = useMemo(() => (active ? createPieces(24) : []), [active])
 
   if (!active) {
     return null

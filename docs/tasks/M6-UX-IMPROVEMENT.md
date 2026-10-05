@@ -1,6 +1,6 @@
 # M6 — UX and Pedagogical Improvement Plan
 
-**Status:** M6-01 through M6-03 complete; M6-04 through M6-07 proposed
+**Status:** M6-01 through M6-03 complete; M6-04 in progress; M6-05 through M6-07 proposed
 **Last updated:** 2026-10-05
 
 M6 is a product-focused improvement milestone. It does not redefine the core game mechanic; it upgrades the presentation, interaction clarity, educational framing, and visual alignment of the app so it better matches the purpose of the project and the broader Curious Learning family.
@@ -29,7 +29,7 @@ The next work should make that objective feel obvious, joyful, and educationally
 | M6-01 | Clarify the core learning objective in the game screen | None | Done | Prompt, state feedback, and matched-word reward caption are covered by App tests |
 | M6-02 | Improve mobile readability and larger tap targets | M6-01 | Done | Mobile-first spacing, target sizing, focus feedback, and state styling are covered by App tests |
 | M6-03 | Strengthen success and no-match feedback states | M6-02 | Done | Existing feedback flow now has explicit semantic and visual state treatment |
-| M6-04 | Adopt the shared Curious Learning game visual and UX specification | M6-01 | Proposed | Shared spec v0.1.0 drafted; game adoption and human approval pending |
+| M6-04 | Adopt the shared Curious Learning game visual and UX specification | M6-01 | In Progress | First-pass standalone visuals/controls implemented and automated checks pass; full acceptance and human approval pending |
 | M6-05 | Improve pedagogical progression by word family and difficulty | M6-03 | Proposed | Structure content for literacy learning |
 | M6-06 | Expand reward and content richness | M6-04, M6-05 | Proposed | Increase replay value and delight |
 | M6-07 | Validate UX against the project objective and app-family references | M6-01 through M6-06 | Proposed | Final design sign-off before implementation lock |
@@ -94,11 +94,17 @@ The next work should make that objective feel obvious, joyful, and educationally
 - record actual host navigation/lifecycle ownership as unresolved rather than introducing speculative exit controls or native dependencies
 - run the shared UX verification matrix and existing game regression gates; obtain visual and child-comprehension review before declaring adoption complete
 
-**Current adoption gaps:** Inspection of `src/styles.css`, UISPEC and TESTSPEC shows a game-specific cream/serif theme, no semantic token inventory, viewport-scaled headings/letters and an indefinitely pulsing next-level control. Existing reward and feedback coverage is useful but is not evidence that all shared requirements are met. Help, replay, sound, pause and accessible alternatives require a dedicated implementation inventory; they are not claimed complete here.
+**Initial adoption gaps (before the first pass):** Inspection of `src/styles.css`, UISPEC and TESTSPEC showed a game-specific cream/serif theme, no semantic token inventory, viewport-scaled headings/letters and an indefinitely pulsing next-level control. Those visual gaps, plus visual help, pronunciation replay, mute, explicit pause/background interruption and reduced-motion support, are addressed provisionally in the first pass.
+
+**First-pass implementation evidence (2026-10-05):** Added local Fredoka/Lucide assets and distribution licenses, semantic tokens, fixed teaching type, 48px icon controls, a static non-awarding help example, muted/replayable rewards, shared pause/visibility rollback, stale-spin protection, short celebrations and reduced-motion settlement. Learning/level/progression data is unchanged. `pnpm lint`, `pnpm typecheck`, `pnpm test` (64 tests), `pnpm build` and `pnpm test:e2e` (eight tests) passed. Viewport checks cover both wheel counts at all six shared-spec sizes; mobile/desktop screenshots were inspected. [TESTSPEC first-pass evidence](../../specs/TESTSPEC.md#511-m6-04-first-pass-verification-snapshot) records coverage and limits.
+
+**UI cleanup follow-up (2026-10-05): Implemented; child/visual approval pending.** Removed visible instructional headings, level identifiers, status sentences and primary-action labels while preserving accessible announcements and the teaching-word caption. Added icon-only play/next-level controls, pictorial tap/letter-change help in the reserved picture area, larger vertical spacing and equal-height wheel stages. Expanded `UX-05` to three-, four- and five-letter levels with/without progress at all six viewport sizes, including exact geometry checks when toggling help; `UX-09` covers reward geometry. Focused App and viewport checks passed, followed by lint, typecheck, 64 unit tests, build and eight browser tests. The follow-up does not change level data or progression behavior, and does not complete the broader M6-04 approval gates.
+
+**Remaining acceptance:** Brand and teaching-glyph approval; child-discovery review; full contrast/screen-reader/200% text audit; missing-media and cold offline checks; mid-gesture resize recovery; physical low-cost-device performance and bundle budgets; host ownership/integration. Built assets are approximately 57.7 MB, mostly existing PNGs. The five-wheel QA fixture reuses unrelated reward media and is not approved teaching content. No claim of full shared-spec conformance or container readiness is made.
 
 **Done when:** The shared draft and adoption decisions are approved, applicable CL-01 through CL-25 requirements have recorded evidence or approved exceptions, UX-01 through UX-12 checks are accounted for, and game-specific regressions pass. Visual/child review must be recorded separately from automation. Standalone adoption does not imply Curious Reader readiness.
 
-**Documentation evidence (2026-10-05):** Published the shared draft and replaced the former visual-polish paragraph with this adoption plan. A focused Node check passed for local Markdown links across the three changed documents, unique definitions of all 25 CL requirements and coverage in the 12 UX verification checks. `git diff --check` passed. Drafting is complete; approval and adoption remain pending. No gameplay changes or adoption tests are claimed; M6-04 remains Proposed.
+**Drafting evidence (2026-10-05, before implementation):** Published the shared draft and replaced the former visual-polish paragraph with this adoption plan. A focused Node check passed for local Markdown links across the three changed documents, unique definitions of all 25 CL requirements and coverage in the 12 UX verification checks. `git diff --check` passed. The shared specification remains a draft; M6-04 adoption is now In Progress rather than complete.
 
 ### M6-05 — Improve pedagogical progression
 

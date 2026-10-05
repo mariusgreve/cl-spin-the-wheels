@@ -1,8 +1,8 @@
 # DEVSPEC — Spin The Wheels
 
 **Status:** M4 Great implementation complete; physical-device smoke testing and browser E2E runner setup remain release-signoff gates
-**Version:** 0.4.1
-**Last Updated:** 2026-09-24
+**Version:** 0.5.0
+**Last Updated:** 2026-10-05
 **References:** PRD.md (goals, tiers, personas — this document does not restate them)
 
 ## Part I — Functional Requirements
@@ -78,10 +78,21 @@ Rules:
 
 - **Goal:** Display the reward image and play the reward audio when a word is matched.
 - **Tasks:**
-  - On "word matched", display the `image_asset` in the picture area and play `audio_asset` once.
+  - On "word matched", display the `image_asset` in the picture area and play `audio_asset` once unless muted or paused.
   - Prevent audio overlap: a new match while audio is playing stops the previous playback before starting the new one.
-  - (Better tier) On "no word", display a placeholder "confused" graphic and play a bundled gibberish audio clip, using the same overlap-prevention rule.
-- **Exit Criterion:** Triggering a word match plays exactly one audio clip end-to-end (verified by playback-complete callback) and displays exactly one image, for 100% of words in a level's word list.
+  - (Better tier) On "no word", display a placeholder "confused" graphic and play a bundled gibberish audio clip unless muted or paused, using the same overlap-prevention rule.
+- **Exit Criterion:** With sound enabled and playback permitted, triggering a word match starts one corresponding clip and displays one image. Muted/paused states suppress playback without suppressing visible results; codec/autoplay failures leave gameplay and replay available.
+
+### Module: Standalone UX controls (M6-04 first pass)
+
+- Adopt shared game UX draft v0.1.0 provisionally for English early readers; full conformance and host readiness are not claimed.
+- Mute stops current audio and suppresses future match/no-match clips. Unmute does not replay stale content. Pronunciation replay is available only for a current matched word while unmuted and unpaused, stops the previous clip first and never records another match.
+- Pause and document visibility loss use the same cancellation path. Roll unfinished random spins, manual steps and gestures back to the last committed spinner state; restore the previous reward after an interrupted random spin. Clear timers/celebration and do not resolve or award cancelled input.
+- Spinner `cancelAndRestore(letter)` clears timers and pointer preview, restores a validated letter without a settle callback, and completes pending animation promises. An app spin-generation guard ignores stale asynchronous completions.
+- Preserve current-level distinct matches and pending next-level choice during pause. Require explicit resume; neither resume nor unmute automatically plays the previous clip. Session state remains in memory only.
+- Visual help is a static, replayable example; it cannot mutate spinner state or progress. It yields to play and is dismissed on pause.
+- Observe `prefers-reduced-motion` at startup and on preference changes. Reduced-motion random/flick settlement uses a short 120ms commit without reel loops; CSS removes transitions, pulses and particles. Ordinary stepping remains operable.
+- No game-owned exit destination exists, so do not add a fake home/exit control or host bridge. Mid-gesture viewport-resize recovery and real container lifecycle delivery remain follow-up verification work.
 
 ### Module: Manual Letter Control (Better tier)
 
@@ -237,6 +248,8 @@ Rules:
 - Non-English content.
 
 ### Changelog
+
+2026-10-05 — GitHub Copilot — Defined first-pass mute/replay, shared pause and visibility cancellation, non-awarding visual help and reduced-motion settlement while preserving letter and progression rules.
 
 2026-09-21 — GitHub Copilot (from source brief by Ben Burrage) — Initial DEVSPEC drafted covering MVP/Better/Great modules, data schema, and implementation guide.
 2026-09-21 — GitHub Copilot — Replaced React Native/Expo/native-simulator stack with a React (web) toolchain (Vite/CRA, browser Pointer Events, CSS animation), added host-agnostic and mobile-viewport design principles, and recorded the React-vs-React-Native decision in Resolved Decisions.

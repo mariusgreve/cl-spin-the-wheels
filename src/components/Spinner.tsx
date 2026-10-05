@@ -1,4 +1,5 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState, type CSSProperties } from 'react'
+import { ArrowDown, ArrowUp } from 'lucide-react'
 import type { SpinnerDefinition } from '../engine/levelLoader'
 import { MIN_FLICK_VELOCITY, planFlickSpin } from '../engine/spinner'
 import { validateSpinnerLetter } from './spinnerValidation'
@@ -31,6 +32,7 @@ export type SpinnerHandle = {
   animateAndSettle: (letter: string, stepDuration?: number, extraSteps?: number) => Promise<void>
   step: (direction?: 1 | -1) => void
   flick: (velocity: number) => void
+  cancelAndRestore: (letter: string) => void
 }
 
 type SpinnerProps = {
@@ -39,10 +41,11 @@ type SpinnerProps = {
   totalSpinners: number
   onSettled?: () => void
   controlsDisabled?: boolean
+  reducedMotion?: boolean
 }
 
 export const Spinner = forwardRef<SpinnerHandle, SpinnerProps>(function Spinner(
-  { definition, position, totalSpinners, onSettled, controlsDisabled = false },
+  { definition, position, totalSpinners, onSettled, controlsDisabled = false, reducedMotion = false },
   ref,
 ) {
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -52,6 +55,7 @@ export const Spinner = forwardRef<SpinnerHandle, SpinnerProps>(function Spinner(
   const currentIndexRef = useRef(0)
   const timeoutRef = useRef<number | null>(null)
   const intervalRef = useRef<number | null>(null)
+  const animationResolveRef = useRef<(() => void) | null>(null)
   const slotRef = useRef<HTMLDivElement | null>(null)
   const pointerStartRef = useRef<{ y: number; time: number; reelPosition: number; slotHeight: number } | null>(null)
   const dragPreviewRef = useRef<number | null>(null)
@@ -65,6 +69,7 @@ export const Spinner = forwardRef<SpinnerHandle, SpinnerProps>(function Spinner(
     if (intervalRef.current !== null) {
       window.clearInterval(intervalRef.current)
     }
+    animationResolveRef.current?.()
   }, [])
 
   useEffect(() => {
@@ -133,6 +138,26 @@ export const Spinner = forwardRef<SpinnerHandle, SpinnerProps>(function Spinner(
 
   const getCurrentIndex = () => currentIndexRef.current
 
+  const cancelAndRestore = (letter: string) => {
+    validateLetter(letter)
+    if (intervalRef.current !== null) window.clearInterval(intervalRef.current)
+    if (timeoutRef.current !== null) window.clearTimeout(timeoutRef.current)
+    intervalRef.current = null
+    timeoutRef.current = null
+    animationResolveRef.current?.()
+    animationResolveRef.current = null
+    pointerStartRef.current = null
+    dragPreviewRef.current = null
+    moveHistoryRef.current = []
+    const restoredIndex = definition.letter_list.indexOf(letter)
+    suppressReelTransition()
+    commitReelPosition(getHomePosition(definition.letter_list.length) + restoredIndex)
+    currentIndexRef.current = restoredIndex
+    setCurrentIndex(restoredIndex)
+    setIsSpinning(false)
+    setIsDragging(false)
+  }
+
   const jumpToLetter = (letter: string) => {
     validateLetter(letter)
     const nextIndex = definition.letter_list.indexOf(letter)
@@ -165,6 +190,8 @@ export const Spinner = forwardRef<SpinnerHandle, SpinnerProps>(function Spinner(
 
   const animateAndSettle = (letter: string, stepDuration = 100, extraSteps = 0, loops = 2, direction: 1 | -1 = 1) => {
     validateLetter(letter)
+    animationResolveRef.current?.()
+    animationResolveRef.current = null
 
     if (intervalRef.current !== null) {
       window.clearInterval(intervalRef.current)
@@ -190,6 +217,7 @@ export const Spinner = forwardRef<SpinnerHandle, SpinnerProps>(function Spinner(
     setIsSpinning(true)
 
     return new Promise<void>((resolve) => {
+      animationResolveRef.current = resolve
       const finish = () => {
         if (intervalRef.current !== null) {
           window.clearInterval(intervalRef.current)
@@ -203,8 +231,14 @@ export const Spinner = forwardRef<SpinnerHandle, SpinnerProps>(function Spinner(
           setIsSpinning(false)
           onSettled?.()
           resolve()
+          animationResolveRef.current = null
           timeoutRef.current = null
         }, 120)
+      }
+
+      if (reducedMotion) {
+        finish()
+        return
       }
 
       intervalRef.current = window.setInterval(() => {
@@ -218,7 +252,7 @@ export const Spinner = forwardRef<SpinnerHandle, SpinnerProps>(function Spinner(
   }
 
   const step = (direction: 1 | -1 = 1) => {
-    if (isSpinning) {
+    if (controlsDisabled || isSpinning) {
       return
     }
     const letterCount = definition.letter_list.length
@@ -325,7 +359,7 @@ export const Spinner = forwardRef<SpinnerHandle, SpinnerProps>(function Spinner(
     }
   }
 
-  useImperativeHandle(ref, () => ({ getCurrentIndex, animateAndSettle, jumpToLetter, step, flick }), [currentIndex, isSpinning, controlsDisabled])
+  useImperativeHandle(ref, () => ({ getCurrentIndex, animateAndSettle, jumpToLetter, step, flick, cancelAndRestore }), [currentIndex, isSpinning, controlsDisabled, reducedMotion])
 
   return (
     <div className="spinner-control-group">
@@ -336,7 +370,7 @@ export const Spinner = forwardRef<SpinnerHandle, SpinnerProps>(function Spinner(
         disabled={controlsDisabled || isSpinning}
         aria-label={`Previous letter for ${definition.id}`}
       >
-        ↑
+        <ArrowUp aria-hidden="true" />
       </button>
       <div
         ref={slotRef}
@@ -355,7 +389,7 @@ export const Spinner = forwardRef<SpinnerHandle, SpinnerProps>(function Spinner(
             transform: `translateY(-${((reelPosition + 0.5) / (definition.letter_list.length * reelCopies)) * 100}%)`,
             '--reel-count': definition.letter_list.length * reelCopies,
           } as CSSProperties}
-          aria-live="polite"
+          aria-hidden="true"
         >
           {Array.from({ length: reelCopies }, (_, cycle) => definition.letter_list.map((letter, index) => (
             <span className="reel-letter" key={`${cycle}-${index}`}>{letter}</span>
@@ -369,7 +403,7 @@ export const Spinner = forwardRef<SpinnerHandle, SpinnerProps>(function Spinner(
         disabled={controlsDisabled || isSpinning}
         aria-label={`Next letter for ${definition.id}`}
       >
-        ↓
+        <ArrowDown aria-hidden="true" />
       </button>
     </div>
   )

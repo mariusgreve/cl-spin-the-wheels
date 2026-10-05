@@ -11,6 +11,7 @@ The project is a standalone React web app designed for mobile viewport sizes. It
 - `docs/` — onboarding, operational workflow, architecture decisions, and AI collaboration guidance.
 - `AGENTS.md` — standing rules for coding agents.
 - `src/` — Vite React TypeScript app, level loader, and bundled sample content.
+- `public/` — distribution notices for bundled font and icon assets, copied into the web build.
 - `tests/` — reserved for cross-module and browser acceptance tests; focused unit tests live beside their source modules for now.
 
 The M0 implementation scaffold and loader tests are present. Keep future source paths and commands reflected in this map.
@@ -40,6 +41,8 @@ Read and update the chain in order:
 - [DEVSPEC](specs/DEVSPEC.md) defines behavior, schemas, modules, and constraints.
 - [UISPEC](specs/UISPEC.md) defines screens, states, and interaction presentation.
 - [TESTSPEC](specs/TESTSPEC.md) defines fixtures, tests, and acceptance gates.
+
+M6-04 has a first-pass standalone implementation of [shared game UX v0.1.0](specs/CURIOUS-LEARNING-GAME-UX.md): token-based visuals, bundled fonts/icons, visual help, mute/replay, explicit pause and reduced-motion play. [The M6 tracker](docs/tasks/M6-UX-IMPROVEMENT.md) records verification and remaining human/device/container gates; this is not full shared-spec approval.
 
 When intent changes, reconcile downstream documents in that order. When implementation changes without changing intent, update the earliest affected document and its downstream references.
 
