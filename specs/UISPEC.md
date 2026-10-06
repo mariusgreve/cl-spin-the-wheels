@@ -1,8 +1,8 @@
 # UISPEC — Spin The Wheels
 
 **Status:** M6-04 standalone UX adoption accepted; broader conformance and host readiness are not claimed
-**Version:** 0.6.0
-**Last Updated:** 2026-10-05
+**Version:** 0.6.1
+**Last Updated:** 2026-10-06
 **References:** DEVSPEC.md (all behavior definitions — this document defines presentation and states only, and does not duplicate DEVSPEC logic)
 
 This is a React (web) app, not React Native. It is designed to eventually be embedded in a CMS page displayed inside an Android app's webview, so all layouts below are designed for a mobile device viewport width (~360–430px) as the primary target, even when previewed in a desktop browser during development.
@@ -15,7 +15,7 @@ Layout, top to bottom:
 
 - **Toolbar** — game name and sound, pause/resume and help icons. Level identifiers and instructional headings are not visible during play; state feedback remains in a screen-reader live status.
 - **Progress Track** — pictorial pips with a reserved-height row, including when no progression is configured.
-- **Picture Area** — displays the reward image for the last matched word, or a spin-symbol placeholder before any match. Reward images and the waiting placeholder use the same centered, rounded 1:1 frame; reward images remain fully visible without cropping. (Better tier: displays a placeholder "confused" graphic instead when letters don't spell a word.) Help overlays this reserved area without moving the wheels or play control.
+- **Picture Area** — displays the reward image for the last matched word, or a spin-symbol placeholder before any match. Reward images and the waiting placeholder use the same centered, rounded 1:1 frame; reward images remain fully visible without cropping. The idle spin symbol gently rocks while play is active and idle, and remains still when reduced motion is requested. (Better tier: displays a placeholder "confused" graphic instead when letters don't spell a word.) Help overlays this reserved area without moving the wheels or play control.
 - **Reward Caption** — names the matched word beneath its reward image after a successful solve; it is hidden before a match to keep the waiting state uncluttered.
 - **Spinner Row** — one Spinner Slot per entry in the level's `spinners` array, laid out left to right in array order.
 - **Trigger Control** — a large icon-only spin control, replaced by a forward arrow when the next level is ready; accessible names and hover tooltips identify each action.
@@ -200,6 +200,8 @@ Acceptance: mute/unmute never replays stale sound; pronunciation replay never ch
 ---
 
 ## Spec Change Log
+
+2026-10-06 — GitHub Copilot — Specified a reduced-motion-aware idle animation for the waiting spin symbol.
 
 2026-10-05 — GitHub Copilot — Recorded accepted M6-04 standalone UX adoption and clarified that broader conformance and host readiness are not claimed.
 

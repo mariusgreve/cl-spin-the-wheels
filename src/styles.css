@@ -43,6 +43,7 @@ h1 { margin: 0; font-size: 28px; line-height: 1.15; font-weight: 600; }
 .picture-content img, .picture-placeholder { display: block; width: 168px; aspect-ratio: 1; margin: 0 auto; object-fit: contain; border: 2px solid var(--border); border-radius: var(--radius); background: var(--surface); }
 .picture-placeholder { display: grid; place-items: center; background: #ffe8a1; border-color: var(--encouragement); color: var(--encouragement); }
 .picture-placeholder svg { width: 56px; height: 56px; }
+.shell[data-game-state='idle'][data-paused='false'] .picture-placeholder svg { animation: idle-invitation 3.2s ease-in-out infinite; }
 .picture-area--match img, .picture-area--progression img { border-color: var(--success); }
 .picture-area--no-match img { border-color: var(--encouragement); border-style: dashed; }
 .replay-button { position: absolute; right: 0; top: 60px; }
@@ -90,6 +91,11 @@ h1 { margin: 0; font-size: 28px; line-height: 1.15; font-weight: 600; }
   0% { transform: translate(-50%, -50%) rotate(0deg) scale(0.4); opacity: 1; }
   22% { transform: translate(-50%, -50%) translate(var(--burst-x), var(--burst-y)) rotate(calc(var(--spin) * 0.3)); opacity: 1; }
   100% { transform: translate(-50%, -50%) translate(var(--burst-x), var(--fall-y)) rotate(var(--spin)); opacity: 0; }
+}
+
+@keyframes idle-invitation {
+  0%, 100% { transform: rotate(-4deg) scale(1); }
+  50% { transform: rotate(8deg) scale(1.06); }
 }
 
 @media (max-width: 380px), (max-height: 700px) {

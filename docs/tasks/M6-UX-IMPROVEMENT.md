@@ -168,6 +168,8 @@ The next work should make that objective feel obvious, joyful, and educationally
 
 **Help overlay refinement (2026-10-06):** Removed the opaque fill from the pictorial help overlay so the example sits directly over the illustrated game scene instead of inside a rectangular block. The help example retains its own tile surfaces. UX-05 passed, and a 360x640 browser check confirmed a transparent overlay background with no document overflow.
 
+**Idle invitation refinement (2026-10-06):** Added a gentle rock to the waiting spin symbol while play is active and idle; paused and reduced-motion states remain still. Browser checks confirmed the animation is suppressed for reduced motion and the 390x844 layout has no overflow. UX-05 passed across its configured viewport and wheel-count cases. This is presentation-only and does not change gameplay or level content.
+
 **Scope decision (2026-10-06):** Deferred all decisions about actual word content, spinner letters/counts, word-list sizes, and learning sequence until literacy-expert input is available. M6-06 is blocked; current content remains provisional and unchanged. M6-07 may continue visual-family work, but pedagogical/content acceptance is deferred.
 
 ## Recommended implementation order
