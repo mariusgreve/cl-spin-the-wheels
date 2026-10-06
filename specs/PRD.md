@@ -1,8 +1,8 @@
 # PRD — Spin The Wheels
 
-**Status:** M4 Great implementation complete; M6-04 standalone UX adoption accepted
-**Version:** 0.4.0
-**Last Updated:** 2026-10-05
+**Status:** M4 Great implementation complete; M6-04 standalone UX adoption accepted; M6-05 provisional learning progression implemented
+**Version:** 0.5.0
+**Last Updated:** 2026-10-06
 **Owner:** Curious Learning — Open Source Workshop ("Creating Literacy Games with React Native", implemented in this project as a React web app)
 **Source brief:** Curious Learning, "Spin The Wheels" Interaction Specification Brief, v.1, Apr. 17 2017, Ben Burrage (bburrage@curiouslearning.org)
 
@@ -49,6 +49,10 @@ Each tier is independently playable and independently demoable; Better and Great
 
 The child can play with familiar pictorial controls, revisit a solved word's pronunciation, mute sound and pause without losing already-earned session progress. A static word-building example supports discovery without requiring written instructions. The visual theme prioritizes readable teaching letters, generous touch targets and restrained feedback; reduced-motion preferences must not prevent play. These additions preserve the existing learning objective, English-only content and progression criteria. M6-04 standalone adoption is accepted per user direction; this does not claim full shared-spec conformance or Curious Reader integration readiness.
 
+### Provisional learning progression (M6-05)
+
+The planned sequence uses three provisional spelling targets: short-vowel CVC words, closed syllables with final consonant clusters, and VCe long-vowel words. Optional `learning_target` metadata labels a level's focus without changing random word selection or presenting explicit phonics instruction. Each active level contains at least eight words with corresponding bundled image and audio assets. The sequence is a product hypothesis, not an educator-reviewed curriculum or an age-appropriateness claim.
+
 ## 7. Non-Goals / Out of Scope
 
 - Non-English content or localization of any kind.
@@ -90,6 +94,8 @@ The child can play with familiar pictorial controls, revisit a solved word's pro
 ---
 
 ## Spec Change Log
+
+2026-10-06 — GitHub Copilot — Recorded the implemented provisional M6-05 progression and the limits of its curriculum claim.
 
 2026-10-05 — GitHub Copilot — Recorded accepted M6-04 standalone UX adoption without claiming full shared-spec conformance or host readiness.
 

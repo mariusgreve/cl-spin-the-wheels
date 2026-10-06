@@ -1,12 +1,11 @@
 # TESTSPEC — Spin The Wheels
 
-**Status:** M5-06 physical-device smoke test passed on Android emulator; release sign-off is recorded
-**Version:** 0.8.0
-**Last Updated:** 2026-10-05
 **References:** DEVSPEC.md (module behavior), UISPEC.md (states/screens) — this document does not redefine behavior, only verifies it.
+**Status:** M5 release sign-off recorded; M6-05 target and media checks pass
+**Version:** 0.9.0
+**Last Updated:** 2026-10-06
 
 ## 1. Fixtures
-
 ### 1.1 Level Fixtures (JSON)
 
 All level fixtures live under `src/engine/fixtures/` and are intentionally local to the app test bundle.
@@ -32,6 +31,8 @@ All level fixtures live under `src/engine/fixtures/` and are intentionally local
 - `LL-4`: Loading `fixture_missing_media.json` returns at least one validation error referencing the missing asset path.
 - `LL-5`: Loading a collection with a valid starting level and an invalid later level rejects the complete collection and blocks gameplay.
 - `LL-6`: Loading a collection with a mismatched file/level identifier or an unresolved `next_level_id` rejects the complete collection.
+- `LL-7`: An optional non-empty `learning_target` is preserved; an empty or non-string value rejects the level.
+- `CONTENT-1`: Each bundled level has at least eight spellable words, every word matches its declared provisional target, and every referenced image/audio asset exists locally.
 
 ### Spinner Component
 
@@ -235,10 +236,13 @@ The smoke protocol passed on an Android emulator browser on 2026-09-24.
 | FL-1, FL-2, E2E-4 | `fixture_valid_3spinner.json` (gesture simulated at two velocities) |
 | NL-1, NL-2 | `fixture_5spinner_great.json` |
 | E2E-5 | `src/assets/levels/level-3.json` |
+| LL-7, CONTENT-1 | `src/assets/levels/level-1.json`, `level-2.json`, `level-3.json` |
 
 ---
 
 ## Spec Change Log
+
+2026-10-06 — GitHub Copilot — Verified eight-word target-pure level lists, local PNG/WAV media, loader checks, regression suite and browser E2E for M6-05.
 
 2026-10-05 — GitHub Copilot — Added pre-reader UI regression requirements and stable-stage browser checks across help, reward, progress visibility and three-, four- and five-letter levels.
 

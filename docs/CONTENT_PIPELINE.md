@@ -13,7 +13,7 @@ The JSON shape and validation rules are defined in [DEVSPEC.md](../specs/DEVSPEC
 ## Adding or changing content
 
 1. Update the authoritative level source or JSON fixture.
-2. Add or replace the referenced local image and audio assets.
+2. Add or replace the referenced local image (PNG or SVG) and audio assets. Run `scripts/generate_audio.sh` to generate missing word audio across bundled levels.
 3. Run the level-loader tests and the relevant integration test.
 4. Run the build and inspect the game at a mobile viewport.
 5. Update specs when the content change alters product behavior, constraints, or acceptance criteria.
@@ -23,5 +23,7 @@ The JSON shape and validation rules are defined in [DEVSPEC.md](../specs/DEVSPEC
 A malformed level blocks gameplay with a human-readable error. Runtime code should not silently repair an invalid word list. Missing media is a load-time content error; an unexpected playback failure is non-fatal and must not crash the game.
 
 ## Changelog
+
+2026-10-06 — GitHub Copilot — Documented SVG reward assets and missing-audio generation across bundled levels.
 
 2026-09-21 — GitHub Copilot — Initial content workflow adapted from the reference project for JSON-defined spinner levels and bundled media.

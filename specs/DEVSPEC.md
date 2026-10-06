@@ -1,12 +1,11 @@
 # DEVSPEC — Spin The Wheels
 
-**Status:** M4 Great implementation complete; physical-device smoke testing and browser E2E runner setup remain release-signoff gates
-**Version:** 0.5.0
-**Last Updated:** 2026-10-05
 **References:** PRD.md (goals, tiers, personas — this document does not restate them)
+**Status:** M4/M5 implementation and release sign-off complete; M6-04 accepted; M6-05 provisional learning progression implemented
+**Version:** 0.6.0
+**Last Updated:** 2026-10-06
 
 ## Part I — Functional Requirements
-
 ### Overview
 
 The app is a single-screen React (web) game — not React Native — built and rendered as a normal browser web app. On load, it reads a level JSON file describing N spinners (default 3), each with a fixed letter set, plus a word list the spinners can spell. The player triggers a randomized spin (MVP), manually adjusts individual letters (Better), or flicks a spinner to spin it with physical-feeling velocity (Great). Whenever the currently-displayed letters across all spinners exactly spell a word in the word list, the app shows that word's image and plays its pronunciation audio. If Better tier is implemented and the letters do not spell a word, a gibberish placeholder response plays instead.
@@ -20,6 +19,7 @@ Level file (JSON), one file per level:
 ```json
 {
   "level_id": "string — unique identifier for this level",
+  "learning_target": "optional string — provisional spelling-pattern focus",
   "spinners": [
     { "id": "spinner1", "letter_list": ["a", "b", "c", "..."] },
     { "id": "spinner2", "letter_list": ["a", "e", "i", "o", "u"] },
@@ -36,6 +36,7 @@ Level file (JSON), one file per level:
 ```
 
 Rules:
+- `learning_target` is optional. If provided, it must be a non-empty string and is preserved as content metadata; it does not alter word selection or matching.
 - `spinners` is an ordered array; array index maps 1:1 to letter position in a spelled word.
 - If `spinners.length === 3`, `spinners[1]` (the middle spinner) must contain only vowels (`a`, `e`, `i`, `o`, `u`) in its `letter_list`. This is validated at load time (see Module: Level Loader).
 - Every `word` in `word_list` must have length equal to `spinners.length`, and each character of `word` must exist in the `letter_list` of the spinner at that character's index. Violations are load-time errors.
@@ -241,6 +242,10 @@ Rules:
 | Middle-spinner vowel-only constraint applies only when `spinners.length === 3` | Matches the literal source brief wording ("If the JSON file defines only 3 spinners, then the second spinner will contain only vowels"); does not generalize to N-spinner levels unless the level file itself restricts the letter set. | 2026-09-21 |
 | Project targets React (web), not React Native | The app will eventually be embedded in a CMS page shown inside an Android app's webview; a plain web app satisfies that requirement without any native dependency, and the app itself needs no knowledge of that host. UI must still present correctly at mobile viewport sizes. | 2026-09-21 |
 
+### Provisional M6-05 Content Decision
+
+The planned progression groups words by `short-vowel-cvc` (3 spinners), `closed-syllable-final-cluster` (4 spinners), and `vce-long-vowel` (5 spinners). Optional labels are provisional metadata and do not imply educator review. Each level must contain at least eight spellable words with locally bundled image and audio assets. Random spins continue to choose uniformly from each level's `word_list`.
+
 ### Out of Scope
 
 - Backend services, accounts, or cross-device progress sync (see PRD Non-Goals).
@@ -248,6 +253,8 @@ Rules:
 - Non-English content.
 
 ### Changelog
+
+2026-10-06 — GitHub Copilot — Added validated learning-target metadata and recorded eight-word spelling-focus levels with offline media; word resolution remains unchanged.
 
 2026-10-05 — GitHub Copilot — Defined first-pass mute/replay, shared pause and visibility cancellation, non-awarding visual help and reduced-motion settlement while preserving letter and progression rules.
 

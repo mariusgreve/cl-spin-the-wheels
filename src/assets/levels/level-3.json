@@ -1,18 +1,21 @@
 {
   "level_id": "level-3",
+  "learning_target": "vce-long-vowel",
   "spinners": [
-    { "id": "spinner1", "letter_list": ["c", "p", "s", "m"] },
-    { "id": "spinner2", "letter_list": ["r", "l", "t", "m"] },
+    { "id": "spinner1", "letter_list": ["b", "c", "f", "m", "p", "s"] },
+    { "id": "spinner2", "letter_list": ["h", "l", "m", "r", "t"] },
     { "id": "spinner3", "letter_list": ["a", "i", "o"] },
-    { "id": "spinner4", "letter_list": ["n", "d", "l"] },
+    { "id": "spinner4", "letter_list": ["d", "l", "m", "n", "s", "v"] },
     { "id": "spinner5", "letter_list": ["e", "t", "p", "r"] }
   ],
   "word_list": [
+    { "word": "brave", "image_asset": "assets/images/brave.png", "audio_asset": "assets/audio/brave.wav" },
+    { "word": "chase", "image_asset": "assets/images/chase.png", "audio_asset": "assets/audio/chase.wav" },
     { "word": "crane", "image_asset": "assets/images/crane.png", "audio_asset": "assets/audio/crane.wav" },
+    { "word": "flame", "image_asset": "assets/images/flame.png", "audio_asset": "assets/audio/flame.wav" },
     { "word": "plane", "image_asset": "assets/images/plane.png", "audio_asset": "assets/audio/plane.wav" },
-    { "word": "stone", "image_asset": "assets/images/stone.png", "audio_asset": "assets/audio/stone.wav" },
-    { "word": "smile", "image_asset": "assets/images/smile.png", "audio_asset": "assets/audio/smile.wav" },
     { "word": "slide", "image_asset": "assets/images/slide.png", "audio_asset": "assets/audio/slide.wav" },
-    { "word": "plant", "image_asset": "assets/images/plant.png", "audio_asset": "assets/audio/plant.wav" }
+    { "word": "smile", "image_asset": "assets/images/smile.png", "audio_asset": "assets/audio/smile.wav" },
+    { "word": "stone", "image_asset": "assets/images/stone.png", "audio_asset": "assets/audio/stone.wav" }
   ]
 }

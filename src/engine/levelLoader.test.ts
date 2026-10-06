@@ -7,6 +7,9 @@ import progressionNextData from './fixtures/fixture_progression_next.json'
 import levelData from './fixtures/fixture_valid_3spinner.json'
 import greatLevelData from './fixtures/fixture_5spinner_great.json'
 import { loadLevel, loadLevelCollection } from './levelLoader'
+import bundledLevelOne from '../assets/levels/level-1.json'
+import bundledLevelTwo from '../assets/levels/level-2.json'
+import bundledLevelThree from '../assets/levels/level-3.json'
 
 const assets = new Set([
   'fixture/images/cat.png',
@@ -48,6 +51,37 @@ describe('loadLevel', () => {
 
     expect(result.errors).toEqual([])
     expect(result.level?.next_level_id).toBe('fixture-valid-3spinner-next')
+  })
+  it('preserves non-empty learning targets and rejects blank targets', () => {
+    const levelWithTarget = structuredClone(levelData) as typeof levelData & { learning_target?: string }
+    levelWithTarget.learning_target = 'short-vowel-cvc'
+
+    const result = loadLevel(levelWithTarget, { assetExists: (path) => assets.has(path) })
+    const invalidResult = loadLevel({ ...levelWithTarget, learning_target: '  ' }, { assetExists: (path) => assets.has(path) })
+    const nonStringResult = loadLevel({ ...levelWithTarget, learning_target: false }, { assetExists: (path) => assets.has(path) })
+
+    expect(result.level?.learning_target).toBe('short-vowel-cvc')
+    expect(invalidResult.level).toBeNull()
+    expect(invalidResult.errors).toContain('If learning_target is provided, it must be a non-empty string.')
+    expect(nonStringResult.level).toBeNull()
+    expect(nonStringResult.errors).toContain('If learning_target is provided, it must be a non-empty string.')
+  })
+
+  it('keeps bundled word lists aligned with the provisional learning progression', () => {
+    const bundledLevels = [bundledLevelOne, bundledLevelTwo, bundledLevelThree].map((data) =>
+      loadLevel(data, { assetExists: () => true }),
+    )
+
+    expect(bundledLevels.map(({ level }) => level?.learning_target)).toEqual([
+      'short-vowel-cvc',
+      'closed-syllable-final-cluster',
+      'vce-long-vowel',
+    ])
+    expect(bundledLevels.map(({ level }) => level?.word_list.map(({ word }) => word))).toEqual([
+      ['bun', 'cat', 'hat', 'hut', 'map', 'mop', 'pen', 'pet', 'pin', 'pit', 'pot', 'sun'],
+      ['camp', 'hand', 'lamp', 'milk', 'pond', 'sand', 'send', 'tent'],
+      ['brave', 'chase', 'crane', 'flame', 'plane', 'slide', 'smile', 'stone'],
+    ])
   })
 
   it('loads the invalid-level fixture set named by TESTSPEC', () => {
