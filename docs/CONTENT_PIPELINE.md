@@ -12,6 +12,8 @@ The JSON shape and validation rules are defined in [DEVSPEC.md](../specs/DEVSPEC
 
 ## Adding or changing content
 
+**Expert-review gate:** Current bundled words, spinner letter sets/counts, word-list sizes, learning-target labels, and level sequence are provisional implementation data. Before adding, removing, replacing, or restructuring any of them, obtain and record literacy-expert input, then reconcile the decision through PRD -> DEVSPEC -> UISPEC -> TESTSPEC. Current loader/build checks establish structural validity and local asset availability only; they do not establish educational suitability.
+
 1. Update the authoritative level source or JSON fixture.
 2. Add or replace the referenced local image (PNG or SVG) and audio assets. Run `scripts/generate_audio.sh` to generate missing word audio across bundled levels.
 3. Run the level-loader tests and the relevant integration test.
@@ -25,5 +27,7 @@ A malformed level blocks gameplay with a human-readable error. Runtime code shou
 ## Changelog
 
 2026-10-06 — GitHub Copilot — Documented SVG reward assets and missing-audio generation across bundled levels.
+
+2026-10-06 — GitHub Copilot — Deferred word, letter, list-size, and learning-sequence changes pending literacy-expert input.
 
 2026-09-21 — GitHub Copilot — Initial content workflow adapted from the reference project for JSON-defined spinner levels and bundled media.

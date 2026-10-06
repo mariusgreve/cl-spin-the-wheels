@@ -1,8 +1,8 @@
 # DEVSPEC — Spin The Wheels
 
 **References:** PRD.md (goals, tiers, personas — this document does not restate them)
-**Status:** M4/M5 implementation and release sign-off complete; M6-04 accepted; M6-05 provisional learning progression implemented
-**Version:** 0.6.0
+**Status:** M4/M5 implementation and release sign-off complete; M6-04 accepted; current M6-05 content is provisional pending literacy-expert input
+**Version:** 0.7.0
 **Last Updated:** 2026-10-06
 
 ## Part I — Functional Requirements
@@ -242,9 +242,11 @@ Rules:
 | Middle-spinner vowel-only constraint applies only when `spinners.length === 3` | Matches the literal source brief wording ("If the JSON file defines only 3 spinners, then the second spinner will contain only vowels"); does not generalize to N-spinner levels unless the level file itself restricts the letter set. | 2026-09-21 |
 | Project targets React (web), not React Native | The app will eventually be embedded in a CMS page shown inside an Android app's webview; a plain web app satisfies that requirement without any native dependency, and the app itself needs no knowledge of that host. UI must still present correctly at mobile viewport sizes. | 2026-09-21 |
 
-### Provisional M6-05 Content Decision
+### Deferred Literacy-Content Decisions (M6-05/M6-06)
 
-The planned progression groups words by `short-vowel-cvc` (3 spinners), `closed-syllable-final-cluster` (4 spinners), and `vce-long-vowel` (5 spinners). Optional labels are provisional metadata and do not imply educator review. Each level must contain at least eight spellable words with locally bundled image and audio assets. Random spins continue to choose uniformly from each level's `word_list`.
+The current bundled levels use provisional `learning_target` labels and word/letter data. Their labels, vocabulary, spinner letter sets/counts, list sizes, and sequence are implementation facts, not educator-approved curriculum decisions. Do not add, remove, or restructure this content until literacy-expert input is recorded and reconciled in the specification chain. No minimum word-list size or preferred progression is established here pending that input.
+
+The structural level contract remains in force: words must be spellable from their declared spinner sets, referenced media must be bundled, and the three-spinner middle-vowel rule still applies. These mechanical checks do not certify the educational suitability of words, letters, counts, or sequence. Random spins continue to choose uniformly from the configured level's `word_list`.
 
 ### Out of Scope
 
@@ -254,7 +256,7 @@ The planned progression groups words by `short-vowel-cvc` (3 spinners), `closed-
 
 ### Changelog
 
-2026-10-06 — GitHub Copilot — Added validated learning-target metadata and recorded eight-word spelling-focus levels with offline media; word resolution remains unchanged.
+2026-10-06 — GitHub Copilot — Deferred literacy-content choices pending expert input while retaining structural level validation and current bundled data as provisional implementation.
 
 2026-10-05 — GitHub Copilot — Defined first-pass mute/replay, shared pause and visibility cancellation, non-awarding visual help and reduced-motion settlement while preserving letter and progression rules.
 

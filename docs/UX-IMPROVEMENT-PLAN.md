@@ -1,7 +1,7 @@
 # UX and Pedagogical Improvement Plan
 
 **Status:** Proposed
-**Last updated:** 2026-09-24
+**Last updated:** 2026-10-06
 
 ## Purpose and objective
 
@@ -126,34 +126,30 @@ The app should reinforce letter order, phonics, and word recognition, not simply
 - the app feels familiar to the broader product family
 - visual hierarchy supports learning rather than decoration
 
-### Phase 3 — Pedagogical depth and level design
+### Phase 3 — Pedagogical depth and level design (deferred)
 
-**Objective:** Improve the learning value of the word-building loop.
-
-**Work items**
-- build level sets by skill progression
-- connect words to their supporting image and sound
-- improve no-match encouragement cues
-- support short, confident learning loops
-
-**Exit criteria**
-- word sets feel intentional and age-appropriate
-- the learning flow is more structured than random matching
-- children can observe clear progress in word skill
-
-### Phase 4 — Content tuning and long-term engagement
-
-**Objective:** Keep the experience fun, replayable, and motivating.
+**Objective:** Improve the learning value of the word-building loop after input from literacy experts is available.
 
 **Work items**
-- broaden word inventory
-- increase image and audio variety
-- tune difficulty and repetition
-- polish animations and reward moments
+- defer word selection, phonics targets, letter sets, spinner counts, word-list sizes, and progression/difficulty decisions pending expert input
+- review content-to-image/audio associations alongside expert-reviewed words
+- continue only non-content UX work that does not imply literacy validation
 
 **Exit criteria**
-- the experience remains engaging across multiple sessions
-- replay retains educational value without feeling repetitive
+- expert input and decisions are recorded before word/letter data or learning progression changes
+- resulting content is independently validated for bundled media and game mechanics
+
+### Phase 4 — Content tuning and long-term engagement (deferred)
+
+**Objective:** Revisit content-led replayability after expert review establishes appropriate content and progression.
+
+**Work items**
+- defer inventory expansion, content-linked media additions, difficulty, and repetition decisions pending expert input
+- consider non-content visual/reward polish separately, without changing or implying approval of current literacy content
+
+**Exit criteria**
+- content-led changes have expert input and are reflected in the specification chain
+- any separate visual/reward polish preserves the existing offline-first behavior
 
 ## Recommended priority order
 
@@ -161,9 +157,13 @@ The app should reinforce letter order, phonics, and word recognition, not simply
 2. Improve readability and tap targets
 3. Strengthen success and no-match feedback
 4. Align the interface with the broader product family
-5. Improve progression and content structure
-6. Expand content and polish retention
+5. Defer progression and content-structure decisions until literacy-expert input is available
+6. Defer inventory expansion and content-linked retention work until that review; non-content polish may proceed separately
 
 ## Deliverable expectation
 
 This improvement plan is intended to guide future work without changing the project’s underlying product scope. The core mechanic remains valid; the next improvements should make it feel more intentional, more polished, and more educationally effective.
+
+## Content decision gate
+
+The bundled words, letter sets, spinner counts, list sizes, learning-target labels, and progression sequence are provisional implementation data, not expert-approved recommendations. Do not change or expand them until input from qualified literacy experts is recorded and reconciled through PRD -> DEVSPEC -> UISPEC -> TESTSPEC. Existing mechanics and regression coverage remain in place; they do not establish that the content is pedagogically appropriate.

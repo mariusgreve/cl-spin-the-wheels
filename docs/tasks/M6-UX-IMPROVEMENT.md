@@ -1,6 +1,6 @@
 # M6 — UX and Pedagogical Improvement Plan
 
-**Status:** M6-01 through M6-05 complete; M6-06 proposed; M6-07 in progress
+**Status:** M6-01 through M6-05 implementation complete; M6-06 blocked pending literacy-expert input; M6-07 visual review in progress, pedagogical review deferred
 **Last updated:** 2026-10-06
 
 M6 is a product-focused improvement milestone. It does not redefine the core game mechanic; it upgrades the presentation, interaction clarity, educational framing, and visual alignment of the app so it better matches the purpose of the project and the broader Curious Learning family.
@@ -30,9 +30,9 @@ The next work should make that objective feel obvious, joyful, and educationally
 | M6-02 | Improve mobile readability and larger tap targets | M6-01 | Done | Mobile-first spacing, target sizing, focus feedback, and state styling are covered by App tests |
 | M6-03 | Strengthen success and no-match feedback states | M6-02 | Done | Existing feedback flow now has explicit semantic and visual state treatment |
 | M6-04 | Adopt the shared Curious Learning game visual and UX specification | M6-01 | Done | Standalone adoption accepted; automated regression gates pass; broader conformance and host readiness are not claimed |
-| M6-05 | Improve pedagogical progression by word family and difficulty | M6-03 | Done | Three target-pure lists have 12, 8, and 8 words with local media; sequence remains provisional |
-| M6-06 | Expand reward and content richness | M6-04, M6-05 | Proposed | Increase replay value and delight |
-| M6-07 | Validate UX against the project objective and app-family references | M6-01 through M6-06 | In Progress | Preparatory visual-family review and provisional theme pass underway; M6-06 and final review remain open |
+| M6-05 | Prototype pedagogical progression | M6-03 | Done | Existing bundled lists (12, 8, and 8 words) and target labels are provisional implementation data, not expert-approved content |
+| M6-06 | Expert-reviewed content and reward enrichment | M6-04, M6-05 | Blocked | Do not change word identities/counts, spinner letters/counts, or learning sequence until literacy-expert input is available |
+| M6-07 | Validate UX against the project objective and app-family references | M6-01 through M6-06 | In Progress | Visual-family review may continue; pedagogical/content validation and final acceptance await M6-06 expert input |
 
 ## Workstreams
 
@@ -122,47 +122,47 @@ The next work should make that objective feel obvious, joyful, and educationally
 
 **Done when:** Levels feel intentionally designed for learning rather than randomly assembled.
 
-**Implementation and verification (2026-10-06):** Applied the provisional sequence `short-vowel-cvc` → `closed-syllable-final-cluster` → `vce-long-vowel`. Added validated `learning_target` metadata; active lists now contain 12, 8, and 8 words. Added five final-cluster words (`camp`, `hand`, `pond`, `send`, `tent`) and three VCe words (`brave`, `chase`, `flame`) with matching local PNG illustrations and generated WAV pronunciations. The level-2 spinner gained `h` and `t`; level 3 gained `b`, `f`, `h`, `m`, `s`, and `v` in the required positions. The sequence remains provisional, is not educator-reviewed, and makes no age-appropriateness claim.
+**Implementation and verification (2026-10-06):** Implemented a provisional sequence labeled `short-vowel-cvc` → `closed-syllable-final-cluster` → `vce-long-vowel`, with `learning_target` metadata and bundled word/media data. These lists, labels, letter sets, list sizes, and sequence are unreviewed implementation data only: they are not an approved curriculum, content recommendation, or age-appropriateness claim. No further word, letter, list-size, spinner-count, or learning-sequence changes are in scope until literacy-expert input is available.
 
-`pnpm test` passed (66 tests), including target validation, exact bundled target/list assertions and existing progression coverage. `pnpm lint`, `pnpm typecheck`, `pnpm build`, and `pnpm test:e2e` (8 tests) passed. E2E progression and five-spinner reward checks remain green; all added PNGs are 1254x1254 and their local asset paths are covered by level validation.
+`pnpm test` passed (66 tests), including current-bundle regression checks and existing progression coverage. `pnpm lint`, `pnpm typecheck`, `pnpm build`, and `pnpm test:e2e` (8 tests) passed. These checks establish implementation consistency, not literacy suitability or expert approval. E2E progression and five-spinner reward checks remain green; all added PNGs are 1254x1254 and their local asset paths are covered by level validation.
 
-**First visual pass (2026-10-05):** Reviewed the public Curious Reader Play listing/gallery and Curious Learning Resources page. The available public captures show a collection of distinct illustrated game worlds rather than one common game-screen palette; they are directional evidence, not an approved brand guide. Updated the shared UX draft to require a dated family-fit comparison while preserving individual game identity, and changed the game to a provisional sky/leaf/gold palette with tactile controls. At 360x640, the document has no overflow and controls remain within the viewport; `pnpm test:e2e --grep UX-05` passed. At 1280x720, the constrained stage has no overflow. Selected color-pair checks passed after darkening the success green, and `pnpm build` passed. The two-title reference review, named visual approval, full accessibility audit and child review are still pending. M6-06 remains proposed, so M6-07 is not complete and official brand alignment is not claimed.
+**First visual pass (2026-10-05):** Reviewed the public Curious Reader Play listing/gallery and Curious Learning Resources page. The available public captures show a collection of distinct illustrated game worlds rather than one common game-screen palette; they are directional evidence, not an approved brand guide. Updated the shared UX draft to require a dated family-fit comparison while preserving individual game identity, and changed the game to a provisional sky/leaf/gold palette with tactile controls. At 360x640, the document has no overflow and controls remain within the viewport; `pnpm test:e2e --grep UX-05` passed. At 1280x720, the constrained stage has no overflow. Selected color-pair checks passed after darkening the success green, and `pnpm build` passed. The two-title reference review, named visual approval, full accessibility audit and child review are still pending. At the time of this visual pass, M6-06 was proposed; it is now blocked pending expert input. M6-07 is not complete and official brand alignment is not claimed.
 
-### M6-06 — Expand reward and content richness
+### M6-06 — Expert-reviewed content and reward enrichment
 
-**Goal:** Make the game more replayable and more delightful.
+**Status:** Blocked pending literacy-expert input.
 
-**Planned work**
-- widen the word list with structured learning content
-- expand media variety and reward moments
-- tune replayability and difficulty balance
-- maintain offline-first behavior and small-bundle practicality
+**Goal:** Revisit content and replay value after qualified experts have advised on the words, letters, list sizes, learning targets, and progression appropriate for this game.
 
-**Done when:** Players remain engaged over repeated sessions without the content feeling stale or shallow.
+**Deferred decisions:** Do not add, remove, or replace words; change word-list sizes, spinner letter sets or counts; or revise learning targets, difficulty, or level order before expert input. Keep the current bundled data unchanged as a provisional implementation baseline. Any future media additions tied to changed word content are deferred with that content. Existing gameplay and offline requirements remain in force.
+
+**Resume when:** Expert input is recorded, its recommendations and limits are reconciled through PRD -> DEVSPEC -> UISPEC -> TESTSPEC, and M6-06 is re-scoped from that evidence. Non-content visual work may proceed where it does not imply or alter literacy content decisions.
 
 ### M6-07 — Validate against the project objective
 
 **Goal:** Confirm that the design remains true to the word-order learning objective and feels at home in the Curious Reader visual landscape without copying one title's identity.
 
 **Planned work**
-- compare the design against the original pedagogical objective
+- compare the interaction framing against the original product objective; defer assessment of word choice, letter sets, list sizes, and phonics progression until expert input is recorded
 - compare dated captures of the current Curious Reader library and at least two representative game screens; identify recurring family cues separately from title-specific art
 - request an approved brand guide or named visual reviewer; treat any inferred styling as provisional until reviewed
 - create and review a theme sheet for this game's typography, colors, illustration treatment, controls and key states at mobile size
 - check whether the screen still teaches letter order and word formation
 - confirm the UI is child-readable and emotionally inviting
 
-**Done when:** A named reviewer accepts the visual family fit and game-specific theme, while the experience still prioritizes literacy learning, readable teaching content and accessible controls over generic game conventions. Do not claim official brand alignment without an approved source.
+**Done when:** A named reviewer accepts the visual family fit and game-specific theme, and any content/pedagogical acceptance is based on recorded expert input. Until then, report visual review separately and make no claim that current content is instructionally suitable. Do not claim official brand alignment without an approved source.
 
-**First visual pass (2026-10-05):** Reviewed the public Curious Reader Play listing/gallery and Curious Learning Resources page. The available public captures show a collection of distinct illustrated game worlds rather than one common game-screen palette; they are directional evidence, not an approved brand guide. Updated the shared UX draft to require a dated family-fit comparison while preserving individual game identity, and changed the game to a provisional sky/leaf/gold palette with tactile controls. At 360x640, the document has no overflow and controls remain within the viewport; `pnpm test:e2e --grep UX-05` passed. At 1280x720, the constrained stage has no overflow. Selected color-pair checks passed after darkening the success green, and `pnpm build` passed. The two-title reference review, named visual approval, full accessibility audit and child review are still pending. M6-05 and M6-06 remain proposed, so this is preparatory work only; M6-07 is not complete and official brand alignment is not claimed.
+**First visual pass (2026-10-05):** Reviewed the public Curious Reader Play listing/gallery and Curious Learning Resources page. The available public captures show a collection of distinct illustrated game worlds rather than one common game-screen palette; they are directional evidence, not an approved brand guide. Updated the shared UX draft to require a dated family-fit comparison while preserving individual game identity, and changed the game to a provisional sky/leaf/gold palette with tactile controls. At 360x640, the document has no overflow and controls remain within the viewport; `pnpm test:e2e --grep UX-05` passed. At 1280x720, the constrained stage has no overflow. Selected color-pair checks passed after darkening the success green, and `pnpm build` passed. The two-title reference review, named visual approval, full accessibility audit and child review are still pending. M6-06 is blocked pending expert input; M6-07 is not complete and official brand alignment is not claimed.
+
+**Scope decision (2026-10-06):** Deferred all decisions about actual word content, spinner letters/counts, word-list sizes, and learning sequence until literacy-expert input is available. M6-06 is blocked; current content remains provisional and unchanged. M6-07 may continue visual-family work, but pedagogical/content acceptance is deferred.
 
 ## Recommended implementation order
 
 ```text
-M6-01 -> M6-02 -> M6-03 -> M6-04 -> M6-05 -> M6-06 -> M6-07
+M6-01 -> M6-02 -> M6-03 -> M6-04 -> M6-05 -> [expert input] -> M6-06 -> M6-07 pedagogical acceptance
 ```
 
-This order keeps the product objective visible while improving usability, visual polish, and learning value before expansion of content and replayability.
+Visual-family review can proceed while M6-06 is blocked. Content expansion, replayability changes tied to content, and pedagogical acceptance wait for expert input.
 
 ## Success definition
 

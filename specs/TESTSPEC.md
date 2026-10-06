@@ -1,8 +1,8 @@
 # TESTSPEC — Spin The Wheels
 
 **References:** DEVSPEC.md (module behavior), UISPEC.md (states/screens) — this document does not redefine behavior, only verifies it.
-**Status:** M5 release sign-off recorded; M6-05 target and media checks pass
-**Version:** 0.9.0
+**Status:** M5 release sign-off recorded; current M6-05 bundle regression checks pass; literacy-content acceptance awaits expert input
+**Version:** 0.10.0
 **Last Updated:** 2026-10-06
 
 ## 1. Fixtures
@@ -32,7 +32,7 @@ All level fixtures live under `src/engine/fixtures/` and are intentionally local
 - `LL-5`: Loading a collection with a valid starting level and an invalid later level rejects the complete collection and blocks gameplay.
 - `LL-6`: Loading a collection with a mismatched file/level identifier or an unresolved `next_level_id` rejects the complete collection.
 - `LL-7`: An optional non-empty `learning_target` is preserved; an empty or non-string value rejects the level.
-- `CONTENT-1`: Each bundled level has at least eight spellable words, every word matches its declared provisional target, and every referenced image/audio asset exists locally.
+- `CONTENT-1` (current-bundle regression): Current bundled entries remain structurally spellable and all referenced image/audio assets exist locally. Existing target-label/content assertions characterize the provisional bundle only; they do not establish an approved word count, letter set, learning target, sequence, or pedagogical suitability. Do not change or expand actual word/letter content until literacy-expert input is recorded.
 
 ### Spinner Component
 
@@ -242,7 +242,7 @@ The smoke protocol passed on an Android emulator browser on 2026-09-24.
 
 ## Spec Change Log
 
-2026-10-06 — GitHub Copilot — Verified eight-word target-pure level lists, local PNG/WAV media, loader checks, regression suite and browser E2E for M6-05.
+2026-10-06 — GitHub Copilot — Reframed M6-05 checks as current-bundle regressions and deferred content acceptance and changes pending literacy-expert input.
 
 2026-10-05 — GitHub Copilot — Added pre-reader UI regression requirements and stable-stage browser checks across help, reward, progress visibility and three-, four- and five-letter levels.
 
